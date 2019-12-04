@@ -109,6 +109,14 @@
     <Content Include="DxLibW_x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sound\Alarm.mp3" />
+    <Content Include="Sound\ArmShot.mp3" />
+    <Content Include="Sound\EnemySound01.mp3" />
+    <Content Include="Sound\PlayerDamage.mp3" />
+    <Content Include="Sound\Woolem.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Image\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
