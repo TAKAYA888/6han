@@ -70,6 +70,9 @@
     <Compile Include="GimmickObject.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="KNMR_Math\MathHelper.cs" />
+    <Compile Include="KNMR_Math\Matrix3.cs" />
+    <Compile Include="KNMR_Math\Vector2.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MyRandom.cs" />
     <Compile Include="Player.cs" />
