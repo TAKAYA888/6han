@@ -14,7 +14,8 @@ namespace ActionGame
 
         public static void LookAt(float targetX)
         {
-            x = targetX - Screen.Width / 2;
+            x = 0;
+            y = 0;
         }
         public static void DrawGraph(float worldX, float worldY, int handle, bool flip = false)
         {

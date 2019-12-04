@@ -97,7 +97,7 @@ namespace ActionGame
 
                     if (id == None) continue; // 描画しない 
 
-                    //Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[id]);
+                    Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[id]);
                 }
             }
         }

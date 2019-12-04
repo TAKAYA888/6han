@@ -16,6 +16,7 @@ namespace ActionGame
         //アイテムのリソース画像
 
         //その他のリソース画像
+        public static int[] mapchip = new int[128];
 
         public static void Load()
         {
@@ -26,7 +27,7 @@ namespace ActionGame
             //アイテムのリソース画像
 
             //その他のリソース画像
-
+            DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 16, 8, 32, 32, mapchip);
         }
     }
 }

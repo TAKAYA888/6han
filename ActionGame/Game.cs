@@ -11,6 +11,7 @@ namespace ActionGame
         {
             Input.Init();
             MyRandom.Init();
+            Image.Load();
             scene = new PlayScene();
         }
 
