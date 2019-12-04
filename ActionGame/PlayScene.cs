@@ -10,6 +10,9 @@ namespace ActionGame
 {
     public class PlayScene : Scene
     {
+        //プレイヤーを設定
+        Player player;
+
         public enum State
         {
             Active,
@@ -24,11 +27,13 @@ namespace ActionGame
 
         public PlayScene()
         {
+            player = new Player(this, 100, 100);
             map = new Map(this, "stage1");
-
         }
         public override void Update()
         {
+            //プレイヤーの更新処理
+            player.Update();
             if (isPausing)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_8))
@@ -49,6 +54,8 @@ namespace ActionGame
         }
         public override void Draw()
         {
+            //プレイヤーの描画処理
+            player.Draw();
             map.DrawTerrain();
         }
     }

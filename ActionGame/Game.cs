@@ -17,6 +17,7 @@ namespace ActionGame
 
         public void Update()
         {
+            Input.Update();
             if (Input.GetButtonDown(DX.PAD_INPUT_9))
             {
                 Environment.Exit(0);

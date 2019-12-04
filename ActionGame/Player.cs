@@ -37,8 +37,8 @@ namespace ActionGame
 
 
         //サイズ関係-------------------------------------------------------------------------
-        int imageWidth;//画像の横ピクセル数
-        int imageHeight;//画像の縦ピクセル数
+        int imageWidth = 180;//画像の横ピクセル数
+        int imageHeight = 240;//画像の縦ピクセル数
         int hitboxOffsetLeft = 0;　　//当たり判定のオフセット
         int hitboxOffsetRight = 0;   //当たり判定のオフセット
         int hitboxOffsetTop = 0;     //当たり判定のオフセット
@@ -51,10 +51,14 @@ namespace ActionGame
         float prevTop;         //1フレーム前の上端
         float prevBottom;      //1フレーム前の下端
         //-----------------------------------------------------------------------------------
+
+        JumpState jumpState;
+        PlayScene playScene;
         
         //コンストラクタ
-        public Player(float x,float y)
+        public Player(PlayScene playScene,float x,float y)
         {
+            this.playScene = playScene;
             this.x = x;
             this.y = y;
         }
@@ -62,7 +66,13 @@ namespace ActionGame
         //毎フレームの更新処理
         public void Update()
         {
-            
+            HundleInput();
+
+            // 重力による落下 
+            VelocityY += Gravity;            
+
+            MoveX();
+            MoveY();
         }
 
         //入力関係の処理を行います
@@ -87,6 +97,7 @@ namespace ActionGame
 
         void MoveX()
         {
+            x += VelocityX;
             //当たり判定の四隅の座標を取得
             float left = GetLeft();
             float right = GetRight() - 0.01f;
@@ -94,31 +105,80 @@ namespace ActionGame
             float middle = top + 32;
             float bottom = GetBottom() - 0.01f;
 
-            ////左端が壁にめり込んでいるか？
-            //if (playScene.map._IsWall(left, top) || //左上が壁か？
-            //    playScene.map._IsWall(left, middle) ||//左真ん中は壁か？
-            //    playScene.map._IsWall(left, bottom))   //左下が壁か？
-            //{
-            //    float _wallRight = left - left % _Map._CellSize + _Map._CellSize;//壁の右端
+            //左端が壁にめり込んでいるか？
+            if (playScene.map.IsWall(left, top) || //左上が壁か？
+                playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, bottom))   //左下が壁か？
+            {
+                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
 
-            //    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
-            //}
-            ////右端が壁にめりこんでいるか？
-            //else if (
-            //    playScene.map._IsWall(right, top) ||　　　//左上が壁か？
-            //    playScene.map._IsWall(right, middle) ||     //左真ん中は壁か？
-            //    playScene.map._IsWall(right, bottom))     //左下が壁か？
-            //{
+                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+            }
+            //右端が壁にめりこんでいるか？
+            else if (
+                playScene.map.IsWall(right, top) ||　　　//左上が壁か？
+                playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
+                playScene.map.IsWall(right, bottom))     //左下が壁か？
+            {
 
-            //    float wallLeft = right - right % _Map._CellSize;//壁の左端
-            //    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
-            //}
+                float wallLeft = right - right % Map.CellSize;//壁の左端
+                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+            }
+        }
+
+        void MoveY()
+        {
+            // 縦に移動する 
+            y += VelocityY;            
+
+            // 着地したかどうか 
+            bool grounded = false;
+
+            // 当たり判定の四隅の座標を取得 
+            float left = GetLeft();
+            float right = GetRight() - 0.01f;
+            float Center1 = left + 16.25f;
+            float Center2 = left + 16.25f * 2.0f;
+            float top = GetTop();
+            float bottom = GetBottom() - 0.01f;
+
+            // 上端が壁にめりこんでいるか？ 
+            if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
+                playScene.map.IsWall(Center1, top) ||
+                playScene.map.IsWall(Center2, top) ||
+                playScene.map.IsWall(right, top))   // 右上が壁か？ 
+            {
+                float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
+                SetTop(wallBottom); // プレイヤーの頭を天井に沿わす 
+                VelocityY = 0; // 縦の移動速度を0に 
+            }
+            // 下端が壁にめりこんでいるか？ 
+            else if (
+                playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
+                playScene.map.IsWall(Center1, bottom) ||
+                playScene.map.IsWall(Center2, bottom) ||
+                playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
+            {
+                grounded = true; // 着地した 
+            }
+
+            if (grounded) // もし着地してたら 
+            {
+                float wallTop = bottom - bottom % Map.CellSize; // 床のy座標 
+                SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
+                VelocityY = 0; // 縦の移動速度を0に 
+                jumpState = JumpState.Walk;
+            }
+            else // 着地してなかったら 
+            {
+                jumpState = JumpState.Jump; // 状態をジャンプ中に 
+            }
         }
 
         //描画処理
         public void Draw()
         {
-
+            DX.DrawBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0),1);
         }
 
         //あたり判定？
