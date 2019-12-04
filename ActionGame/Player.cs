@@ -21,6 +21,7 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
         //ステータス関係の変数---------------------------------------------------------------
+        PlayScene playScene;
         public float x;             //x座標
         public float y;             //y座標
         public bool isDead = false; //死亡フラグ(true)だと死ぬ
@@ -53,8 +54,9 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
         
         //コンストラクタ
-        public Player(float x,float y)
+        public Player(PlayScene playScene,float x,float y)
         {
+            this.playScene = playScene;
             this.x = x;
             this.y = y;
         }
@@ -94,25 +96,25 @@ namespace ActionGame
             float middle = top + 32;
             float bottom = GetBottom() - 0.01f;
 
-            ////左端が壁にめり込んでいるか？
-            //if (playScene.map._IsWall(left, top) || //左上が壁か？
-            //    playScene.map._IsWall(left, middle) ||//左真ん中は壁か？
-            //    playScene.map._IsWall(left, bottom))   //左下が壁か？
-            //{
-            //    float _wallRight = left - left % _Map._CellSize + _Map._CellSize;//壁の右端
+            //左端が壁にめり込んでいるか？
+            if (playScene.map.IsWall(left, top) || //左上が壁か？
+                playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, bottom))   //左下が壁か？
+            {
+                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
 
-            //    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
-            //}
-            ////右端が壁にめりこんでいるか？
-            //else if (
-            //    playScene.map._IsWall(right, top) ||　　　//左上が壁か？
-            //    playScene.map._IsWall(right, middle) ||     //左真ん中は壁か？
-            //    playScene.map._IsWall(right, bottom))     //左下が壁か？
-            //{
+                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+            }
+            //右端が壁にめりこんでいるか？
+            else if (
+                playScene.map.IsWall(right, top) ||　　　//左上が壁か？
+                playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
+                playScene.map.IsWall(right, bottom))     //左下が壁か？
+            {
 
-            //    float wallLeft = right - right % _Map._CellSize;//壁の左端
-            //    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
-            //}
+                float wallLeft = right - right % Map.CellSize;//壁の左端
+                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+            }
         }
 
         //描画処理
