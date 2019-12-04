@@ -83,6 +83,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="SE.cs" />
+    <Compile Include="WoolenYarn.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
