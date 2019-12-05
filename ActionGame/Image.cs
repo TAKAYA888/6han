@@ -50,7 +50,7 @@ namespace ActionGame
             GameOverImage = DX.LoadGraph("Image/GameOver.jpg");
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
-            Map = DX.LoadGraph("Image/Map.png");
+            Map = DX.LoadGraph("Image/Map.jpg");
             Stage01 = DX.LoadGraph("Image/Stage01.jpg");
             TitleImage = DX.LoadGraph("Image/Title.png");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
