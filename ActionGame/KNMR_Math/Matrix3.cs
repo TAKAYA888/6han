@@ -63,5 +63,24 @@ namespace MyMath_KNMR
                 0.0f, 0.0f, 1.0f
                 );
         }
+
+        public static Matrix3 operator *(Matrix3 a, Matrix3 b)
+        {
+            Matrix3 result = new Matrix3(0);
+
+            result.M11 = a.M11 * b.M11 + a.M12 * b.M21 + a.M13 * b.M31;
+            result.M21 = a.M21 * b.M11 + a.M22 * b.M21 + a.M23 * b.M31;
+            result.M31 = a.M31 * b.M11 + a.M32 * b.M21 + a.M33 * b.M31;
+
+            result.M12 = a.M11 * b.M12 + a.M12 * b.M22 + a.M13 * b.M32;
+            result.M22 = a.M21 * b.M12 + a.M22 * b.M22 + a.M23 * b.M32;
+            result.M32 = a.M31 * b.M12 + a.M32 * b.M22 + a.M33 * b.M32;
+
+            result.M13 = a.M11 * b.M13 + a.M12 * b.M23 + a.M13 * b.M33;
+            result.M23 = a.M21 * b.M13 + a.M22 * b.M23 + a.M23 * b.M33;
+            result.M33 = a.M31 * b.M13 + a.M32 * b.M23 + a.M33 * b.M33;
+
+            return result;
+        }
     }
 }

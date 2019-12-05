@@ -20,6 +20,7 @@ namespace ActionGame
         }
 
         public Map map;
+        public Hund hund;
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
 
@@ -52,6 +53,17 @@ namespace ActionGame
                 {
 
                 }
+            }
+
+            //手を消す処理
+            if (Input.GetButtonDown(DX.PAD_INPUT_1))
+            {
+                hund = null;
+                player.HundFrag = false;
+            }
+            if (player.HundFrag)
+            {
+                hund.Update();
             }
 
             //アイテムオブジェクト----------------------------------------------------------------------------
@@ -99,7 +111,13 @@ namespace ActionGame
             //プレイヤーの描画処理
             player.Draw();
             map.DrawTerrain();
+            //------------------------------------------------------------
+            if (player.HundFrag)
+            {
+                DX.DrawLine((int)player.PlayerPosition.x, (int)player.PlayerPosition.y, (int)hund.Position.x, (int)hund.Position.y, DX.GetColor(255, 255, 255));
+                hund.Draw();
 
+            }
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
             {

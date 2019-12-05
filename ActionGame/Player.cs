@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
 using MyLib;
+using MyMath_KNMR;
 
 namespace ActionGame
 {
@@ -21,12 +22,16 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
         //ステータス関係の変数---------------------------------------------------------------
-        public float x;             //x座標
-        public float y;             //y座標
+        public Vector2 PlayerPosition;            //y座標
         public bool isDead = false; //死亡フラグ(true)だと死ぬ
         float VelocityX = 0f;       //移動速度(x方向)
         float VelocityY = 0f;　　　 //移動速度(y方向)
         public int HP = 3;          //HP(体力)
+        public bool HundFrag;       //
+        public bool BeforHundFrag = false;
+        public bool NowHundFrag = false;
+        float Distance;
+        float angle = MathHelper.toRadians(45);
 
         //-----------------------------------------------------------------------------------
 
@@ -53,26 +58,50 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
         JumpState jumpState;
-        PlayScene playScene;
+        public PlayScene playScene;
         
         //コンストラクタ
         public Player(PlayScene playScene,float x,float y)
         {
             this.playScene = playScene;
-            this.x = x;
-            this.y = y;
+            PlayerPosition.x = x;
+            PlayerPosition.y = y;
+            HundFrag = false;
         }
 
         //毎フレームの更新処理
         public void Update()
         {
-            HundleInput();
+            BeforHundFrag = HundFrag;
+            if (!HundFrag)
+            {
+                HundleInput();
 
-            // 重力による落下 
-            VelocityY += Gravity;            
+                // 重力による落下 
+                VelocityY += Gravity;
 
-            MoveX();
-            MoveY();
+                MoveX();
+                MoveY();
+
+            }
+            else
+            {
+                if (playScene.hund.HundHitFrag)
+                {
+                    if (playScene.hund.Distance > 0)
+                    {
+                        playScene.hund.Distance -= 4f;
+                    }
+
+                    angle += 1f;
+
+                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hund.Distance, 0))
+                        * Matrix3.createRotation(angle)
+                        * Matrix3.createTranslation(playScene.hund.Position);
+
+                    PlayerPosition = new Vector2(0) * NextPlayerPos;
+                }
+            }
         }
 
         //入力関係の処理を行います
@@ -93,11 +122,17 @@ namespace ActionGame
                 //速度を0にする
                 VelocityX = 0;
             }
+
+            if (Input.GetButtonDown(DX.PAD_INPUT_10))
+            {
+                playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
+                HundFrag = true;
+            }
         }
 
         void MoveX()
         {
-            x += VelocityX;
+            PlayerPosition.x += VelocityX;
             //当たり判定の四隅の座標を取得
             float left = GetLeft();
             float right = GetRight() - 0.01f;
@@ -129,7 +164,7 @@ namespace ActionGame
         void MoveY()
         {
             // 縦に移動する 
-            y += VelocityY;            
+            PlayerPosition.y += VelocityY;            
 
             // 着地したかどうか 
             bool grounded = false;
@@ -187,53 +222,53 @@ namespace ActionGame
 
         }
 
-
         //当たり判定の左端を取得
         public virtual float GetLeft()
         {
-            return x + hitboxOffsetLeft;
+            return PlayerPosition.x + hitboxOffsetLeft;
         }
 
         //左端を指定することにより位置を設定する
         public virtual void SetLeft(float left)
         {
-            x = left - hitboxOffsetLeft;
+            PlayerPosition.x = left - hitboxOffsetLeft;
         }
 
         //当たり判定の右端を取得
         public virtual float GetRight()
         {
-            return x + imageWidth - hitboxOffsetRight;
+            return PlayerPosition.x + imageWidth - hitboxOffsetRight;
         }
 
         //右端を指定することにより位置を設定する
         public virtual void SetRight(float right)
         {
-            x = right + hitboxOffsetRight - imageWidth;
+            PlayerPosition.x = right + hitboxOffsetRight - imageWidth;
         }
 
         //当たり判定の上端を取得
         public virtual float GetTop()
         {
-            return y + hitboxOffsetTop;
+            return PlayerPosition.y + hitboxOffsetTop;
         }
 
         //上端を指定することにより位置を設定する
         public virtual void SetTop(float top)
         {
-            y = top - hitboxOffsetTop;
+            PlayerPosition.y = top - hitboxOffsetTop;
         }
 
         //当たり判定の下端を取得する
         public virtual float GetBottom()
         {
-            return y + imageHeight - hitboxOffsetBotton;
+            return PlayerPosition.y + imageHeight - hitboxOffsetBotton;
         }
 
         //下端を指定することにより位置を設定する
         public virtual void SetBottom(float bottom)
         {
-            y = bottom + hitboxOffsetBotton - imageHeight;
+            PlayerPosition.y = bottom + hitboxOffsetBotton - imageHeight;
         }
     }
 }
+
