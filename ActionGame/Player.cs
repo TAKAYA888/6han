@@ -31,6 +31,9 @@ namespace ActionGame
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
         float Distance;　　　　　　　　　　　　　 //手とこいつの距離
         float angle = MathHelper.toRadians(45);　 //手との角度
+        float FirstAngle;
+        float LastAngle;
+        float angleSpeed = 1.0f;
 
         //-----------------------------------------------------------------------------------
 
@@ -104,9 +107,30 @@ namespace ActionGame
                     {
                         playScene.hund.Distance = 0;
                     }
-
-                    //アングルを変更します
-                    angle += 1f;
+                    if (NowHundFrag)
+                    {
+                        if (LastAngle < angle)
+                        {
+                            angleSpeed = -angleSpeed;
+                        }
+                        else if (FirstAngle > angle)
+                        {
+                            angleSpeed = -angleSpeed;
+                        }
+                    }
+                    else
+                    {
+                        if (LastAngle > angle)
+                        {
+                            angleSpeed = -angleSpeed;
+                        }
+                        else if (FirstAngle < angle)
+                        {
+                            angleSpeed = -angleSpeed;
+                        }
+                    }
+                    
+                    angle += angleSpeed;
 
                     //回転時の移動処理
                     Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hund.Distance, 0))
@@ -141,7 +165,21 @@ namespace ActionGame
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
                 playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
+                angle = playerArraw.ArrawAngle + 180.0f;                
                 HundFrag = true;
+
+                if(angle < 90)
+                {
+                    NowHundFrag = true;
+                    FirstAngle = playerArraw.ArrawAngle + 180.0f;
+                    LastAngle = playerArraw.ArrawAngle + 180.0f + (90 - (playerArraw.ArrawAngle + 180) % 91) * 2;
+                }
+                else 
+                {
+                    NowHundFrag = false;
+                    FirstAngle = playerArraw.ArrawAngle + 180.0f;
+                    LastAngle = playerArraw.ArrawAngle + 180.0f - (90 - (playerArraw.ArrawAngle + 180) % 91) * 2;
+                }
             }
         }
 

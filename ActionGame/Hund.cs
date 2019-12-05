@@ -170,6 +170,7 @@ namespace ActionGame
 
         public void Draw()
         {
+            //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             DX.DrawBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0), 1);
         }
 

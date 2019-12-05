@@ -17,13 +17,12 @@ namespace ActionGame
         public float ArrawAngle;
         Player player;
 
-
         //-----------------------------------------------------------------------------------
         public PlayerArraw(Player player,Vector2 ArrawPos)
         {
             this.player = player;
             this.ArrawPos = ArrawPos;
-            ArrawAngle = 45;
+            ArrawAngle = -45;
         }
 
         public void Update()
@@ -39,6 +38,8 @@ namespace ActionGame
                 ArrawAngle -= 1f;
             }
 
+            ArrawAngle %= 360;
+
             //回転時の移動処理
             Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(200, 0))
                 * Matrix3.createRotation(ArrawAngle)
@@ -49,6 +50,7 @@ namespace ActionGame
 
         public void Draw()
         {
+            //DX.DrawString(100, 100, ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             DX.DrawRotaGraphF(ArrawPos.x+100, ArrawPos.y+100, 1, MathHelper.toRadians(ArrawAngle)+MathHelper.toRadians(90), Image.PlayerArraws);
         }
     }
