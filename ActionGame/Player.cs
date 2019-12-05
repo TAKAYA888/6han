@@ -58,7 +58,8 @@ namespace ActionGame
 
         JumpState jumpState;         //ジャンプステートの初期化
         public PlayScene playScene;　//playSceneの宣言
-        
+        public PlayerArraw playerArraw;
+
         //コンストラクタ
         public Player(PlayScene playScene,float x,float y)
         {
@@ -66,11 +67,13 @@ namespace ActionGame
             PlayerPosition.x = x;
             PlayerPosition.y = y;
             HundFrag = false;
+            playerArraw = new PlayerArraw(this, PlayerPosition);
         }
 
         //毎フレームの更新処理
         public void Update()
         {
+            playerArraw.Update();            
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
@@ -225,6 +228,7 @@ namespace ActionGame
         public void Draw()
         {
             DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+            playerArraw.Draw();
         }
 
         //あたり判定？

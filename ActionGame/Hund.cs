@@ -29,8 +29,8 @@ namespace ActionGame
         public float Distance;           　　　//Playerとの距離
         public float FirstAngle;         　　　//初期角度
         public float LastAngle;          　　　//最終角度
-        float VelocityX = -5f;                  //移動速度(x方向)
-        float VelocityY = -5f;               //移動速度(y方向)
+        float VelocityX ;                      //移動速度(x方向)
+        float VelocityY ;                      //移動速度(y方向)
         public bool HundHitFrag = false;
 
         //----------------------------------------------------------------------------------------------------------------
@@ -57,6 +57,8 @@ namespace ActionGame
             Position.x = x;
             Position.y = y;
             hit = Hit.NotHit;
+            VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
+            VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
         }
 
         public void Update()

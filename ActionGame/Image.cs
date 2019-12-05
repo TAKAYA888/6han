@@ -11,6 +11,7 @@ namespace ActionGame
     {
         //プレイヤーのリソース画像
         public static int PlayerImage01; //プレイヤーの正面画像
+        public static int PlayerArraws;  //playerの矢印
 
         //ザコ敵のリソース画像
         public static int EnemyImage01; //ザコ敵01画像
@@ -36,6 +37,7 @@ namespace ActionGame
         {
             //プレイヤーのリソース画像
             PlayerImage01 = DX.LoadGraph("Image/Player01.png");
+            PlayerArraws = DX.LoadGraph("Image/Arrows.png");
 
             //ザコ敵のリソース画像
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");
