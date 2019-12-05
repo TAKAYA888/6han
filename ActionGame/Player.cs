@@ -72,6 +72,7 @@ namespace ActionGame
         //毎フレームの更新処理
         public void Update()
         {
+            //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             if (!HundFrag)
             {
@@ -82,19 +83,25 @@ namespace ActionGame
 
                 MoveX();
                 MoveY();
-
             }
             else
             {
                 if (playScene.hund.HundHitFrag)
                 {
+                    //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 0)
                     {
                         playScene.hund.Distance -= 4f;
                     }
+                    else
+                    {
+                        playScene.hund.Distance = 0;
+                    }
 
+                    //アングルを変更します
                     angle += 1f;
 
+                    //回転時の移動処理
                     Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hund.Distance, 0))
                         * Matrix3.createRotation(angle)
                         * Matrix3.createTranslation(playScene.hund.Position);

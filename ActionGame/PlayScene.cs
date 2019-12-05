@@ -20,6 +20,7 @@ namespace ActionGame
         }
 
         public Map map;
+        //ハンドを設定
         public Hund hund;
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
@@ -110,13 +111,12 @@ namespace ActionGame
         {
             //プレイヤーの描画処理
             player.Draw();
-            map.DrawTerrain();
-            //------------------------------------------------------------
+            map.DrawTerrain(); 
+            //線と手を描画しています
             if (player.HundFrag)
             {
                 DX.DrawLine((int)player.PlayerPosition.x, (int)player.PlayerPosition.y, (int)hund.Position.x, (int)hund.Position.y, DX.GetColor(255, 255, 255));
                 hund.Draw();
-
             }
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
