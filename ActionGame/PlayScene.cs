@@ -21,6 +21,8 @@ namespace ActionGame
 
         public Map map;
 
+        public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
+
         public State state = State.Active;
         int timeToGameOver = 120;
         bool isPausing = false;
@@ -51,12 +53,58 @@ namespace ActionGame
 
                 }
             }
+
+            //アイテムオブジェクト----------------------------------------------------------------------------
+
+            int itemObjectsCount = itemObjects.Count;//ループ前の個数を取得しておく
+
+            for (int i = 0; i < itemObjectsCount; i++)
+            {
+
+                itemObjects[i].Update();
+            }
+
+            //オブジェクト同士の衝突を判定
+            for (int i = 0; i < itemObjects.Count; i++)
+            {
+                ItemObject a = itemObjects[i];
+
+                for (int j = i + 1; j < itemObjects.Count; j++)
+                {
+                    //オブジェクトAが死んでたらこのループは終了
+                    if (a.isDead) break;
+
+                    ItemObject b = itemObjects[j];
+
+                    //オブジェクトBが死んでたらスキップ
+                    if (b.isDead) continue;
+
+                    //オブジェクトAとBが重なっているか？
+                    if (MyMath.RectRectIntersect(a.GetLeft(), a.GetTop(), a.GetRight(), a.GetBottom(),
+                        b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
+                    {
+                        a.OnCollision(b);
+                        b.OnCollision(a);
+                    }
+                }
+            }
+            //不要となったオブジェクトを除去する
+            itemObjects.RemoveAll(go => go.isDead);
+
+            //--------------------------------------------------------------------------------------------------
+
         }
         public override void Draw()
         {
             //プレイヤーの描画処理
             player.Draw();
             map.DrawTerrain();
+
+            //アイテムの描画処理
+            foreach (ItemObject go in itemObjects)
+            {
+                go.Draw();
+            }
         }
     }
 }
