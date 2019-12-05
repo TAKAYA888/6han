@@ -62,6 +62,7 @@ namespace ActionGame
                 hund = null;
                 player.HundFrag = false;
             }
+            //手の更新処理
             if (player.HundFrag)
             {
                 hund.Update();

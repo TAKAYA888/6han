@@ -12,8 +12,7 @@ namespace ActionGame
     public class Player
     {
 
-        //ステータス一覧---------------------------------------------------------------------
-        
+        //ステータス一覧---------------------------------------------------------------------        
         public enum JumpState
         {
             Walk,//歩き、立ち
@@ -22,43 +21,43 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
         //ステータス関係の変数---------------------------------------------------------------
-        public Vector2 PlayerPosition;            //y座標
-        public bool isDead = false; //死亡フラグ(true)だと死ぬ
-        float VelocityX = 0f;       //移動速度(x方向)
-        float VelocityY = 0f;　　　 //移動速度(y方向)
-        public int HP = 3;          //HP(体力)
-        public bool HundFrag;       //
-        public bool BeforHundFrag = false;
-        public bool NowHundFrag = false;
-        float Distance;
-        float angle = MathHelper.toRadians(45);
+        public Vector2 PlayerPosition;            //座標
+        public bool isDead = false;               //死亡フラグ(true)だと死ぬ
+        float VelocityX = 0f;                     //移動速度(x方向)
+        float VelocityY = 0f;　　　               //移動速度(y方向)
+        public int HP = 3;                        //HP(体力)
+        public bool HundFrag;                     //手がくっついたかのフラグ
+        public bool BeforHundFrag = false;　　　　//一個前の手がくっついたかのフラグ
+        public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
+        float Distance;　　　　　　　　　　　　　 //手とこいつの距離
+        float angle = MathHelper.toRadians(45);　 //手との角度
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
-        readonly float WalkSpeed = 4f;
-        readonly float Gravity = 0.6f;
+        readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
+        readonly float Gravity = 0.6f;　　　　　　//重力加速度
         //-----------------------------------------------------------------------------------
 
 
         //サイズ関係-------------------------------------------------------------------------
-        int imageWidth = 180;//画像の横ピクセル数
-        int imageHeight = 240;//画像の縦ピクセル数
+        int imageWidth = 180;　　　　//画像の横ピクセル数
+        int imageHeight = 240;　　　 //画像の縦ピクセル数
         int hitboxOffsetLeft = 0;　　//当たり判定のオフセット
         int hitboxOffsetRight = 0;   //当たり判定のオフセット
         int hitboxOffsetTop = 0;     //当たり判定のオフセット
         int hitboxOffsetBotton = 0;  //当たり判定のオフセット
 
-        float prevX;           //1フレーム前のx座標
-        float prevY;           //1フレーム前のy座標
-        float prevLeft;        //1フレーム前の左端
-        float prevRight;       //1フレーム前の右端
-        float prevTop;         //1フレーム前の上端
-        float prevBottom;      //1フレーム前の下端
+        float prevX;                 //1フレーム前のx座標
+        float prevY;                 //1フレーム前のy座標
+        float prevLeft;              //1フレーム前の左端
+        float prevRight;             //1フレーム前の右端
+        float prevTop;               //1フレーム前の上端
+        float prevBottom;            //1フレーム前の下端
         //-----------------------------------------------------------------------------------
 
-        JumpState jumpState;
-        public PlayScene playScene;
+        JumpState jumpState;         //ジャンプステートの初期化
+        public PlayScene playScene;　//playSceneの宣言
         
         //コンストラクタ
         public Player(PlayScene playScene,float x,float y)
@@ -74,18 +73,23 @@ namespace ActionGame
         {
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
+            //ゲーム上に手が存在しなかったら
             if (!HundFrag)
             {
+                //入力処理
                 HundleInput();
 
                 // 重力による落下 
                 VelocityY += Gravity;
 
+                //横移動
                 MoveX();
+                //縦移動
                 MoveY();
             }
             else
             {
+                //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
                     //手とPlayerの距離を縮めています
@@ -130,6 +134,7 @@ namespace ActionGame
                 VelocityX = 0;
             }
 
+            //手の射出
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
                 playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
@@ -153,7 +158,6 @@ namespace ActionGame
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
-
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
             }
             //右端が壁にめりこんでいるか？
@@ -220,7 +224,7 @@ namespace ActionGame
         //描画処理
         public void Draw()
         {
-            DX.DrawBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0),1);
+            DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
         }
 
         //あたり判定？
