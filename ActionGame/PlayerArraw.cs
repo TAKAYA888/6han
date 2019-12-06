@@ -35,10 +35,14 @@ namespace ActionGame
             }
             else if(Input.GetButton(DX.PAD_INPUT_6))
             {
+                if (ArrawAngle == 0)
+                {
+                    ArrawAngle = 360;
+                }
                 ArrawAngle -= 1f;
             }
 
-            ArrawAngle %= 360;
+            ArrawAngle = Math.Abs(ArrawAngle % 360);
 
             //回転時の移動処理
             Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(200, 0))
