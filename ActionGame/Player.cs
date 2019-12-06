@@ -87,11 +87,6 @@ namespace ActionGame
 
                 // 重力による落下 
                 VelocityY += Gravity;
-
-                //横移動
-                MoveX();
-                //縦移動
-                MoveY();
             }
             else
             {
@@ -140,6 +135,10 @@ namespace ActionGame
                     PlayerPosition = new Vector2(0) * NextPlayerPos;
                 }
             }
+            //横移動
+            MoveX();
+            //縦移動
+            MoveY();
         }
 
         //入力関係の処理を行います
@@ -165,20 +164,27 @@ namespace ActionGame
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
                 playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
-                angle = playerArraw.ArrawAngle + 180.0f;                
+                angle = playerArraw.ArrawAngle + 180.0f;
                 HundFrag = true;
+                angle = angle % 360;
 
-                if(angle < 90)
+                if (angle < 90)
                 {
                     NowHundFrag = true;
-                    FirstAngle = playerArraw.ArrawAngle + 180.0f;
-                    LastAngle = playerArraw.ArrawAngle + 180.0f + (90 - (playerArraw.ArrawAngle + 180) % 91) * 2;
+                    FirstAngle = (playerArraw.ArrawAngle + 180.0f) % 360;
+                    LastAngle = (FirstAngle + (90 - FirstAngle % 90) * 2) % 360;
+                    angleSpeed = 1;
                 }
-                else 
+                else if (angle % 90 == 0)
+                {
+                    angleSpeed = 0;
+                }
+                else
                 {
                     NowHundFrag = false;
-                    FirstAngle = playerArraw.ArrawAngle + 180.0f;
-                    LastAngle = playerArraw.ArrawAngle + 180.0f - (90 - (playerArraw.ArrawAngle + 180) % 91) * 2;
+                    FirstAngle = (playerArraw.ArrawAngle + 180.0f) % 360;
+                    LastAngle = (FirstAngle - (FirstAngle % 90) * 2) % 360;
+                    angleSpeed = -1;
                 }
             }
         }
@@ -200,6 +206,7 @@ namespace ActionGame
             {
                 float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                angleSpeed = -angleSpeed;
             }
             //右端が壁にめりこんでいるか？
             else if (
@@ -207,7 +214,7 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
-
+                angleSpeed = -angleSpeed;
                 float wallLeft = right - right % Map.CellSize;//壁の左端
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
             }
@@ -255,6 +262,11 @@ namespace ActionGame
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
                 VelocityY = 0; // 縦の移動速度を0に 
                 jumpState = JumpState.Walk;
+                if (HundFrag && playScene.hund.HundHitFrag)
+                {
+                    HundFrag = false;
+                    playScene.hund = null;
+                }
             }
             else // 着地してなかったら 
             {
