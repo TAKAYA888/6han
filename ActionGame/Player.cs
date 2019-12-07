@@ -30,7 +30,7 @@ namespace ActionGame
         public bool BeforHundFrag = false;　　　　//一個前の手がくっついたかのフラグ
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
         float Distance;　　　　　　　　　　　　　 //手とこいつの距離
-        float angle = MathHelper.toRadians(45);　 //手との角度
+        float angle = MathHelper.toRadians(315);　 //手との角度
         float FirstAngle;
         float LastAngle;
         float angleSpeed = 1.0f;
@@ -167,6 +167,8 @@ namespace ActionGame
                 angle = playerArraw.ArrawAngle + 180.0f;
                 HundFrag = true;
                 angle = angle % 360;
+                VelocityX = 0;
+                VelocityY = 0;
 
                 if (angle < 90)
                 {

@@ -22,7 +22,7 @@ namespace ActionGame
         {
             this.player = player;
             this.ArrawPos = ArrawPos;
-            ArrawAngle = -45;
+            ArrawAngle = 315;
         }
 
         public void Update()

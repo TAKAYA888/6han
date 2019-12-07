@@ -65,8 +65,27 @@ namespace ActionGame
         {
             if(hit==Hit.NotHit)
             {
+                Distance = (float)Math.Sqrt(
+                    (player.PlayerPosition.x - Position.x)
+                    * (player.PlayerPosition.x - Position.x)
+                    + (player.PlayerPosition.y - Position.y)
+                    * (player.PlayerPosition.y - Position.y));
+
+                if(Distance>960.0f)
+                {
+                    VelocityX = -VelocityX;
+                    VelocityY = -VelocityY;
+                }
+               
                 MoveX();
                 MoveY();
+
+                if (player.PlayerPosition.x==Position.x&&
+                    player.PlayerPosition.y==Position.y)
+                {
+                    player.playScene.hund = null;
+                    player.HundFrag = false;
+                }
             }
             else
             {
