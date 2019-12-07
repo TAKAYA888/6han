@@ -36,6 +36,13 @@ namespace ActionGame
         }
         public override void Update()
         {
+            //手を消す処理
+            if (Input.GetButtonDown(DX.PAD_INPUT_2))
+            {
+                hund = null;
+                player.HundFrag = false;
+            }
+
             //プレイヤーの更新処理
             player.Update();
             if (isPausing)
@@ -55,13 +62,7 @@ namespace ActionGame
 
                 }
             }
-
-            //手を消す処理
-            if (Input.GetButtonDown(DX.PAD_INPUT_1))
-            {
-                hund = null;
-                player.HundFrag = false;
-            }
+            
             //手の更新処理
             if (player.HundFrag)
             {
