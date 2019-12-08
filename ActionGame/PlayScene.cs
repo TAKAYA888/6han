@@ -13,6 +13,9 @@ namespace ActionGame
         //プレイヤーを設定
         Player player;
 
+        //エネミー1
+        Enemy1 enemy1;
+
         public enum State
         {
             Active,
@@ -32,6 +35,7 @@ namespace ActionGame
         public PlayScene()
         {
             player = new Player(this, 100, 100);
+            enemy1 = new Enemy1(this, 900, 400);
             map = new Map(this, "stage1");
         }
         public override void Update()
@@ -68,6 +72,9 @@ namespace ActionGame
             {
                 hund.Update();
             }
+
+            //エネミー1
+            enemy1.Update();
 
             //アイテムオブジェクト----------------------------------------------------------------------------
 
@@ -120,6 +127,10 @@ namespace ActionGame
                 DX.DrawLine((int)player.PlayerPosition.x, (int)player.PlayerPosition.y, (int)hund.Position.x, (int)hund.Position.y, DX.GetColor(255, 255, 255));
                 hund.Draw();
             }
+
+            //エネミー1の描画
+            enemy1.Draw();
+
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
             {
