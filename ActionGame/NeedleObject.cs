@@ -28,7 +28,7 @@ namespace ActionGame
 
         public override void Draw()
         {
-
+            Camera.DrawGraph(x, y, Image.TogeWani02);
         }
 
         public override void OnCollision(ItemObject other)
