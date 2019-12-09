@@ -12,7 +12,7 @@ namespace ActionGame
             Input.Init();
             MyRandom.Init();
             Image.Load();
-            scene = new PlayScene();
+            scene = new TitleScene();
         }
 
         public void Update()
@@ -24,10 +24,14 @@ namespace ActionGame
             }
             scene.Update();
         }
-
         public void Draw()
         {
             scene.Draw();
+        }
+
+        public static void ChangeScene(Scene newScene)
+        {
+            scene = newScene;
         }
     }
 }

@@ -17,6 +17,10 @@ namespace ActionGame
         public static int EnemyImage01; //ザコ敵01画像
 
         //アイテムのリソース画像
+        public static int ItemStart;
+        public static int ItemOver;
+        public static int ItemRetry;
+        public static int ItemTitle;
 
         //その他のリソース画像
         public static int[] mapchip = new int[128];
@@ -43,6 +47,10 @@ namespace ActionGame
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");
 
             //アイテムのリソース画像
+            ItemTitle = DX.LoadGraph("Image/ItemTitle.png");
+            ItemRetry = DX.LoadGraph("Image/Retry.png");
+            ItemStart = DX.LoadGraph("Image/Start.png");
+            ItemOver = DX.LoadGraph("Image/Over.png");
 
             //その他のリソース画像
             DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 16, 8, 32, 32, mapchip);

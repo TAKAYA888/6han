@@ -71,7 +71,9 @@
     <Compile Include="GimmickObject.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Hund.cs" />
-    <Compile Include="Image.cs" />
+    <Compile Include="Image.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Input.cs" />
     <Compile Include="ItemObject.cs" />
     <Compile Include="KNMR_Math\MathHelper.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="SE.cs" />
+    <Compile Include="TitleScene.cs" />
     <Compile Include="WoolenYarn.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,16 +153,28 @@
     <Content Include="Image\IconMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Image\ItemTitle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\Map.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\mapchip.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Image\Over.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\Player01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Image\Retry.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\Stage01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Start.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Title.png">
