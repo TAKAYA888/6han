@@ -34,6 +34,7 @@ namespace ActionGame
 
         public PlayScene()
         {
+            //プレイヤーの生成
             player = new Player(this, 100, 100);
             enemy1 = new Enemy1(this, 500, 300);
             itemObjects.Add(new WoolenYarn(this, 300, 500));
@@ -47,22 +48,27 @@ namespace ActionGame
                 hund = null;
                 player.HundFrag = false;
             }
+            //---------------------------------------------------------------------------------------------------
 
+            //ごめんなさい、後で直します。汚くしてすみませんでした
+            //プレイヤーがいなかったら止める
             if (player == null)
             {
                 return;
             }
-
+            //プレイヤーが死んだら消す
             if (player.HP < 0)
             {
                 player = null;
             }
-
+            //プレイヤーがいなかったら止める
             if (player == null)
             {
                 return;
             }
+            //---------------------------------------------------------------------------------------------------
 
+            //Playerが生きていたら
             if (player!=null)
             {
                 //プレイヤーの更新処理
@@ -115,7 +121,9 @@ namespace ActionGame
 
             //オブジェクト同士の衝突を判定
             for (int i = 0; i < itemObjects.Count; i++)
-            {                
+            {       
+                //***勝手に書き換えてすみません by 金森 *** 
+
                 //オブジェクトAが死んでたらこのループは終了
                 if (player.isDead) break;
 
