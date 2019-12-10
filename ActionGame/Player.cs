@@ -82,21 +82,23 @@ namespace ActionGame
             //ゲーム上に手が存在しなかったら
             if (!HundFrag)
             {
-                //入力処理
-                HundleInput();
 
                 // 重力による落下 
                 VelocityY += Gravity;
+
+                //入力処理
+                HundleInput();
             }
             else
             {
                 //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
+                    
                     //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 0)
                     {
-                        playScene.hund.Distance -= 4f;
+                        playScene.hund.Distance -= 8f;
                     }
                     else
                     {
@@ -133,6 +135,11 @@ namespace ActionGame
                         * Matrix3.createTranslation(playScene.hund.Position);
 
                     PlayerPosition = new Vector2(0) * NextPlayerPos;
+
+                    if (playScene.hund.playerPosY < PlayerPosition.y)
+                    {
+                        PlayerPosition.y = playScene.hund.playerPosY - 1.0f;
+                    }
                 }
             }
             //横移動
@@ -206,8 +213,11 @@ namespace ActionGame
                 playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
-                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
-                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                if(!HundFrag)
+                {
+                    float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
+                    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                }
                 angleSpeed = -angleSpeed;
             }
             //右端が壁にめりこんでいるか？
@@ -216,9 +226,13 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
+                if (!HundFrag)
+                {
+                    float wallLeft = right - right % Map.CellSize;//壁の左端
+                    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                }
                 angleSpeed = -angleSpeed;
-                float wallLeft = right - right % Map.CellSize;//壁の左端
-                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                
             }
         }
 
@@ -255,7 +269,14 @@ namespace ActionGame
                 playScene.map.IsWall(Center2, bottom) ||
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
-                grounded = true; // 着地した 
+                if(!HundFrag)
+                {
+                    grounded = true; // 着地した 
+                }
+                else
+                {
+                    grounded = false;
+                }
             }
 
             if (grounded) // もし着地してたら 
