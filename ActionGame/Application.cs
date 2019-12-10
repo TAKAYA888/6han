@@ -19,6 +19,7 @@ namespace ActionGame
         static long fpsTicks = 0; // FPS計測のためのTicks。
         static int fpsFrameCount = 0; // FPS計測のためのフレームカウント。60回数えるごとに、要した時間からFPSを算出する。
 
+        public static bool GameEnd { get; set; }
         /// <summary>
         /// 現在のFPS（Frame per Second）
         /// </summary>
@@ -48,7 +49,7 @@ namespace ActionGame
             DX.ScreenFlip();
             stopwatch.Start();
 
-            while (DX.ProcessMessage() == 0) // ウィンドウが閉じられるまで繰り返す
+            while (DX.ProcessMessage() == 0 && !GameEnd) // ウィンドウが閉じられるまで繰り返す
             {
                 // FPSの計測
                 fpsFrameCount++;
@@ -129,6 +130,12 @@ namespace ActionGame
                         Draw();
                     }
                     nextFrameTicks += IntervalTicks;
+                }
+
+
+                if (false)
+                {
+                    break;
                 }
             }
 

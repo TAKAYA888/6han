@@ -1,6 +1,7 @@
 ﻿using System;
 using DxLibDLL;
 using MyLib;
+using System.Windows.Forms;
 
 namespace ActionGame
 {
@@ -20,8 +21,7 @@ namespace ActionGame
             Input.Update();
             if (Input.GetButtonDown(DX.PAD_INPUT_9))
             {
-                DX.DxLib_End();
-                Environment.Exit(0);
+                Application.GameEnd = true;                
             }
             scene.Update();
         }
