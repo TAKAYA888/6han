@@ -36,6 +36,7 @@ namespace ActionGame
         {
             player = new Player(this, 100, 100);
             enemy1 = new Enemy1(this, 500, 300);
+            itemObjects.Add(new WoolenYarn(this, 300, 500));
             map = new Map(this, "stage1");
         }
         public override void Update()
@@ -114,27 +115,41 @@ namespace ActionGame
 
             //オブジェクト同士の衝突を判定
             for (int i = 0; i < itemObjects.Count; i++)
-            {
-                ItemObject a = itemObjects[i];
+            {                
+                //オブジェクトAが死んでたらこのループは終了
+                if (player.isDead) break;
 
-                for (int j = i + 1; j < itemObjects.Count; j++)
+                ItemObject b = itemObjects[i];
+
+                //オブジェクトBが死んでたらスキップ
+                if (b.isDead) continue;
+
+                //オブジェクトAとBが重なっているか？
+                if (MyMath.RectRectIntersect(player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom(),
+                    b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
                 {
-                    //オブジェクトAが死んでたらこのループは終了
-                    if (a.isDead) break;
-
-                    ItemObject b = itemObjects[j];
-
-                    //オブジェクトBが死んでたらスキップ
-                    if (b.isDead) continue;
-
-                    //オブジェクトAとBが重なっているか？
-                    if (MyMath.RectRectIntersect(a.GetLeft(), a.GetTop(), a.GetRight(), a.GetBottom(),
-                        b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
-                    {
-                        a.OnCollision(b);
-                        b.OnCollision(a);
-                    }
+                    player.OnCollisionI(b);
+                    b.OnCollision(player);
                 }
+
+                //for (int j = i + 1; j < itemObjects.Count; j++)
+                //{
+                //    //オブジェクトAが死んでたらこのループは終了
+                //    if (a.isDead) break;
+
+                //    ItemObject b = itemObjects[j];
+
+                //    //オブジェクトBが死んでたらスキップ
+                //    if (b.isDead) continue;
+
+                //    //オブジェクトAとBが重なっているか？
+                //    if (MyMath.RectRectIntersect(a.GetLeft(), a.GetTop(), a.GetRight(), a.GetBottom(),
+                //        b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
+                //    {
+                //        a.OnCollision(b);
+                //        b.OnCollision(a);
+                //    }
+                //}
             }
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
@@ -169,6 +184,7 @@ namespace ActionGame
             foreach (ItemObject go in itemObjects)
             {
                 go.Draw();
+                go.DrawHitBox();
             }
         }
     }

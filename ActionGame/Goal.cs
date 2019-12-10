@@ -30,7 +30,7 @@ namespace ActionGame
 
         }
 
-        public override void OnCollision(ItemObject other)
+        public override void OnCollision(Player other)
         {
             //if (other is Player)
             //{

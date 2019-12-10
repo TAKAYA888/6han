@@ -31,12 +31,13 @@ namespace ActionGame
           
         }
 
-        public override void OnCollision(ItemObject other)
+        public override void OnCollision(Player other)
         {
-           // if (other is Player)
-           // {
-           //     isDead = true;
-           // }
+            isDead = true;
+            // if (other is Player)
+            // {
+            //     isDead = true;
+            // }
         }
     }
 }

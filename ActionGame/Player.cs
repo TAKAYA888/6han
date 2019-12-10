@@ -35,6 +35,8 @@ namespace ActionGame
         float angleSpeed = 1.0f;
         int mutekiTimer;
 
+        int haveWoolenYarn = 0;
+
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
@@ -321,6 +323,11 @@ namespace ActionGame
                 HP -= 1;
                 mutekiTimer = mutekitime;
             }
+        }
+
+        public void OnCollisionI(ItemObject item)//あたり判定の対象)
+        {
+            haveWoolenYarn++;
         }
 
         //当たり判定の左端を取得
