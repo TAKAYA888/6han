@@ -11,7 +11,6 @@ namespace ActionGame
 {
     public class Player
     {
-
         //ステータス一覧---------------------------------------------------------------------        
         public enum JumpState
         {
@@ -34,12 +33,14 @@ namespace ActionGame
         float FirstAngle;
         float LastAngle;
         float angleSpeed = 1.0f;
+        int mutekiTimer;
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
         readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
+        readonly int mutekitime = 60;
         //-----------------------------------------------------------------------------------
 
 
@@ -76,6 +77,11 @@ namespace ActionGame
         //毎フレームの更新処理
         public void Update()
         {
+            mutekiTimer--;
+            if(mutekiTimer<0)
+            {
+                mutekiTimer = 0;
+            }
             playerArraw.Update();            
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
@@ -300,62 +306,74 @@ namespace ActionGame
         //描画処理
         public void Draw()
         {
-            DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+            if(mutekiTimer%6<4)
+            {
+                DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+            }
             playerArraw.Draw();
         }
 
         //あたり判定？
-        public void OnCollision()//あたり判定の対象)
+        public void OnCollisionE(EnemyObject enemy)//あたり判定の対象)
         {
-
+            if(mutekiTimer<=0)
+            {
+                HP -= 1;
+                mutekiTimer = mutekitime;
+            }
         }
 
         //当たり判定の左端を取得
-        public virtual float GetLeft()
+        public float GetLeft()
         {
             return PlayerPosition.x + hitboxOffsetLeft;
         }
 
         //左端を指定することにより位置を設定する
-        public virtual void SetLeft(float left)
+        public void SetLeft(float left)
         {
             PlayerPosition.x = left - hitboxOffsetLeft;
         }
 
         //当たり判定の右端を取得
-        public virtual float GetRight()
+        public float GetRight()
         {
             return PlayerPosition.x + imageWidth - hitboxOffsetRight;
         }
 
         //右端を指定することにより位置を設定する
-        public virtual void SetRight(float right)
+        public void SetRight(float right)
         {
             PlayerPosition.x = right + hitboxOffsetRight - imageWidth;
         }
 
         //当たり判定の上端を取得
-        public virtual float GetTop()
+        public float GetTop()
         {
             return PlayerPosition.y + hitboxOffsetTop;
         }
 
         //上端を指定することにより位置を設定する
-        public virtual void SetTop(float top)
+        public void SetTop(float top)
         {
             PlayerPosition.y = top - hitboxOffsetTop;
         }
 
         //当たり判定の下端を取得する
-        public virtual float GetBottom()
+        public float GetBottom()
         {
             return PlayerPosition.y + imageHeight - hitboxOffsetBotton;
         }
 
         //下端を指定することにより位置を設定する
-        public virtual void SetBottom(float bottom)
+        public void SetBottom(float bottom)
         {
             PlayerPosition.y = bottom + hitboxOffsetBotton - imageHeight;
+        }
+        public void DrawHitBox()
+        {
+            // 四角形を描画 
+            DX.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
     }
 }

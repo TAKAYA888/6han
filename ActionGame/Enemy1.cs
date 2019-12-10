@@ -113,12 +113,9 @@ namespace ActionGame
             Camera.DrawGraph(x, y, Image.EnemyImage01);
         }
 
-        public override void OnCollision(ItemObject other)
+        public override void OnCollision(Player player)
         {
-            // if (other is Player)
-            // {
-            //     isDead = true;
-            // }
+            isDead = true;
         }
     }
 }

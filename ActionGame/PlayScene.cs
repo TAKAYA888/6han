@@ -35,7 +35,7 @@ namespace ActionGame
         public PlayScene()
         {
             player = new Player(this, 100, 100);
-            enemy1 = new Enemy1(this, 900, 400);
+            enemy1 = new Enemy1(this, 500, 300);
             map = new Map(this, "stage1");
         }
         public override void Update()
@@ -47,8 +47,26 @@ namespace ActionGame
                 player.HundFrag = false;
             }
 
-            //プレイヤーの更新処理
-            player.Update();
+            if (player == null)
+            {
+                return;
+            }
+
+            if (player.HP < 0)
+            {
+                player = null;
+            }
+
+            if (player == null)
+            {
+                return;
+            }
+
+            if (player!=null)
+            {
+                //プレイヤーの更新処理
+                player.Update();
+            }
             if (isPausing)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_8))
@@ -75,6 +93,14 @@ namespace ActionGame
 
             //エネミー1
             enemy1.Update();
+
+            //オブジェクトAとBが重なっているか？
+            if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
+                player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            {
+                player.OnCollisionE(enemy1);
+                enemy1.OnCollision(player);
+            }
 
             //アイテムオブジェクト----------------------------------------------------------------------------
 
@@ -117,12 +143,17 @@ namespace ActionGame
 
         }
         public override void Draw()
-        {
-            //プレイヤーの描画処理
-            player.Draw();
+        {            
+            if (player != null)
+            {
+                //プレイヤーの描画処理
+                player.Draw();
+                player.DrawHitBox();
+            }
+                
             map.DrawTerrain(); 
             //線と手を描画しています
-            if (player.HundFrag)
+            if (player != null&&player.HundFrag)
             {
                 DX.DrawLine((int)player.PlayerPosition.x, (int)player.PlayerPosition.y, (int)hund.Position.x, (int)hund.Position.y, DX.GetColor(255, 255, 255));
                 hund.Draw();
@@ -130,6 +161,9 @@ namespace ActionGame
 
             //エネミー1の描画
             enemy1.Draw();
+
+            enemy1.DrawHitBox();
+            
 
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
