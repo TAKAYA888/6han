@@ -30,19 +30,19 @@ namespace ActionGame
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
         float Distance;　　　　　　　　　　　　　 //手とこいつの距離
         float angle = MathHelper.toRadians(315);　 //手との角度
-        float FirstAngle;
-        float LastAngle;
-        float angleSpeed = 1.0f;
-        int mutekiTimer;
+        float FirstAngle;                          //角度を制限するための変数
+        float LastAngle;　　　　　　　　　　　　　 //角度を制限するための変数
+        float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
+        int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
 
-        int haveWoolenYarn = 0;
+        int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
         readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
-        readonly int mutekitime = 60;
+        readonly int mutekitime = 60;　　　　　　 //無的時間の長さ
         //-----------------------------------------------------------------------------------
 
 
@@ -64,33 +64,36 @@ namespace ActionGame
 
         JumpState jumpState;         //ジャンプステートの初期化
         public PlayScene playScene;　//playSceneの宣言
-        public PlayerArraw playerArraw;
+        public PlayerArraw playerArraw;//矢印の宣言
 
         //コンストラクタ
         public Player(PlayScene playScene,float x,float y)
         {
-            this.playScene = playScene;
-            PlayerPosition.x = x;
-            PlayerPosition.y = y;
-            HundFrag = false;
-            playerArraw = new PlayerArraw(this, PlayerPosition);
+            this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
+            PlayerPosition.x = x;　　　　　　　　　　　　　　　　　　//初期座標の設定
+            PlayerPosition.y = y;　　　　　　　　　　　　　　　　　　//上と同じ
+            HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
+            playerArraw = new PlayerArraw(this, PlayerPosition);　　 //矢印の生成
         }
 
         //毎フレームの更新処理
         public void Update()
         {
+            //無的時間のカウントダウン
             mutekiTimer--;
+            //0以下にならないようにする
             if(mutekiTimer<0)
             {
+                //時間を0にする
                 mutekiTimer = 0;
             }
+            //矢印の更新処理
             playerArraw.Update();            
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
             if (!HundFrag)
             {
-
                 // 重力による落下 
                 VelocityY += Gravity;
 
@@ -106,14 +109,17 @@ namespace ActionGame
                     //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 0)
                     {
+                        //手とPlayerの距離を縮めています
                         playScene.hund.Distance -= 8f;
                     }
                     else
                     {
+                        //これ以上短くしない
                         playScene.hund.Distance = 0;
                     }
                     if (NowHundFrag)
                     {
+                        //角速度変更の変更
                         if (LastAngle < angle)
                         {
                             angleSpeed = -angleSpeed;
@@ -125,6 +131,7 @@ namespace ActionGame
                     }
                     else
                     {
+                        //上と同じ
                         if (LastAngle > angle)
                         {
                             angleSpeed = -angleSpeed;
@@ -135,6 +142,7 @@ namespace ActionGame
                         }
                     }
                     
+                    //角度の変更
                     angle += angleSpeed;
 
                     //回転時の移動処理
@@ -142,8 +150,10 @@ namespace ActionGame
                         * Matrix3.createRotation(angle)
                         * Matrix3.createTranslation(playScene.hund.Position);
 
+                    //座標の設定
                     PlayerPosition = new Vector2(0) * NextPlayerPos;
 
+                    //埋まらないように
                     if (playScene.hund.playerPosY < PlayerPosition.y)
                     {
                         PlayerPosition.y = playScene.hund.playerPosY - 1.0f;
@@ -178,13 +188,19 @@ namespace ActionGame
             //手の射出
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
+                //ハンドを生成
                 playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
+                //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
+                //ハンドフラグをTrueに
                 HundFrag = true;
+                //角度を360度以上にならないように制限
                 angle = angle % 360;
+                //速度を止める
                 VelocityX = 0;
                 VelocityY = 0;
 
+                //角度の初期設定
                 if (angle < 90)
                 {
                     NowHundFrag = true;
@@ -377,6 +393,8 @@ namespace ActionGame
         {
             PlayerPosition.y = bottom + hitboxOffsetBotton - imageHeight;
         }
+
+        //あたり判定の描画
         public void DrawHitBox()
         {
             // 四角形を描画 
