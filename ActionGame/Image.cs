@@ -12,6 +12,7 @@ namespace ActionGame
         //プレイヤーのリソース画像
         public static int PlayerImage01; //プレイヤーの正面画像
         public static int PlayerArraws;  //playerの矢印
+        public static int PlayerHand;//playerの手
 
         //ザコ敵のリソース画像
         public static int EnemyImage01; //ザコ敵01画像
@@ -30,18 +31,21 @@ namespace ActionGame
         public static int GameOverImage; //ゲームオーバー画像
         public static int IconIto; //糸のアイコン画像
         public static int IconMap; //マップのアイコン画像
-        public static int Map; //マップ画像
+        public static int MapImage; //マップ画像
         public static int Stage01; //ステージのイメージ画像０１
         public static int TitleImage;　//タイトル画面の画像
         public static int TogeWani01; //ワニのトゲ画像０１
         public static int TogeWani02;　//ワニのトゲ画像０２
         public static int TogeWani03;　//ワニのトゲ画像０２
 
+        public static int Ito; //糸の画像
+
         public static void Load()
         {
             //プレイヤーのリソース画像
             PlayerImage01 = DX.LoadGraph("Image/Player01.png");
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
+            PlayerHand = DX.LoadGraph("Image/Hand.png");
 
             //ザコ敵のリソース画像
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");
@@ -60,12 +64,15 @@ namespace ActionGame
             GameOverImage = DX.LoadGraph("Image/GameOver.jpg");
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
-            Map = DX.LoadGraph("Image/Map.jpg");
+            MapImage = DX.LoadGraph("Image/Map.jpg");
             Stage01 = DX.LoadGraph("Image/Stage01.jpg");
             TitleImage = DX.LoadGraph("Image/Title.png");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
+            
+            Ito = DX.LoadGraph("Image/Ito.png");
+
         }
     }
 }

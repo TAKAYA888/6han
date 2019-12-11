@@ -68,6 +68,8 @@
     <Compile Include="EnemyObject.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Application.cs" />
+    <Compile Include="GameClearScene.cs" />
+    <Compile Include="GameOverScene.cs" />
     <Compile Include="GimmickObject.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Hund.cs" />
@@ -147,6 +149,9 @@
     <Content Include="Image\GameOver.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Image\Hand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\IconIto.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -154,6 +159,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\ItemTitle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Ito.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Map.jpg">
