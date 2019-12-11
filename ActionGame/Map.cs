@@ -80,6 +80,10 @@ namespace ActionGame
             {
                 playScene.itemObjects.Add(new Goal(playScene, spawnX, spawnY));
             }
+            else if (objectID == 2) 　//アイテム描画
+            {
+                playScene.itemObjects.Add(new WoolenYarn(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()

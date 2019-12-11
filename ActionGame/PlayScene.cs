@@ -40,7 +40,7 @@ namespace ActionGame
             //プレイヤーの生成
             player = new Player(this, 100, 100);
             enemy1 = new Enemy1(this, 700, 300);
-            itemObjects.Add(new WoolenYarn(this, 300, 500));
+            //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
         }
@@ -175,6 +175,13 @@ namespace ActionGame
         public override void Draw()
         {
             Camera.DrawGraph(0, 0, Image.Stage01);
+            //アイテムの描画処理
+            foreach (ItemObject go in itemObjects)
+            {
+                go.Draw();
+                go.DrawHitBox();
+            }
+
             if (player != null)
             {
                 //プレイヤーの描画処理
@@ -199,12 +206,7 @@ namespace ActionGame
             needle.DrawHitBox();
 
 
-            //アイテムの描画処理
-            foreach (ItemObject go in itemObjects)
-            {
-                go.Draw();
-                go.DrawHitBox();
-            }
+            
         }
     }
 }
