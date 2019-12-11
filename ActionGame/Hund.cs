@@ -65,10 +65,13 @@ namespace ActionGame
         }
 
         public void Update()
-        {
+        {            
             BeforHundHitFrag = HundHitFrag;
             if(hit==Hit.NotHit)
             {
+                MoveX();
+                MoveY();
+
                 Distance = (float)Math.Sqrt(
                     (player.PlayerPosition.x - Position.x)
                     * (player.PlayerPosition.x - Position.x)
@@ -79,13 +82,9 @@ namespace ActionGame
                 {
                     VelocityX = -VelocityX;
                     VelocityY = -VelocityY;
-                }
-               
-                MoveX();
-                MoveY();
+                }                               
 
-                if (player.PlayerPosition.x==Position.x&&
-                    player.PlayerPosition.y==Position.y)
+                if (Distance<=1)
                 {
                     player.playScene.hund = null;
                     player.HundFrag = false;
@@ -198,7 +197,7 @@ namespace ActionGame
         public void Draw()
         {
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
-            DX.DrawBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0), 1);
+            Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
         //当たり判定の左端を取得

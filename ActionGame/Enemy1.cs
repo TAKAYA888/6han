@@ -29,11 +29,9 @@ namespace ActionGame
         }
         public override void Update()
         {
-
-            MoveX();
-            MoveY();
-
             vy += Gravity;
+            MoveY();
+            MoveX();                        
         }
 
         void MoveX()
@@ -49,8 +47,8 @@ namespace ActionGame
 
             if (playScene.map.IsWall(left, top) ||    // 左上が壁か？ 
                 playScene.map.IsWall(left, middle) || // 左中が壁か？ 
-                playScene.map.IsWall(left, bottom) ||  // 左下が壁か？ 
-                !playScene.map.IsWall(left, bottom2))// 左下の床がないか？
+                playScene.map.IsWall(left, bottom) //||  // 左下が壁か？ 
+                /*!playScene.map.IsWall(left, bottom2*/)// 左下の床がないか？
 
             {
                 float wallRight = left - left % Map.CellSize + Map.CellSize; // 壁の右端 
@@ -61,8 +59,8 @@ namespace ActionGame
             else if (
               playScene.map.IsWall(right, top) ||   // 右上が壁か？ 
               playScene.map.IsWall(right, middle) || // 右中が壁か？ 
-              playScene.map.IsWall(right, bottom) ||  // 右下が壁か？
-              !playScene.map.IsWall(right, bottom2)) // 右下の床がないか？
+              playScene.map.IsWall(right, bottom) //||  // 右下が壁か？
+              /*!playScene.map.IsWall(right, bottom2)*/) // 右下の床がないか？
             {
                 float wallLeft = right - right % Map.CellSize; // 壁の左端 
                 SetRight(wallLeft); // 敵の右端を壁の左端に沿わす 
@@ -75,7 +73,8 @@ namespace ActionGame
         {
             y += vy;
 
-            bool grounded = false;
+            bool grounded1 = false;
+            bool grounded2 = false;
 
             float left = GetLeft();
             float right = GetRight() - 0.01f;
@@ -90,20 +89,25 @@ namespace ActionGame
                 SetTop(wallBottom); // 敵の頭を天井に沿わす 
                 vy = 0; // 縦の移動速度を0に 
             }
-            else if (playScene.map.IsWall(left, bottom))   // 右下が壁か？ 
+            if (playScene.map.IsWall(left, bottom))   // 右下が壁か？ 
             {
-                grounded = true; // 着地した
+                grounded1 = true; // 着地した
             }
-            else if (playScene.map.IsWall(right, bottom)) // 左下が壁か？ 
+            if (playScene.map.IsWall(right, bottom)) // 左下が壁か？ 
             {
-                grounded = true; // 着地した
+                grounded2 = true; // 着地した
             }
 
-            if (grounded) // もし着地してたら 
+            if (grounded1 || grounded2) // もし着地してたら 
             {
                 float wallTop = bottom - bottom % Map.CellSize; // 床のy座標 
                 SetBottom(wallTop); //足元を床の高さに沿わす 
                 vy = 0; // 縦の移動速度を0に 
+            }
+
+            if((grounded1&&!grounded2)||(!grounded1&&grounded2))
+            {
+                vx = -vx;
             }
         }
 

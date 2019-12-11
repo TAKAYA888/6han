@@ -36,7 +36,7 @@ namespace ActionGame
         {
             //プレイヤーの生成
             player = new Player(this, 100, 100);
-            enemy1 = new Enemy1(this, 500, 300);
+            enemy1 = new Enemy1(this, 700, 300);
             itemObjects.Add(new WoolenYarn(this, 300, 500));
             map = new Map(this, "stage1");
         }
@@ -164,6 +164,8 @@ namespace ActionGame
 
             //--------------------------------------------------------------------------------------------------
 
+            Camera.LookAt(player.PlayerPosition);
+
         }
         public override void Draw()
         {            
@@ -178,7 +180,7 @@ namespace ActionGame
             //線と手を描画しています
             if (player != null&&player.HundFrag)
             {
-                DX.DrawLine((int)player.PlayerPosition.x, (int)player.PlayerPosition.y, (int)hund.Position.x, (int)hund.Position.y, DX.GetColor(255, 255, 255));
+                Camera.DrawLine(player.PlayerPosition, hund.Position);
                 hund.Draw();
             }
 
