@@ -30,6 +30,7 @@ namespace ActionGame
         public Hund hund;
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
+        public List<EnemyObject> enemyObjects = new List<EnemyObject>();
 
         public State state = State.Active;
         int timeToGameOver = 120;
@@ -40,6 +41,7 @@ namespace ActionGame
             //プレイヤーの生成
             player = new Player(this, 100, 100);
             enemy1 = new Enemy1(this, 700, 300);
+            //enemyObjects.Add(new Enemy1(this, 700, 300));
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
@@ -113,6 +115,18 @@ namespace ActionGame
                 enemy1.OnCollision(player);
             }
 
+            ////オブジェクトAとBが重なっているか？
+            //if(hund != null)
+            //{
+            //    if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
+            //    enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom()))
+            //    {
+            //        hund.OnCollision(enemy1);
+            //        enemy1.OnCollisionH(hund);
+            //    }
+            //}
+
+            
 
             //針
             //オブジェクトAとBが重なっているか？
@@ -200,7 +214,7 @@ namespace ActionGame
 
             map.DrawTerrain();
             //線と手を描画しています
-            if (player != null && player.HundFrag)
+            if (player != null && hund != null)
             {
 
                 hund.Draw();

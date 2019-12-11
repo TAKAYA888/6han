@@ -201,6 +201,11 @@ namespace ActionGame
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
+        public void OnCollision(EnemyObject enemyObject)
+        {
+            player.playScene.hund = null;
+        }
+
         //当たり判定の左端を取得
         public virtual float GetLeft()
         {

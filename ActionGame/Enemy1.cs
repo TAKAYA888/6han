@@ -121,5 +121,10 @@ namespace ActionGame
         {
             isDead = true;
         }
+
+        public void OnCollisionH(Hund hund)
+        {
+            isDead = true;
+        }
     }
 }
