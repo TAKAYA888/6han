@@ -8,13 +8,12 @@ using MyLib;
 
 namespace ActionGame
 {
-    public class GameClearScene : Scene
+    public class MapScene : Scene
     {
         int Selecct = 1;
         int timer = 0;
-       
 
-        public GameClearScene()
+        public MapScene()
         {
             //DX.PlayMusic(" ", DX.DX_PLAYTYPE_LOOP);
         }
@@ -41,23 +40,16 @@ namespace ActionGame
         }
         public override void Draw()
         {
-            DX.DrawGraph(0, 0, Image.GameClearImage);
+            DX.DrawGraph(0, 0, Image.MapImage);
             if (Selecct == 1)
             {
                 if (timer / 15 % 2 == 0)
                 {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
+                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 450, 1, 0, Image.ItemContinue);
                 }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
+                //
             }
-            else if (Selecct == 2)
-            {
-                if (timer / 15 % 2 == 0)
-                {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
-                }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
-            }
+            //
         }
     }
 }

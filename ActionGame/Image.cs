@@ -22,6 +22,7 @@ namespace ActionGame
         public static int ItemOver;
         public static int ItemRetry;
         public static int ItemTitle;
+        public static int ItemContinue;
 
         //その他のリソース画像
         public static int[] mapchip = new int[128];
@@ -55,6 +56,7 @@ namespace ActionGame
             ItemRetry = DX.LoadGraph("Image/Retry.png");
             ItemStart = DX.LoadGraph("Image/Start.png");
             ItemOver = DX.LoadGraph("Image/Over.png");
+            ItemContinue = DX.LoadGraph("Image/Continue.png");
 
             //その他のリソース画像
             DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 16, 8, 32, 32, mapchip);

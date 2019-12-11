@@ -83,6 +83,7 @@
     <Compile Include="KNMR_Math\Matrix3.cs" />
     <Compile Include="KNMR_Math\Vector2.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapScene.cs" />
     <Compile Include="MyLib.cs" />
     <Compile Include="MyRandom.cs" />
     <Compile Include="NeedleObject.cs" />
@@ -133,6 +134,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Block01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Continue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Enemy01.png">
