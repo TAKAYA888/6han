@@ -69,7 +69,7 @@ namespace ActionGame
         public PlayerArraw playerArraw;//矢印の宣言
 
         //コンストラクタ
-        public Player(PlayScene playScene,float x,float y)
+        public Player(PlayScene playScene, float x, float y)
         {
             this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
             PlayerPosition.x = x;　　　　　　　　　　　　　　　　　　//初期座標の設定
@@ -84,16 +84,16 @@ namespace ActionGame
             //無的時間のカウントダウン
             mutekiTimer--;
             //0以下にならないようにする
-            if(mutekiTimer<0)
+            if (mutekiTimer < 0)
             {
                 //時間を0にする
                 mutekiTimer = 0;
-            }            
-            if (BeforHundFrag&&!HundFrag)
-            {
-                flyVelocityX = MathHelper.cos(angle) * WalkSpeed*4;
             }
-                        
+            if (BeforHundFrag && !HundFrag)
+            {
+                flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
+            }
+
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
@@ -103,14 +103,14 @@ namespace ActionGame
                 VelocityY += Gravity;
 
                 //入力処理
-                HundleInput();                
+                HundleInput();
             }
             else
             {
                 //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
-                    
+
                     //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 50)
                     {
@@ -120,7 +120,7 @@ namespace ActionGame
                     else
                     {
                         //これ以上短くしない
-                        playScene.hund.Distance = 50;                        
+                        playScene.hund.Distance = 50;
                     }
                     if (NowHundFrag)
                     {
@@ -146,7 +146,7 @@ namespace ActionGame
                             angleSpeed = -angleSpeed;
                         }
                     }
-                    
+
                     //角度の変更
                     angle += angleSpeed;
 
@@ -239,7 +239,7 @@ namespace ActionGame
             float right = GetRight() - 0.01f;
             float top = GetTop();
             float middle1 = top + 48;
-            float middle2 = top + 48*2;
+            float middle2 = top + 48 * 2;
             float middle3 = top + 48 * 3;
             float bottom = GetBottom() - 0.01f;
 
@@ -273,14 +273,14 @@ namespace ActionGame
                 //}
                 float wallLeft = right - right % Map.CellSize;//壁の左端
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
-                angleSpeed = -angleSpeed;                
+                angleSpeed = -angleSpeed;
             }
         }
 
         void MoveY()
         {
             // 縦に移動する 
-            PlayerPosition.y += VelocityY;            
+            PlayerPosition.y += VelocityY;
 
             // 着地したかどうか 
             bool grounded = false;
@@ -313,7 +313,7 @@ namespace ActionGame
                 playScene.map.IsWall(Center3, bottom) ||
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
-                if(!HundFrag)
+                if (!HundFrag)
                 {
                     grounded = true; // 着地した 
                 }
@@ -345,7 +345,7 @@ namespace ActionGame
         //描画処理
         public void Draw()
         {
-            if(mutekiTimer%6<4)
+            if (mutekiTimer % 6 < 4)
             {
                 Camera.DrawGraph(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
             }
@@ -355,7 +355,7 @@ namespace ActionGame
         //あたり判定？
         public void OnCollisionE(EnemyObject enemy)//あたり判定の対象)
         {
-            if(mutekiTimer<=0)
+            if (mutekiTimer <= 0)
             {
                 HP -= 1;
                 mutekiTimer = mutekitime;
@@ -364,11 +364,18 @@ namespace ActionGame
 
         public void OnCollisionI(ItemObject item)//あたり判定の対象)
         {
-            if(item is WoolenYarn)
+            if (item is WoolenYarn)
             {
                 haveWoolenYarn += 1;
             }
-            
+        }
+
+        public void OnCollisionG(GimmickObject needle)
+        {
+            if (needle is NeedleObject)
+            {
+                HP -= 10;//無理やり即死させますスミマセン
+            }
         }
 
         //当たり判定の左端を取得

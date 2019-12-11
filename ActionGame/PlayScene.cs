@@ -11,7 +11,7 @@ namespace ActionGame
     public class PlayScene : Scene
     {
         //プレイヤーを設定
-        public  Player player;
+        public Player player;
 
         //エネミー1
         Enemy1 enemy1;
@@ -73,7 +73,7 @@ namespace ActionGame
             //---------------------------------------------------------------------------------------------------
 
             //Playerが生きていたら
-            if (player!=null)
+            if (player != null)
             {
                 //プレイヤーの更新処理
                 player.Update();
@@ -95,7 +95,7 @@ namespace ActionGame
 
                 }
             }
-            
+
             //手の更新処理
             if (player.HundFrag)
             {
@@ -105,12 +105,21 @@ namespace ActionGame
             //エネミー1
             enemy1.Update();
 
-
             //オブジェクトAとBが重なっているか？
             if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
                 player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             {
                 player.OnCollisionE(enemy1);
+                enemy1.OnCollision(player);
+            }
+
+
+            //針
+            //オブジェクトAとBが重なっているか？
+            if (MyMath.RectRectIntersect(needle.GetLeft(), needle.GetTop(), needle.GetRight(), needle.GetBottom(),
+                player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            {
+                player.OnCollisionG(needle);
                 enemy1.OnCollision(player);
             }
 
@@ -126,7 +135,7 @@ namespace ActionGame
 
             //オブジェクト同士の衝突を判定
             for (int i = 0; i < itemObjects.Count; i++)
-            {       
+            {
                 //***勝手に書き換えてすみません by 金森 *** 
 
                 //オブジェクトAが死んでたらこのループは終了
@@ -188,12 +197,12 @@ namespace ActionGame
                 player.Draw();
                 player.DrawHitBox();
             }
-                
-            map.DrawTerrain(); 
+
+            map.DrawTerrain();
             //線と手を描画しています
-            if (player != null&&player.HundFrag)
+            if (player != null && player.HundFrag)
             {
-                
+
                 hund.Draw();
                 Camera.DrawLine(player.PlayerPosition, hund.Position);
             }
@@ -204,7 +213,7 @@ namespace ActionGame
 
             //針の描画
             needle.Draw();
-            needle.DrawHitBox();            
+            needle.DrawHitBox();
         }
     }
 }
