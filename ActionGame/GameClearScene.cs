@@ -45,17 +45,17 @@ namespace ActionGame
             {
                 if (timer / 15 % 2 == 0)
                 {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
+                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
                 }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
+                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
             }
             else if (Selecct == 2)
             {
                 if (timer / 15 % 2 == 0)
                 {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
+                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
                 }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
+                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
             }
         }
     }
