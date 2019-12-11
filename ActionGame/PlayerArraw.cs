@@ -55,7 +55,7 @@ namespace ActionGame
         public void Draw()
         {
             //DX.DrawString(100, 100, ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
-            Camera.DrawRotaGraph(ArrawPos.x + 100, ArrawPos.y + 100, MathHelper.toRadians(ArrawAngle) + MathHelper.toRadians(90), Image.PlayerArraws);
+            Camera.DrawRotaGraph(ArrawPos.x + 100, ArrawPos.y + 100, MathHelper.toRadians(ArrawAngle) + MathHelper.toRadians(90), Image.PlayerArraws,0);
         }
     }
 }

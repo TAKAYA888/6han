@@ -193,8 +193,9 @@ namespace ActionGame
             //線と手を描画しています
             if (player != null&&player.HundFrag)
             {
-                Camera.DrawLine(player.PlayerPosition, hund.Position);
+                
                 hund.Draw();
+                Camera.DrawLine(player.PlayerPosition, hund.Position);
             }
 
             //エネミー1の描画
@@ -203,10 +204,7 @@ namespace ActionGame
 
             //針の描画
             needle.Draw();
-            needle.DrawHitBox();
-
-
-            
+            needle.DrawHitBox();            
         }
     }
 }

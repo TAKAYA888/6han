@@ -41,10 +41,10 @@ namespace ActionGame
         //サイズ関係-------------------------------------------------------------------------
         int imageWidth = 120;//画像の横ピクセル数
         int imageHeight = 60;//画像の縦ピクセル数
-        int hitboxOffsetLeft = 0;　　//当たり判定のオフセット
-        int hitboxOffsetRight = 0;   //当たり判定のオフセット
-        int hitboxOffsetTop = 0;     //当たり判定のオフセット
-        int hitboxOffsetBotton = 0;  //当たり判定のオフセット
+        int hitboxOffsetLeft = -10;　　//当たり判定のオフセット
+        int hitboxOffsetRight = 80;   //当たり判定のオフセット
+        int hitboxOffsetTop = -50;     //当たり判定のオフセット
+        int hitboxOffsetBotton = 70;  //当たり判定のオフセット
 
         float prevX;           //1フレーム前のx座標
         float prevY;           //1フレーム前のy座標
@@ -196,7 +196,7 @@ namespace ActionGame
 
         public void Draw()
         {
-            Camera.DrawRotaGraph(Position.x, Position.y, 0, Image.PlayerHand);
+            Camera.DrawRotaGraph(Position.x, Position.y, 180, Image.PlayerHand,1);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
