@@ -31,11 +31,11 @@ namespace ActionGame
             }
             if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 1)
             {
-                Game.ChangeScene(new PlayScene());
+                Game.ChangeScene(new TitleScene());
             }
             else if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 2)
             {
-                Game.ChangeScene(new TitleScene());
+                Game.ChangeScene(new PlayScene());
             }
         }
         public override void Draw()
