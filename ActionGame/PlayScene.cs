@@ -16,6 +16,9 @@ namespace ActionGame
         //エネミー1
         Enemy1 enemy1;
 
+        //針
+        NeedleObject needle;
+
         public enum State
         {
             Active,
@@ -38,6 +41,7 @@ namespace ActionGame
             player = new Player(this, 100, 100);
             enemy1 = new Enemy1(this, 700, 300);
             itemObjects.Add(new WoolenYarn(this, 300, 500));
+            needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
         }
         public override void Update()
@@ -100,6 +104,7 @@ namespace ActionGame
 
             //エネミー1
             enemy1.Update();
+
 
             //オブジェクトAとBが重なっているか？
             if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
@@ -187,9 +192,12 @@ namespace ActionGame
 
             //エネミー1の描画
             enemy1.Draw();
-
             enemy1.DrawHitBox();
-            
+
+            //針の描画
+            needle.Draw();
+            needle.DrawHitBox();
+
 
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
