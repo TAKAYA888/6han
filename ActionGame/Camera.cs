@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
+using MyMath_KNMR;
 
 namespace ActionGame
 {
@@ -12,10 +13,10 @@ namespace ActionGame
         public static float x;
         public static float y;
 
-        public static void LookAt(float targetX)
+        public static void LookAt(Vector2 pos)
         {
-            x = 0;
-            y = 0;
+            x = pos.x - 1920/2;
+            y = pos.y - 1080/2;
         }
         public static void DrawGraph(float worldX, float worldY, int handle, bool flip = false)
         {
@@ -31,6 +32,16 @@ namespace ActionGame
                 (int)(bottom - y + 0.5f),
                 color,
                 DX.FALSE);
+        }
+
+        public static void DrawRotaGraph(float _x,float _y,float angle,int handle)
+        {
+            DX.DrawRotaGraphF(_x - x, _y - y, 1, angle, handle);
+        }
+
+        public static void DrawLine(Vector2 pos1,Vector2 pos2)
+        {
+            DX.DrawLine((int)(pos1.x - x), (int)(pos1.y - y), (int)(pos2.x - x), (int)(pos2.y - y), DX.GetColor(0, 0, 0));
         }
     }
 }

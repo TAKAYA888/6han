@@ -23,21 +23,21 @@ namespace ActionGame
         }
         public override void Update()
         {
-
+            
         }
 
         public override void Draw()
         {
-          
+            Camera.DrawGraph(x, y, Image.IconIto);
         }
 
         public override void OnCollision(Player other)
         {
             isDead = true;
-            // if (other is Player)
-            // {
-            //     isDead = true;
-            // }
+             if (other is Player)
+             {
+                 isDead = true;
+             }
         }
     }
 }

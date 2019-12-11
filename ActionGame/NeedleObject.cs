@@ -31,7 +31,7 @@ namespace ActionGame
             Camera.DrawGraph(x, y, Image.TogeWani02);
         }
 
-        public override void OnCollision(ItemObject other)
+        public override void OnCollision(Player player)
         {
             // if (other is Player)
             // {

@@ -130,13 +130,7 @@ namespace ActionGame
                         Draw();
                     }
                     nextFrameTicks += IntervalTicks;
-                }
-
-
-                if (false)
-                {
-                    break;
-                }
+                }                
             }
 
             DX.DxLib_End(); // DXライブラリ終了処理

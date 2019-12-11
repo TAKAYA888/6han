@@ -14,9 +14,9 @@ namespace ActionGame
         public const int None = -1;
         public const int Wall = 0;
 
-        public const int Width = 3840;
-        public const int Height = 1620;
-        public const int CellSize = 32;
+        public const int Width = 64;
+        public const int Height = 27;
+        public const int CellSize = 60;
 
         PlayScene playScene;
         int[,] terrain;
@@ -75,6 +75,15 @@ namespace ActionGame
         {
             float spawnX = mapX * CellSize;
             float spawnY = mapY * CellSize;
+
+            if (objectID == 1) 　//ゴール描画
+            {
+                playScene.itemObjects.Add(new Goal(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 2) 　//アイテム描画
+            {
+                playScene.itemObjects.Add(new WoolenYarn(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()
@@ -97,7 +106,7 @@ namespace ActionGame
 
                     if (id == None) continue; // 描画しない 
 
-                    Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[id]);
+                    Camera.DrawGraph(x * CellSize, y * CellSize, Image.Floor01);
                 }
             }
         }

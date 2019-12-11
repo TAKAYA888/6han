@@ -24,6 +24,7 @@ namespace ActionGame
         public bool isDead = false;               //死亡フラグ(true)だと死ぬ
         float VelocityX = 0f;                     //移動速度(x方向)
         float VelocityY = 0f;　　　               //移動速度(y方向)
+        float flyVelocityX = 0f;
         public int HP = 3;                        //HP(体力)
         public bool HundFrag;                     //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　　//一個前の手がくっついたかのフラグ
@@ -35,13 +36,14 @@ namespace ActionGame
         float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
         int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
 
-        int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
+        public int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
         readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
+        readonly float MaxFallSpeed = 12;
         readonly int mutekitime = 60;　　　　　　 //無的時間の長さ
         //-----------------------------------------------------------------------------------
 
@@ -86,9 +88,12 @@ namespace ActionGame
             {
                 //時間を0にする
                 mutekiTimer = 0;
+            }            
+            if (BeforHundFrag&&!HundFrag)
+            {
+                flyVelocityX = MathHelper.cos(angle) * WalkSpeed*4;
             }
-            //矢印の更新処理
-            playerArraw.Update();            
+                        
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
@@ -98,7 +103,7 @@ namespace ActionGame
                 VelocityY += Gravity;
 
                 //入力処理
-                HundleInput();
+                HundleInput();                
             }
             else
             {
@@ -107,7 +112,7 @@ namespace ActionGame
                 {
                     
                     //手とPlayerの距離を縮めています
-                    if (playScene.hund.Distance > 0)
+                    if (playScene.hund.Distance > 50)
                     {
                         //手とPlayerの距離を縮めています
                         playScene.hund.Distance -= 8f;
@@ -115,7 +120,7 @@ namespace ActionGame
                     else
                     {
                         //これ以上短くしない
-                        playScene.hund.Distance = 0;
+                        playScene.hund.Distance = 50;                        
                     }
                     if (NowHundFrag)
                     {
@@ -164,6 +169,9 @@ namespace ActionGame
             MoveX();
             //縦移動
             MoveY();
+
+            //矢印の更新処理
+            playerArraw.Update();
         }
 
         //入力関係の処理を行います
@@ -199,6 +207,7 @@ namespace ActionGame
                 //速度を止める
                 VelocityX = 0;
                 VelocityY = 0;
+                flyVelocityX = 0;
 
                 //角度の初期設定
                 if (angle < 90)
@@ -224,39 +233,47 @@ namespace ActionGame
 
         void MoveX()
         {
-            PlayerPosition.x += VelocityX;
+            PlayerPosition.x = PlayerPosition.x + VelocityX + flyVelocityX;
             //当たり判定の四隅の座標を取得
             float left = GetLeft();
             float right = GetRight() - 0.01f;
             float top = GetTop();
-            float middle = top + 32;
+            float middle1 = top + 48;
+            float middle2 = top + 48*2;
+            float middle3 = top + 48 * 3;
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
             if (playScene.map.IsWall(left, top) || //左上が壁か？
-                playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, middle2) ||
+                playScene.map.IsWall(left, middle3) ||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
-                if(!HundFrag)
-                {
-                    float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
-                    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
-                }
+                //if(!HundFrag)
+                //{
+                //    float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
+                //    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                //}
+                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
+                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 angleSpeed = -angleSpeed;
             }
             //右端が壁にめりこんでいるか？
             else if (
                 playScene.map.IsWall(right, top) ||　　　//左上が壁か？
-                playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
+                playScene.map.IsWall(right, middle1) ||
+                playScene.map.IsWall(right, middle2) ||//左真ん中は壁か？
+                playScene.map.IsWall(right, middle3) ||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
-                if (!HundFrag)
-                {
-                    float wallLeft = right - right % Map.CellSize;//壁の左端
-                    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
-                }
-                angleSpeed = -angleSpeed;
-                
+                //if (!HundFrag)
+                //{
+                //    
+                //}
+                float wallLeft = right - right % Map.CellSize;//壁の左端
+                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                angleSpeed = -angleSpeed;                
             }
         }
 
@@ -271,8 +288,9 @@ namespace ActionGame
             // 当たり判定の四隅の座標を取得 
             float left = GetLeft();
             float right = GetRight() - 0.01f;
-            float Center1 = left + 16.25f;
-            float Center2 = left + 16.25f * 2.0f;
+            float Center1 = left + 45f;
+            float Center2 = left + 45 * 2.0f;
+            float Center3 = left + 45 * 3.0f;
             float top = GetTop();
             float bottom = GetBottom() - 0.01f;
 
@@ -280,6 +298,7 @@ namespace ActionGame
             if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
                 playScene.map.IsWall(Center1, top) ||
                 playScene.map.IsWall(Center2, top) ||
+                playScene.map.IsWall(Center3, top) ||
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
@@ -291,6 +310,7 @@ namespace ActionGame
                 playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
                 playScene.map.IsWall(Center1, bottom) ||
                 playScene.map.IsWall(Center2, bottom) ||
+                playScene.map.IsWall(Center3, bottom) ||
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
                 if(!HundFrag)
@@ -309,6 +329,7 @@ namespace ActionGame
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
                 VelocityY = 0; // 縦の移動速度を0に 
                 jumpState = JumpState.Walk;
+                flyVelocityX = 0;
                 if (HundFrag && playScene.hund.HundHitFrag)
                 {
                     HundFrag = false;
@@ -326,7 +347,7 @@ namespace ActionGame
         {
             if(mutekiTimer%6<4)
             {
-                DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+                Camera.DrawGraph(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
             }
             playerArraw.Draw();
         }
@@ -343,7 +364,11 @@ namespace ActionGame
 
         public void OnCollisionI(ItemObject item)//あたり判定の対象)
         {
-            haveWoolenYarn++;
+            if(item is WoolenYarn)
+            {
+                haveWoolenYarn += 1;
+            }
+            
         }
 
         //当たり判定の左端を取得
@@ -398,7 +423,7 @@ namespace ActionGame
         public void DrawHitBox()
         {
             // 四角形を描画 
-            DX.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
+            Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
     }
 }

@@ -32,11 +32,11 @@ namespace ActionGame
             }
             if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 1)
             {
-                Game.ChangeScene(new PlayScene());
+                Game.ChangeScene(new TitleScene());
             }
             else if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 2)
             {
-                Game.ChangeScene(new TitleScene());
+                Game.ChangeScene(new PlayScene());
             }
         }
         public override void Draw()
@@ -46,17 +46,17 @@ namespace ActionGame
             {
                 if (timer / 15 % 2 == 0)
                 {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
+                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
                 }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
+                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
             }
             else if (Selecct == 2)
             {
                 if (timer / 15 % 2 == 0)
                 {
-                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
+                    DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
                 }
-                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 380, 1, 0, Image.ItemRetry);
+                DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
             }
         }
     }

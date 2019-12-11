@@ -29,11 +29,11 @@ namespace ActionGame
         {
             //ArrawPos = player.PlayerPosition;
 
-            if(Input.GetButton(DX.PAD_INPUT_5))
+            if(Input.GetButton(DX.PAD_INPUT_6))
             {
                 ArrawAngle += 1f;
             }
-            else if(Input.GetButton(DX.PAD_INPUT_6))
+            else if(Input.GetButton(DX.PAD_INPUT_5))
             {
                 if (ArrawAngle == 0)
                 {
@@ -55,7 +55,7 @@ namespace ActionGame
         public void Draw()
         {
             //DX.DrawString(100, 100, ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
-            DX.DrawRotaGraphF(ArrawPos.x+100, ArrawPos.y+100, 1, MathHelper.toRadians(ArrawAngle)+MathHelper.toRadians(90), Image.PlayerArraws);
+            Camera.DrawRotaGraph(ArrawPos.x + 100, ArrawPos.y + 100, MathHelper.toRadians(ArrawAngle) + MathHelper.toRadians(90), Image.PlayerArraws);
         }
     }
 }
