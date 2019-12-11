@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DxLibDLL;
 
 namespace ActionGame
 {
@@ -22,21 +23,25 @@ namespace ActionGame
         }
         public override void Update()
         {
-            if (playScene.player.haveWoolenYarn >= 1)
-            {
-               Game.ChangeScene(new GameClearScene());
-            }
+            
         }
 
         public override void Draw()
         {
-
+            Camera.DrawGraph(x, y, Image.PlayerImage01);
         }
 
         public override void OnCollision(Player other)
         {
-            
-            Update();
+            if (playScene.player.haveWoolenYarn >= 1)
+            {
+               Game.ChangeScene(new GameClearScene());
+            }
+            else
+            {
+
+            }
+           
         }
     }
 }

@@ -364,7 +364,11 @@ namespace ActionGame
 
         public void OnCollisionI(ItemObject item)//あたり判定の対象)
         {
-            haveWoolenYarn++;
+            if(item is WoolenYarn)
+            {
+                haveWoolenYarn += 1;
+            }
+            
         }
 
         //当たり判定の左端を取得

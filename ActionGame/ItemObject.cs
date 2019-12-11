@@ -96,12 +96,12 @@ namespace ActionGame
         public abstract void OnCollision(Player other);
 
         //画面内に映っているか？
-        //public virtual bool IsVisible()
-        //{
-        //    return MyMath.RectRectIntersect(
-        //        x, y, x + imageWidth, y + imageHeight,
-        //        Camera.x, Camera.y, Camera.x + Screen.Width, Camera.y + Screen.Height);
-        //}
+        public virtual bool IsVisible()
+        {
+            return MyMath.RectRectIntersect(
+                x, y, x + imageWidth, y + imageHeight,
+                Camera.x, Camera.y, Camera.x + Screen.Width, Camera.y + Screen.Height);
+        }
     }
 }
 

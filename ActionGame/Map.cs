@@ -75,6 +75,11 @@ namespace ActionGame
         {
             float spawnX = mapX * CellSize;
             float spawnY = mapY * CellSize;
+
+            if (objectID == 1) 　//ゴール描画
+            {
+                playScene.itemObjects.Add(new Goal(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()
