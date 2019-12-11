@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DxLibDLL;
 
 namespace ActionGame
 {
@@ -87,11 +88,12 @@ namespace ActionGame
         public void DrawHitBox()
         {
             // 四角形を描画 
+            DX.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
             //Camera.DrawLineBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(255, 0, 0));
         }
 
         //他のオブジェクトと衝突したときに呼ばれる
-        public abstract void OnCollision(ItemObject other);
+        public abstract void OnCollision(Player other);
 
         //画面内に映っているか？
         //public virtual bool IsVisible()

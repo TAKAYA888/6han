@@ -26,12 +26,14 @@ namespace ActionGame
         //ステータス関係変数--------------------------------------------------------------------------------------------------
 
         public Vector2 Position = new Vector2(0, 0); 　//現在地
+        public float playerPosY;
         public float Distance;           　　　//Playerとの距離
         public float FirstAngle;         　　　//初期角度
         public float LastAngle;          　　　//最終角度
         float VelocityX ;                      //移動速度(x方向)
         float VelocityY ;                      //移動速度(y方向)
         public bool HundHitFrag = false;
+        bool BeforHundHitFrag = false;
 
         //----------------------------------------------------------------------------------------------------------------
 
@@ -59,10 +61,12 @@ namespace ActionGame
             hit = Hit.NotHit;
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
+            playerPosY = player.PlayerPosition.y;
         }
 
         public void Update()
         {
+            BeforHundHitFrag = HundHitFrag;
             if(hit==Hit.NotHit)
             {
                 Distance = (float)Math.Sqrt(
@@ -91,7 +95,7 @@ namespace ActionGame
             {
                 VelocityX = 0;
                 VelocityY = 0;
-            }
+            }            
         }
 
         void MoveX()
@@ -118,6 +122,7 @@ namespace ActionGame
                     * (player.PlayerPosition.x - Position.x)
                     + (player.PlayerPosition.y - Position.y)
                     * (player.PlayerPosition.y - Position.y));
+                
             }
             //右端が壁にめりこんでいるか？
             else if (
@@ -134,6 +139,7 @@ namespace ActionGame
                     * (player.PlayerPosition.x - Position.x)
                     + (player.PlayerPosition.y - Position.y)
                     * (player.PlayerPosition.y - Position.y));
+                
             }
         }
 
@@ -166,6 +172,7 @@ namespace ActionGame
                     * (player.PlayerPosition.x - Position.x)
                     + (player.PlayerPosition.y - Position.y)
                     * (player.PlayerPosition.y - Position.y));
+               
             }
             // 下端が壁にめりこんでいるか？ 
             else if (
@@ -184,6 +191,7 @@ namespace ActionGame
                     * (player.PlayerPosition.x - Position.x)
                     + (player.PlayerPosition.y - Position.y)
                     * (player.PlayerPosition.y - Position.y));
+                
             }            
         }
 

@@ -11,7 +11,6 @@ namespace ActionGame
 {
     public class Player
     {
-
         //ステータス一覧---------------------------------------------------------------------        
         public enum JumpState
         {
@@ -31,15 +30,19 @@ namespace ActionGame
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
         float Distance;　　　　　　　　　　　　　 //手とこいつの距離
         float angle = MathHelper.toRadians(315);　 //手との角度
-        float FirstAngle;
-        float LastAngle;
-        float angleSpeed = 1.0f;
+        float FirstAngle;                          //角度を制限するための変数
+        float LastAngle;　　　　　　　　　　　　　 //角度を制限するための変数
+        float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
+        int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
+
+        int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
         readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
+        readonly int mutekitime = 60;　　　　　　 //無的時間の長さ
         //-----------------------------------------------------------------------------------
 
 
@@ -61,49 +64,62 @@ namespace ActionGame
 
         JumpState jumpState;         //ジャンプステートの初期化
         public PlayScene playScene;　//playSceneの宣言
-        public PlayerArraw playerArraw;
+        public PlayerArraw playerArraw;//矢印の宣言
 
         //コンストラクタ
         public Player(PlayScene playScene,float x,float y)
         {
-            this.playScene = playScene;
-            PlayerPosition.x = x;
-            PlayerPosition.y = y;
-            HundFrag = false;
-            playerArraw = new PlayerArraw(this, PlayerPosition);
+            this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
+            PlayerPosition.x = x;　　　　　　　　　　　　　　　　　　//初期座標の設定
+            PlayerPosition.y = y;　　　　　　　　　　　　　　　　　　//上と同じ
+            HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
+            playerArraw = new PlayerArraw(this, PlayerPosition);　　 //矢印の生成
         }
 
         //毎フレームの更新処理
         public void Update()
         {
+            //無的時間のカウントダウン
+            mutekiTimer--;
+            //0以下にならないようにする
+            if(mutekiTimer<0)
+            {
+                //時間を0にする
+                mutekiTimer = 0;
+            }
+            //矢印の更新処理
             playerArraw.Update();            
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
             if (!HundFrag)
             {
-                //入力処理
-                HundleInput();
-
                 // 重力による落下 
                 VelocityY += Gravity;
+
+                //入力処理
+                HundleInput();
             }
             else
             {
                 //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
+                    
                     //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 0)
                     {
-                        playScene.hund.Distance -= 4f;
+                        //手とPlayerの距離を縮めています
+                        playScene.hund.Distance -= 8f;
                     }
                     else
                     {
+                        //これ以上短くしない
                         playScene.hund.Distance = 0;
                     }
                     if (NowHundFrag)
                     {
+                        //角速度変更の変更
                         if (LastAngle < angle)
                         {
                             angleSpeed = -angleSpeed;
@@ -115,6 +131,7 @@ namespace ActionGame
                     }
                     else
                     {
+                        //上と同じ
                         if (LastAngle > angle)
                         {
                             angleSpeed = -angleSpeed;
@@ -125,6 +142,7 @@ namespace ActionGame
                         }
                     }
                     
+                    //角度の変更
                     angle += angleSpeed;
 
                     //回転時の移動処理
@@ -132,7 +150,14 @@ namespace ActionGame
                         * Matrix3.createRotation(angle)
                         * Matrix3.createTranslation(playScene.hund.Position);
 
+                    //座標の設定
                     PlayerPosition = new Vector2(0) * NextPlayerPos;
+
+                    //埋まらないように
+                    if (playScene.hund.playerPosY < PlayerPosition.y)
+                    {
+                        PlayerPosition.y = playScene.hund.playerPosY - 1.0f;
+                    }
                 }
             }
             //横移動
@@ -163,13 +188,19 @@ namespace ActionGame
             //手の射出
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
+                //ハンドを生成
                 playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
+                //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
+                //ハンドフラグをTrueに
                 HundFrag = true;
+                //角度を360度以上にならないように制限
                 angle = angle % 360;
+                //速度を止める
                 VelocityX = 0;
                 VelocityY = 0;
 
+                //角度の初期設定
                 if (angle < 90)
                 {
                     NowHundFrag = true;
@@ -206,8 +237,11 @@ namespace ActionGame
                 playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
-                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
-                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                if(!HundFrag)
+                {
+                    float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
+                    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                }
                 angleSpeed = -angleSpeed;
             }
             //右端が壁にめりこんでいるか？
@@ -216,9 +250,13 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
+                if (!HundFrag)
+                {
+                    float wallLeft = right - right % Map.CellSize;//壁の左端
+                    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                }
                 angleSpeed = -angleSpeed;
-                float wallLeft = right - right % Map.CellSize;//壁の左端
-                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                
             }
         }
 
@@ -255,7 +293,14 @@ namespace ActionGame
                 playScene.map.IsWall(Center2, bottom) ||
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
-                grounded = true; // 着地した 
+                if(!HundFrag)
+                {
+                    grounded = true; // 着地した 
+                }
+                else
+                {
+                    grounded = false;
+                }
             }
 
             if (grounded) // もし着地してたら 
@@ -279,62 +324,81 @@ namespace ActionGame
         //描画処理
         public void Draw()
         {
-            DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+            if(mutekiTimer%6<4)
+            {
+                DX.DrawGraphF(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+            }
             playerArraw.Draw();
         }
 
         //あたり判定？
-        public void OnCollision()//あたり判定の対象)
+        public void OnCollisionE(EnemyObject enemy)//あたり判定の対象)
         {
+            if(mutekiTimer<=0)
+            {
+                HP -= 1;
+                mutekiTimer = mutekitime;
+            }
+        }
 
+        public void OnCollisionI(ItemObject item)//あたり判定の対象)
+        {
+            haveWoolenYarn++;
         }
 
         //当たり判定の左端を取得
-        public virtual float GetLeft()
+        public float GetLeft()
         {
             return PlayerPosition.x + hitboxOffsetLeft;
         }
 
         //左端を指定することにより位置を設定する
-        public virtual void SetLeft(float left)
+        public void SetLeft(float left)
         {
             PlayerPosition.x = left - hitboxOffsetLeft;
         }
 
         //当たり判定の右端を取得
-        public virtual float GetRight()
+        public float GetRight()
         {
             return PlayerPosition.x + imageWidth - hitboxOffsetRight;
         }
 
         //右端を指定することにより位置を設定する
-        public virtual void SetRight(float right)
+        public void SetRight(float right)
         {
             PlayerPosition.x = right + hitboxOffsetRight - imageWidth;
         }
 
         //当たり判定の上端を取得
-        public virtual float GetTop()
+        public float GetTop()
         {
             return PlayerPosition.y + hitboxOffsetTop;
         }
 
         //上端を指定することにより位置を設定する
-        public virtual void SetTop(float top)
+        public void SetTop(float top)
         {
             PlayerPosition.y = top - hitboxOffsetTop;
         }
 
         //当たり判定の下端を取得する
-        public virtual float GetBottom()
+        public float GetBottom()
         {
             return PlayerPosition.y + imageHeight - hitboxOffsetBotton;
         }
 
         //下端を指定することにより位置を設定する
-        public virtual void SetBottom(float bottom)
+        public void SetBottom(float bottom)
         {
             PlayerPosition.y = bottom + hitboxOffsetBotton - imageHeight;
+        }
+
+        //あたり判定の描画
+        public void DrawHitBox()
+        {
+            // 四角形を描画 
+            DX.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
     }
 }
