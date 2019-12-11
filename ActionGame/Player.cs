@@ -36,7 +36,7 @@ namespace ActionGame
         float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
         int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
 
-        static int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
+        public int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 

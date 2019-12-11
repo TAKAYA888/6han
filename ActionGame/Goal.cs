@@ -22,7 +22,10 @@ namespace ActionGame
         }
         public override void Update()
         {
-
+            if (playScene.player.haveWoolenYarn >= 1)
+            {
+               Game.ChangeScene(new GameClearScene());
+            }
         }
 
         public override void Draw()
@@ -32,10 +35,8 @@ namespace ActionGame
 
         public override void OnCollision(Player other)
         {
-            //if (other is Player)
-            //{
-            //    isDead = true;
-            //}
+            
+            Update();
         }
     }
 }

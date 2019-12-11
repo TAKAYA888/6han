@@ -23,7 +23,7 @@ namespace ActionGame
         }
         public override void Update()
         {
-
+            
         }
 
         public override void Draw()
@@ -34,10 +34,10 @@ namespace ActionGame
         public override void OnCollision(Player other)
         {
             isDead = true;
-            // if (other is Player)
-            // {
-            //     isDead = true;
-            // }
+             if (other is Player)
+             {
+                 isDead = true;
+             }
         }
     }
 }

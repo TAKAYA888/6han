@@ -11,7 +11,7 @@ namespace ActionGame
     public class PlayScene : Scene
     {
         //プレイヤーを設定
-        Player player;
+        public  Player player;
 
         //エネミー1
         Enemy1 enemy1;
