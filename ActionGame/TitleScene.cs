@@ -34,7 +34,7 @@ namespace ActionGame
             }
             else if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 2)
             {
-
+                Application.GameEnd = true;
             }
         }
         public override void Draw()
