@@ -168,7 +168,8 @@ namespace ActionGame
 
         }
         public override void Draw()
-        {            
+        {
+            Camera.DrawGraph(0, 0, Image.Stage01);
             if (player != null)
             {
                 //プレイヤーの描画処理

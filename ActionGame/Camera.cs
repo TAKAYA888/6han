@@ -41,7 +41,7 @@ namespace ActionGame
 
         public static void DrawLine(Vector2 pos1,Vector2 pos2)
         {
-            DX.DrawLine((int)(pos1.x - x), (int)(pos1.y - y), (int)(pos2.x - x), (int)(pos2.y - y), DX.GetColor(255, 255, 255));
+            DX.DrawLine((int)(pos1.x - x), (int)(pos1.y - y), (int)(pos2.x - x), (int)(pos2.y - y), DX.GetColor(0, 0, 0));
         }
     }
 }

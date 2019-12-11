@@ -196,6 +196,7 @@ namespace ActionGame
 
         public void Draw()
         {
+            Camera.DrawRotaGraph(Position.x, Position.y, 0, Image.PlayerHand);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }

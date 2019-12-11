@@ -36,7 +36,7 @@ namespace ActionGame
         float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
         int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
 
-        int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
+        static int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
@@ -88,9 +88,7 @@ namespace ActionGame
             {
                 //時間を0にする
                 mutekiTimer = 0;
-            }
-            //矢印の更新処理
-            playerArraw.Update();
+            }            
             if (BeforHundFrag&&!HundFrag)
             {
                 flyVelocityX = MathHelper.cos(angle) * WalkSpeed*4;
@@ -171,6 +169,9 @@ namespace ActionGame
             MoveX();
             //縦移動
             MoveY();
+
+            //矢印の更新処理
+            playerArraw.Update();
         }
 
         //入力関係の処理を行います
@@ -196,7 +197,7 @@ namespace ActionGame
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
                 //ハンドを生成
-                playScene.hund = new Hund(this, PlayerPosition.x+imageWidth/2, PlayerPosition.y+imageHeight/2);
+                playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
                 //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
                 //ハンドフラグをTrueに
