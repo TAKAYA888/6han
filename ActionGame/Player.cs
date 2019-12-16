@@ -105,6 +105,10 @@ namespace ActionGame
                 //入力処理
                 HundleInput();
             }
+            else if(playScene.hund==null)
+            {
+
+            }
             else
             {
                 //腕が壁とくっついたら
@@ -112,7 +116,7 @@ namespace ActionGame
                 {
 
                     //手とPlayerの距離を縮めています
-                    if (playScene.hund.Distance > 50)
+                    if (playScene.hund.Distance > 100)
                     {
                         //手とPlayerの距離を縮めています
                         playScene.hund.Distance -= 8f;
@@ -120,7 +124,7 @@ namespace ActionGame
                     else
                     {
                         //これ以上短くしない
-                        playScene.hund.Distance = 50;
+                        playScene.hund.Distance =100;
                     }
                     if (NowHundFrag)
                     {
@@ -238,9 +242,13 @@ namespace ActionGame
             float left = GetLeft();
             float right = GetRight() - 0.01f;
             float top = GetTop();
-            float middle1 = top + 48;
-            float middle2 = top + 48 * 2;
-            float middle3 = top + 48 * 3;
+            float middle1 = top + 30;
+            float middle2 = top + 30 * 2;
+            float middle3 = top + 30 * 3;
+            float middle4 = top + 30 * 4;
+            float middle5 = top + 30 * 5;
+            float middle6 = top + 30 * 6;
+            float middle7 = top + 30 * 7;
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
@@ -248,6 +256,10 @@ namespace ActionGame
                 playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
                 playScene.map.IsWall(left, middle2) ||
                 playScene.map.IsWall(left, middle3) ||
+                playScene.map.IsWall(left,middle4) ||
+                playScene.map.IsWall(left,middle5) ||
+                playScene.map.IsWall(left,middle6)||
+                playScene.map.IsWall(left,middle7)||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 //if(!HundFrag)
@@ -265,6 +277,10 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle1) ||
                 playScene.map.IsWall(right, middle2) ||//左真ん中は壁か？
                 playScene.map.IsWall(right, middle3) ||
+                playScene.map.IsWall(right,middle4)||
+                playScene.map.IsWall(right,middle5)||
+                playScene.map.IsWall(right,middle6)||
+                playScene.map.IsWall(right,middle7)||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 //if (!HundFrag)
@@ -431,6 +447,20 @@ namespace ActionGame
         {
             // 四角形を描画 
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
+        }
+
+        public void DrawHitPoint()
+        {
+
+            Camera.DrawHitBoxPoint((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 255, 255));
+            ////左上
+            //DX.DrawPixel((int)GetLeft(), (int)GetTop(), DX.GetColor(0, 0, 0));
+            ////左下
+            //DX.DrawPixel((int)GetLeft(), (int)GetBottom(), DX.GetColor(0, 0, 0));
+            ////右上
+            //DX.DrawPixel((int)GetRight(), (int)GetTop(), DX.GetColor(0, 0, 0));
+            ////右下
+            //DX.DrawPixel((int)GetRight(), (int)GetBottom(), DX.GetColor(0, 0, 0));
         }
     }
 }

@@ -204,6 +204,8 @@ namespace ActionGame
         public void OnCollision(EnemyObject enemyObject)
         {
             player.playScene.hund = null;
+            HundHitFrag = false;
+            player.HundFrag = false;
         }
 
         //当たり判定の左端を取得

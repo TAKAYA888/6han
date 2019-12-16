@@ -16,30 +16,36 @@ namespace ActionGame
         public Vector2 ArrawPos;
         public float ArrawAngle;
         Player player;
+        int Cooltimer;
+        readonly int cooltime = 15;
 
         //-----------------------------------------------------------------------------------
         public PlayerArraw(Player player,Vector2 ArrawPos)
         {
             this.player = player;
             this.ArrawPos = ArrawPos;
-            ArrawAngle = 315;
+            ArrawAngle = 310;
         }
 
         public void Update()
         {
+            Cooltimer--;
+
             //ArrawPos = player.PlayerPosition;
 
-            if(Input.GetButton(DX.PAD_INPUT_6))
+            if(Input.GetButton(DX.PAD_INPUT_6) && Cooltimer < 0)
             {
-                ArrawAngle += 1f;
+                ArrawAngle += 10f;
+                Cooltimer = cooltime;
             }
-            else if(Input.GetButton(DX.PAD_INPUT_5))
+            else if(Input.GetButton(DX.PAD_INPUT_5) && Cooltimer < 0)
             {
                 if (ArrawAngle == 0)
                 {
                     ArrawAngle = 360;
                 }
-                ArrawAngle -= 1f;
+                ArrawAngle -= 10f;
+                Cooltimer = cooltime;
             }
 
             ArrawAngle = Math.Abs(ArrawAngle % 360);

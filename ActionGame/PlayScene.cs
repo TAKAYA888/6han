@@ -31,6 +31,7 @@ namespace ActionGame
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();
+        
 
         public State state = State.Active;
         int timeToGameOver = 120;
@@ -40,8 +41,8 @@ namespace ActionGame
         {
             //プレイヤーの生成
             player = new Player(this, 100, 100);
-            enemy1 = new Enemy1(this, 700, 300);
-            //enemyObjects.Add(new Enemy1(this, 700, 300));
+            //enemy1 = new Enemy1(this, 700, 300);
+            enemyObjects.Add(new Enemy1(this, 700, 300));
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
@@ -99,34 +100,63 @@ namespace ActionGame
             }
 
             //手の更新処理
-            if (player.HundFrag)
+            if (hund != null)
             {
                 hund.Update();
             }
 
-            //エネミー1
-            enemy1.Update();
+            ////エネミー1
+            //enemy1.Update();
 
-            //オブジェクトAとBが重なっているか？
-            if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
-                player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            foreach (EnemyObject enemyObject in enemyObjects)
             {
-                player.OnCollisionE(enemy1);
-                enemy1.OnCollision(player);
+                enemyObject.Update();
             }
 
             ////オブジェクトAとBが重なっているか？
-            //if(hund != null)
+            //if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
+            //    player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             //{
-            //    if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
-            //    enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom()))
-            //    {
-            //        hund.OnCollision(enemy1);
-            //        enemy1.OnCollisionH(hund);
-            //    }
+            //    player.OnCollisionE(enemy1);
+            //    enemy1.OnCollision(player);
             //}
 
-            
+            for (int i = 0; i < enemyObjects.Count; i++)
+            {
+                if (player == null) break;
+
+                EnemyObject enemy = enemyObjects[i];
+
+                if (enemy.isDead) continue;
+
+                if (MyMath.RectRectIntersect(player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom(),
+                         enemy.GetLeft(), enemy.GetTop(), enemy.GetRight(), enemy.GetBottom()))
+                {
+                    player.OnCollisionE(enemy1);
+                    enemy.OnCollision(player);
+                }
+
+            }
+
+            //オブジェクトAとBが重なっているか？
+            if (hund != null)
+            {
+                for (int i = 0; i < enemyObjects.Count; ++i)
+                {
+                    EnemyObject enemyObject = enemyObjects[i];
+
+                    if (enemyObject.isDead) continue;
+
+                    if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
+                         enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
+                    {
+                        hund.OnCollision(enemy1);
+                        enemyObject.OnCollisionH(hund);
+                    }
+                }
+            }
+
+            enemyObjects.RemoveAll(ene => ene.isDead);
 
             //針
             //オブジェクトAとBが重なっているか？
@@ -134,7 +164,7 @@ namespace ActionGame
                 player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             {
                 player.OnCollisionG(needle);
-                enemy1.OnCollision(player);
+                needle.OnCollision(player);
             }
 
             //アイテムオブジェクト----------------------------------------------------------------------------
@@ -145,6 +175,7 @@ namespace ActionGame
             {
 
                 itemObjects[i].Update();
+
             }
 
             //オブジェクト同士の衝突を判定
@@ -210,6 +241,7 @@ namespace ActionGame
                 //プレイヤーの描画処理
                 player.Draw();
                 player.DrawHitBox();
+                player.DrawHitPoint();
             }
 
             map.DrawTerrain();
@@ -221,9 +253,11 @@ namespace ActionGame
                 Camera.DrawLine(player.PlayerPosition, hund.Position);
             }
 
-            //エネミー1の描画
-            enemy1.Draw();
-            enemy1.DrawHitBox();
+            foreach( EnemyObject enemy in enemyObjects )
+            {
+                enemy.Draw();
+                enemy.DrawHitBox();
+            }
 
             //針の描画
             needle.Draw();

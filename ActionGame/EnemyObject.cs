@@ -94,6 +94,8 @@ namespace ActionGame
         //他のオブジェクトと衝突したときに呼ばれる
         public abstract void OnCollision(Player player);
 
+        public abstract void OnCollisionH(Hund hund);
+
         //画面内に映っているか？
         //public virtual bool IsVisible()
         //{

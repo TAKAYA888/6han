@@ -34,6 +34,18 @@ namespace ActionGame
                 DX.FALSE);
         }
 
+        public static void DrawHitBoxPoint(float left, float top, float right, float bottom, uint color)
+        {
+            //左上
+            DX.DrawPixel((int)left, (int)top, DX.GetColor(0, 0, 0));
+            //左下
+            DX.DrawPixel((int)left, (int)bottom, DX.GetColor(0, 0, 0));
+            //右上
+            DX.DrawPixel((int)right, (int)top, DX.GetColor(0, 0, 0));
+            //右下
+            DX.DrawPixel((int)right, (int)bottom, DX.GetColor(0, 0, 0));
+        }
+
         public static void DrawRotaGraph(float _x,float _y,float angle,int handle,int trun)
         {
             DX.DrawRotaGraphF(_x - x, _y - y, 1, angle, handle,1,trun);
