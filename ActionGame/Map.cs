@@ -80,9 +80,13 @@ namespace ActionGame
             {
                 playScene.itemObjects.Add(new Goal(playScene, spawnX, spawnY));
             }
-            else if (objectID == 2) 　//アイテム描画
+            else if (objectID == 2) 　//毛糸描画
             {
                 playScene.itemObjects.Add(new WoolenYarn(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 3) 　//SpeedUp描画
+            {
+                playScene.itemObjects.Add(new SpeedUp(playScene, spawnX, spawnY));
             }
         }
 

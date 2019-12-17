@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DxLibDLL;
 
 namespace ActionGame
 {
-    public class Goal : ItemObject
+    public class  SpeedUp:ItemObject
     {
-        public Goal(PlayScene playScene, float x, float y) : base(playScene)
+        public SpeedUp(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
 
-            imageWidth = 180;
-            imageHeight = 240;
+            imageWidth = 72;
+            imageHeight = 72;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
@@ -23,25 +22,21 @@ namespace ActionGame
         }
         public override void Update()
         {
-            
+
         }
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.PlayerImage01);
+            //Camera.DrawGraph(x, y, Image.IconIto);
         }
 
         public override void OnCollision(Player other)
         {
-            if (playScene.player.haveWoolenYarn >= 1)
+            isDead = true;
+            if (other is Player)
             {
-               Game.ChangeScene(new GameClearScene());
+                isDead = true;
             }
-            else 
-            {
-
-            }
-           
         }
     }
 }

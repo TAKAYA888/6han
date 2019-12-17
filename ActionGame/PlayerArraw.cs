@@ -17,7 +17,7 @@ namespace ActionGame
         public float ArrawAngle;
         Player player;
         int Cooltimer;
-        readonly int cooltime = 15;
+        readonly int cooltime = 3;
 
         //-----------------------------------------------------------------------------------
         public PlayerArraw(Player player,Vector2 ArrawPos)

@@ -95,6 +95,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="SE.cs" />
+    <Compile Include="SpeedUp.cs" />
     <Compile Include="TitleScene.cs" />
     <Compile Include="WoolenYarn.cs" />
   </ItemGroup>
