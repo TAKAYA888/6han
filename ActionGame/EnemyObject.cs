@@ -92,7 +92,7 @@ namespace ActionGame
         }
 
         //他のオブジェクトと衝突したときに呼ばれる
-        public abstract void OnCollision(Player player);
+        public abstract void OnCollision(playerObject player);
 
         public abstract void OnCollisionH(Hund hund);
 

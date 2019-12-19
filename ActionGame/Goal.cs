@@ -31,7 +31,7 @@ namespace ActionGame
             Camera.DrawGraph(x, y, Image.PlayerImage01);
         }
 
-        public override void OnCollision(Player other)
+        public override void OnCollision(playerObject playerObject)
         {
             if (playScene.player.haveWoolenYarn >= 1)
             {

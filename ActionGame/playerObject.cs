@@ -91,5 +91,7 @@ namespace ActionGame
 
         public abstract void OnCollision(EnemyObject enemyObject);
 
+        public abstract void OnCollisionI(ItemObject itemObject);
+
     }
 }

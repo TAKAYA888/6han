@@ -30,10 +30,10 @@ namespace ActionGame
             //Camera.DrawGraph(x, y, Image.IconIto);
         }
 
-        public override void OnCollision(Player other)
+        public override void OnCollision(playerObject playerObject)
         {
             isDead = true;
-            if (other is Player)
+            if (playerObject is Player)
             {
                 isDead = true;
             }

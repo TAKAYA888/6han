@@ -12,10 +12,6 @@ namespace ActionGame
     {
         //プレイヤーを設定
         public Player player;
-
-        //エネミー1
-        Enemy1 enemy1;
-
         //針
         NeedleObject needle;
 
@@ -31,7 +27,7 @@ namespace ActionGame
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();
-        
+        public List<playerObject> playerObjects = new List<playerObject>();
 
         public State state = State.Active;
         int timeToGameOver = 120;
@@ -39,8 +35,6 @@ namespace ActionGame
 
         public PlayScene()
         {
-            //プレイヤーの生成
-            player = new Player(this, 100, 100);
             //enemy1 = new Enemy1(this, 700, 300);
             enemyObjects.Add(new Enemy1(this, 700, 300));
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
@@ -56,31 +50,17 @@ namespace ActionGame
                 player.HundFrag = false;
             }
             //---------------------------------------------------------------------------------------------------
+            
+            if (Input.GetButtonDown(DX.PAD_INPUT_10))
+            {
+               hund = new Hund(this, player, player.Position.x, player.Position.y);
+            }
 
-            //ごめんなさい、後で直します。汚くしてすみませんでした
-            //プレイヤーがいなかったら止める
-            if (player == null)
+            foreach (playerObject playerObject in playerObjects)
             {
-                return;
+                playerObject.Update();
             }
-            //プレイヤーが死んだら消す
-            if (player.HP < 0)
-            {
-                player = null;
-            }
-            //プレイヤーがいなかったら止める
-            if (player == null)
-            {
-                return;
-            }
-            //---------------------------------------------------------------------------------------------------
 
-            //Playerが生きていたら
-            if (player != null)
-            {
-                //プレイヤーの更新処理
-                player.Update();
-            }
             if (isPausing)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_8))
@@ -112,30 +92,27 @@ namespace ActionGame
             {
                 enemyObject.Update();
             }
-
-            ////オブジェクトAとBが重なっているか？
-            //if (MyMath.RectRectIntersect(enemy1.GetLeft(), enemy1.GetTop(), enemy1.GetRight(), enemy1.GetBottom(),
-            //    player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
-            //{
-            //    player.OnCollisionE(enemy1);
-            //    enemy1.OnCollision(player);
-            //}
+            
 
             for (int i = 0; i < enemyObjects.Count; i++)
             {
-                if (player == null) break;
-
-                EnemyObject enemy = enemyObjects[i];
-
-                if (enemy.isDead) continue;
-
-                if (MyMath.RectRectIntersect(player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom(),
-                         enemy.GetLeft(), enemy.GetTop(), enemy.GetRight(), enemy.GetBottom()))
+                for(int j =0;j<playerObjects.Count;j++)
                 {
-                    player.OnCollisionE(enemy1);
-                    enemy.OnCollision(player);
-                }
+                    playerObject player = playerObjects[j];
 
+                    if (player.isDead) break;
+
+                    EnemyObject enemy = enemyObjects[i];
+
+                    if (enemy.isDead) continue;
+
+                    if (MyMath.RectRectIntersect(player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom(),
+                             enemy.GetLeft(), enemy.GetTop(), enemy.GetRight(), enemy.GetBottom()))
+                    {
+                        player.OnCollision(enemy);
+                        enemy.OnCollision(player);
+                    }
+                }
             }
 
             //オブジェクトAとBが重なっているか？
@@ -150,7 +127,7 @@ namespace ActionGame
                     if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
                          enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
                     {
-                        hund.OnCollision(enemy1);
+                        hund.OnCollision(enemyObject);
                         enemyObject.OnCollisionH(hund);
                     }
                 }
@@ -160,12 +137,12 @@ namespace ActionGame
 
             //針
             //オブジェクトAとBが重なっているか？
-            if (MyMath.RectRectIntersect(needle.GetLeft(), needle.GetTop(), needle.GetRight(), needle.GetBottom(),
-                player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
-            {
-                player.OnCollisionG(needle);
-                needle.OnCollision(player);
-            }
+            //if (MyMath.RectRectIntersect(needle.GetLeft(), needle.GetTop(), needle.GetRight(), needle.GetBottom(),
+            //    player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            //{
+            //    player.OnCollisionG(needle);
+            //    needle.OnCollision(player);
+            //}
 
             //アイテムオブジェクト----------------------------------------------------------------------------
 
@@ -173,9 +150,7 @@ namespace ActionGame
 
             for (int i = 0; i < itemObjectsCount; i++)
             {
-
                 itemObjects[i].Update();
-
             }
 
             //オブジェクト同士の衝突を判定
@@ -183,20 +158,25 @@ namespace ActionGame
             {
                 //***勝手に書き換えてすみません by 金森 *** 
 
-                //オブジェクトAが死んでたらこのループは終了
-                if (player.isDead) break;
-
-                ItemObject b = itemObjects[i];
-
-                //オブジェクトBが死んでたらスキップ
-                if (b.isDead) continue;
-
-                //オブジェクトAとBが重なっているか？
-                if (MyMath.RectRectIntersect(player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom(),
-                    b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
+                for (int j = 0; j < playerObjects.Count; j++)
                 {
-                    player.OnCollisionI(b);
-                    b.OnCollision(player);
+                    playerObject playerObject = playerObjects[j];
+
+                    //オブジェクトAが死んでたらこのループは終了
+                    if (playerObject.isDead) break;
+
+                    ItemObject b = itemObjects[i];
+
+                    //オブジェクトBが死んでたらスキップ
+                    if (b.isDead) continue;
+
+                    //オブジェクトAとBが重なっているか？
+                    if (MyMath.RectRectIntersect(playerObject.GetLeft(), playerObject.GetTop(), playerObject.GetRight(), playerObject.GetBottom(),
+                        b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
+                    {
+                        playerObject.OnCollisionI(b);
+                        b.OnCollision(playerObject);
+                    }
                 }
 
                 //for (int j = i + 1; j < itemObjects.Count; j++)
@@ -220,10 +200,12 @@ namespace ActionGame
             }
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
+            //不要となったオブジェクトを除去する(player)
+            playerObjects.RemoveAll(player => player.isDead);
 
             //--------------------------------------------------------------------------------------------------
 
-            Camera.LookAt(player.PlayerPosition);
+            
 
         }
         public override void Draw()
@@ -236,22 +218,23 @@ namespace ActionGame
                 go.DrawHitBox();
             }
 
-            if (player != null)
+            foreach(playerObject playerObject in playerObjects)
             {
-                //プレイヤーの描画処理
-                player.Draw();
-                player.DrawHitBox();
-                player.DrawHitPoint();
+                playerObject.Draw();
+                playerObject.DrawHitBox();
             }
 
             map.DrawTerrain();
             //線と手を描画しています
             if (player != null && hund != null)
-            {
-
-                hund.Draw();
-                Camera.DrawLine(player.PlayerPosition, hund.Position);
+            {                
+                Camera.DrawLine(player.Position, hund.Position);
             }
+
+            if(hund != null)
+            {
+                hund.Draw();
+            }            
 
             foreach( EnemyObject enemy in enemyObjects )
             {

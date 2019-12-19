@@ -53,7 +53,7 @@ namespace ActionGame
         float prevTop;         //1フレーム前の上端
         float prevBottom;      //1フレーム前の下端
         //-----------------------------------------------------------------------------------
-        public Hund(Player player,float x,float y)
+        public Hund(PlayScene playScene,Player player,float x,float y)
         {
             this.player = player;
             Position.x = x;
@@ -61,7 +61,7 @@ namespace ActionGame
             hit = Hit.NotHit;
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
-            playerPosY = player.PlayerPosition.y;
+            playerPosY = player.Position.y;
         }
 
         public void Update()
@@ -73,10 +73,10 @@ namespace ActionGame
                 MoveY();
 
                 Distance = (float)Math.Sqrt(
-                    (player.PlayerPosition.x - Position.x)
-                    * (player.PlayerPosition.x - Position.x)
-                    + (player.PlayerPosition.y - Position.y)
-                    * (player.PlayerPosition.y - Position.y));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
 
                 if(Distance>960.0f)
                 {
@@ -117,10 +117,10 @@ namespace ActionGame
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.PlayerPosition.x - Position.x)
-                    * (player.PlayerPosition.x - Position.x)
-                    + (player.PlayerPosition.y - Position.y)
-                    * (player.PlayerPosition.y - Position.y));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
                 
             }
             //右端が壁にめりこんでいるか？
@@ -134,10 +134,10 @@ namespace ActionGame
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.PlayerPosition.x - Position.x)
-                    * (player.PlayerPosition.x - Position.x)
-                    + (player.PlayerPosition.y - Position.y)
-                    * (player.PlayerPosition.y - Position.y));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
                 
             }
         }
@@ -167,10 +167,10 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.PlayerPosition.x - Position.x)
-                    * (player.PlayerPosition.x - Position.x)
-                    + (player.PlayerPosition.y - Position.y)
-                    * (player.PlayerPosition.y - Position.y));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
                
             }
             // 下端が壁にめりこんでいるか？ 
@@ -186,11 +186,10 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.PlayerPosition.x - Position.x)
-                    * (player.PlayerPosition.x - Position.x)
-                    + (player.PlayerPosition.y - Position.y)
-                    * (player.PlayerPosition.y - Position.y));
-                
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));                
             }            
         }
 
@@ -206,6 +205,11 @@ namespace ActionGame
             player.playScene.hund = null;
             HundHitFrag = false;
             player.HundFrag = false;
+        }
+
+        public void OnCollisionI(ItemObject itemObject)
+        {
+            
         }
 
         //当たり判定の左端を取得

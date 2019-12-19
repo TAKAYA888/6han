@@ -9,7 +9,7 @@ using MyMath_KNMR;
 
 namespace ActionGame
 {
-    public class Player
+    public class Player : playerObject
     {
         //ステータス一覧---------------------------------------------------------------------        
         public enum JumpState
@@ -19,13 +19,11 @@ namespace ActionGame
         }
         //-----------------------------------------------------------------------------------
 
-        //ステータス関係の変数---------------------------------------------------------------
-        public Vector2 PlayerPosition;            //座標
-        public bool isDead = false;               //死亡フラグ(true)だと死ぬ
+        //ステータス関係の変数---------------------------------------------------------------               
         float VelocityX = 0f;                     //移動速度(x方向)
         float VelocityY = 0f;　　　               //移動速度(y方向)
         float flyVelocityX = 0f;
-        public int HP = 3;                        //HP(体力)
+        public int HP = 1;                        //HP(体力)
         public bool HundFrag;                     //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　　//一個前の手がくっついたかのフラグ
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
@@ -35,6 +33,7 @@ namespace ActionGame
         float LastAngle;　　　　　　　　　　　　　 //角度を制限するための変数
         float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
         int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
+        int handCount;
 
         public int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
@@ -48,20 +47,13 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
 
-        //サイズ関係-------------------------------------------------------------------------
-        int imageWidth = 180;　　　　//画像の横ピクセル数
-        int imageHeight = 240;　　　 //画像の縦ピクセル数
-        int hitboxOffsetLeft = 0;　　//当たり判定のオフセット
-        int hitboxOffsetRight = 0;   //当たり判定のオフセット
-        int hitboxOffsetTop = 0;     //当たり判定のオフセット
-        int hitboxOffsetBotton = 0;  //当たり判定のオフセット
-
-        float prevX;                 //1フレーム前のx座標
-        float prevY;                 //1フレーム前のy座標
-        float prevLeft;              //1フレーム前の左端
-        float prevRight;             //1フレーム前の右端
-        float prevTop;               //1フレーム前の上端
-        float prevBottom;            //1フレーム前の下端
+        //サイズ関係-------------------------------------------------------------------------       
+        //float prevX;                 //1フレーム前のx座標
+        //float prevY;                 //1フレーム前のy座標
+        //float prevLeft;              //1フレーム前の左端
+        //float prevRight;             //1フレーム前の右端
+        //float prevTop;               //1フレーム前の上端
+        //float prevBottom;            //1フレーム前の下端
         //-----------------------------------------------------------------------------------
 
         JumpState jumpState;         //ジャンプステートの初期化
@@ -69,18 +61,30 @@ namespace ActionGame
         public PlayerArraw playerArraw;//矢印の宣言
 
         //コンストラクタ
-        public Player(PlayScene playScene, float x, float y)
+        public Player(PlayScene playScene, float x, float y):base(playScene)
         {
             this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
-            PlayerPosition.x = x;　　　　　　　　　　　　　　　　　　//初期座標の設定
-            PlayerPosition.y = y;　　　　　　　　　　　　　　　　　　//上と同じ
+            Position.x = x;　　　　　　　　　　　　　　　　　　//初期座標の設定
+            Position.y = y;　　　　　　　　　　　　　　　　　　//上と同じ
             HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
-            playerArraw = new PlayerArraw(this, PlayerPosition);　　 //矢印の生成
+            playerArraw = new PlayerArraw(this, Position);   //矢印の生成
+                                                                   //サイズ関係-------------------------------------------------------------------------
+            ImageWidth = 180;    //画像の横ピクセル数
+            ImageHeight = 240;    //画像の縦ピクセル数
+            hitboxOffsetLeft = 0;  //当たり判定のオフセット
+            hitboxOffsetRight = 0;   //当たり判定のオフセット
+            hitboxOffsetTop = 0;     //当たり判定のオフセット
+            hitboxOffsetBottom = 0;  //当たり判定のオフセット
         }
 
         //毎フレームの更新処理
-        public void Update()
+        public override void Update()
         {
+            if(HP<=0)
+            {
+                isDead = true;
+            }
+            Camera.LookAt(Position);
             //無的時間のカウントダウン
             mutekiTimer--;
             //0以下にならないようにする
@@ -100,17 +104,10 @@ namespace ActionGame
             if (!HundFrag)
             {
                 // 重力による落下 
-                VelocityY += Gravity;
-
-                //入力処理
-                HundleInput();
-            }
-            else if(playScene.hund==null)
-            {
-
-            }
+                VelocityY += Gravity;                
+            }           
             else
-            {
+            {                
                 //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
@@ -160,15 +157,18 @@ namespace ActionGame
                         * Matrix3.createTranslation(playScene.hund.Position);
 
                     //座標の設定
-                    PlayerPosition = new Vector2(0) * NextPlayerPos;
+                    Position = new Vector2(0) * NextPlayerPos;
 
                     //埋まらないように
-                    if (playScene.hund.playerPosY < PlayerPosition.y)
+                    if (playScene.hund.playerPosY < Position.y)
                     {
-                        PlayerPosition.y = playScene.hund.playerPosY - 1.0f;
+                        Position.y = playScene.hund.playerPosY - 1.0f;
                     }
                 }
             }
+            //入力処理
+            HundleInput();
+
             //横移動
             MoveX();
             //縦移動
@@ -176,6 +176,8 @@ namespace ActionGame
 
             //矢印の更新処理
             playerArraw.Update();
+
+            Camera.LookAt(Position);
         }
 
         //入力関係の処理を行います
@@ -197,11 +199,15 @@ namespace ActionGame
                 VelocityX = 0;
             }
 
+            if (Input.GetButtonDown(DX.PAD_INPUT_2))
+            {
+                playScene.hund = null;
+                HundFrag = false;
+            }
+
             //手の射出
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
-            {
-                //ハンドを生成
-                playScene.hund = new Hund(this, PlayerPosition.x, PlayerPosition.y);
+            {                
                 //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
                 //ハンドフラグをTrueに
@@ -237,7 +243,7 @@ namespace ActionGame
 
         void MoveX()
         {
-            PlayerPosition.x = PlayerPosition.x + VelocityX + flyVelocityX;
+            Position.x = Position.x + VelocityX + flyVelocityX;
             //当たり判定の四隅の座標を取得
             float left = GetLeft();
             float right = GetRight() - 0.01f;
@@ -296,7 +302,7 @@ namespace ActionGame
         void MoveY()
         {
             // 縦に移動する 
-            PlayerPosition.y += VelocityY;
+            Position.y += VelocityY;
 
             // 着地したかどうか 
             bool grounded = false;
@@ -359,17 +365,17 @@ namespace ActionGame
         }
 
         //描画処理
-        public void Draw()
+        public override void Draw()
         {
             if (mutekiTimer % 6 < 4)
             {
-                Camera.DrawGraph(PlayerPosition.x, PlayerPosition.y, Image.PlayerImage01);
+                Camera.DrawGraph(Position.x, Position.y, Image.PlayerImage01);
             }
             playerArraw.Draw();
         }
 
         //あたり判定？
-        public void OnCollisionE(EnemyObject enemy)//あたり判定の対象)
+        public override void OnCollision(EnemyObject enemy)//あたり判定の対象)
         {
             if (mutekiTimer <= 0)
             {
@@ -378,7 +384,7 @@ namespace ActionGame
             }
         }
 
-        public void OnCollisionI(ItemObject item)//あたり判定の対象)
+        public override void OnCollisionI(ItemObject item)//あたり判定の対象)
         {
             if (item is WoolenYarn)
             {
@@ -392,75 +398,12 @@ namespace ActionGame
             {
                 HP -= 10;//無理やり即死させますスミマセン
             }
-        }
-
-        //当たり判定の左端を取得
-        public float GetLeft()
-        {
-            return PlayerPosition.x + hitboxOffsetLeft;
-        }
-
-        //左端を指定することにより位置を設定する
-        public void SetLeft(float left)
-        {
-            PlayerPosition.x = left - hitboxOffsetLeft;
-        }
-
-        //当たり判定の右端を取得
-        public float GetRight()
-        {
-            return PlayerPosition.x + imageWidth - hitboxOffsetRight;
-        }
-
-        //右端を指定することにより位置を設定する
-        public void SetRight(float right)
-        {
-            PlayerPosition.x = right + hitboxOffsetRight - imageWidth;
-        }
-
-        //当たり判定の上端を取得
-        public float GetTop()
-        {
-            return PlayerPosition.y + hitboxOffsetTop;
-        }
-
-        //上端を指定することにより位置を設定する
-        public void SetTop(float top)
-        {
-            PlayerPosition.y = top - hitboxOffsetTop;
-        }
-
-        //当たり判定の下端を取得する
-        public float GetBottom()
-        {
-            return PlayerPosition.y + imageHeight - hitboxOffsetBotton;
-        }
-
-        //下端を指定することにより位置を設定する
-        public void SetBottom(float bottom)
-        {
-            PlayerPosition.y = bottom + hitboxOffsetBotton - imageHeight;
-        }
-
-        //あたり判定の描画
-        public void DrawHitBox()
-        {
-            // 四角形を描画 
-            Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
-        }
+        }        
 
         public void DrawHitPoint()
         {
 
-            Camera.DrawHitBoxPoint((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 255, 255));
-            ////左上
-            //DX.DrawPixel((int)GetLeft(), (int)GetTop(), DX.GetColor(0, 0, 0));
-            ////左下
-            //DX.DrawPixel((int)GetLeft(), (int)GetBottom(), DX.GetColor(0, 0, 0));
-            ////右上
-            //DX.DrawPixel((int)GetRight(), (int)GetTop(), DX.GetColor(0, 0, 0));
-            ////右下
-            //DX.DrawPixel((int)GetRight(), (int)GetBottom(), DX.GetColor(0, 0, 0));
+            Camera.DrawHitBoxPoint((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 255, 255));            
         }
     }
 }

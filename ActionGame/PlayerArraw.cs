@@ -53,7 +53,7 @@ namespace ActionGame
             //回転時の移動処理
             Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(200, 0))
                 * Matrix3.createRotation(ArrawAngle)
-                * Matrix3.createTranslation(player.PlayerPosition);
+                * Matrix3.createTranslation(player.Position);
 
             ArrawPos = new Vector2(0) * NextPlayerPos;
         }
