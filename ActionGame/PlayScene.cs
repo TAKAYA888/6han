@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyLib;
 using DxLibDLL;
+using MyMath_KNMR;
 
 namespace ActionGame
 {
@@ -51,11 +52,14 @@ namespace ActionGame
             }
             //---------------------------------------------------------------------------------------------------
             
+            //ての作成
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
-               hund = new Hund(this, player, player.Position.x, player.Position.y);
+                player.HandDestroyTimer = player.HandDestroyTime;                
+                hund = new Hund(this, player, player.Position.x, player.Position.y);
             }
 
+            //PlayerObjectの更新処理
             foreach (playerObject playerObject in playerObjects)
             {
                 playerObject.Update();
@@ -84,16 +88,14 @@ namespace ActionGame
             {
                 hund.Update();
             }
-
-            ////エネミー1
-            //enemy1.Update();
-
+            
+            //EnemyObの更新処理
             foreach (EnemyObject enemyObject in enemyObjects)
             {
                 enemyObject.Update();
             }
             
-
+            //playerObjectとEnemyObjectの衝突処理
             for (int i = 0; i < enemyObjects.Count; i++)
             {
                 for(int j =0;j<playerObjects.Count;j++)
@@ -115,7 +117,7 @@ namespace ActionGame
                 }
             }
 
-            //オブジェクトAとBが重なっているか？
+            //手とEnemyobjectの衝突処理
             if (hund != null)
             {
                 for (int i = 0; i < enemyObjects.Count; ++i)
@@ -133,6 +135,24 @@ namespace ActionGame
                 }
             }
 
+            for (int i = 0; i < playerObjects.Count(); i++)
+            {
+                if (hund == null)
+                    break;
+
+                playerObject player = playerObjects[i];
+
+                if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
+                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+                {
+                    hund.OnCollisionP(player);
+                    player.OnCollisionHand(hund);
+                }
+
+
+            }
+
+            //死んでいるEnemyの処理？
             enemyObjects.RemoveAll(ene => ene.isDead);
 
             //針
@@ -178,35 +198,14 @@ namespace ActionGame
                         b.OnCollision(playerObject);
                     }
                 }
-
-                //for (int j = i + 1; j < itemObjects.Count; j++)
-                //{
-                //    //オブジェクトAが死んでたらこのループは終了
-                //    if (a.isDead) break;
-
-                //    ItemObject b = itemObjects[j];
-
-                //    //オブジェクトBが死んでたらスキップ
-                //    if (b.isDead) continue;
-
-                //    //オブジェクトAとBが重なっているか？
-                //    if (MyMath.RectRectIntersect(a.GetLeft(), a.GetTop(), a.GetRight(), a.GetBottom(),
-                //        b.GetLeft(), b.GetTop(), b.GetRight(), b.GetBottom()))
-                //    {
-                //        a.OnCollision(b);
-                //        b.OnCollision(a);
-                //    }
-                //}
+                
             }
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
             //不要となったオブジェクトを除去する(player)
             playerObjects.RemoveAll(player => player.isDead);
 
-            //--------------------------------------------------------------------------------------------------
-
-            
-
+            //--------------------------------------------------------------------------------------------------            
         }
         public override void Draw()
         {

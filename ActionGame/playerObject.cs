@@ -14,8 +14,8 @@ namespace ActionGame
         public bool isDead = false;              //死亡フラグ
 
         protected PlayScene playScene;           //Playerの参照
-        protected int ImageWidth;                //画像の横ピクセル数
-        protected int ImageHeight;               //画像の縦ピクセル数
+        public int ImageWidth;                //画像の横ピクセル数
+        public int ImageHeight;               //画像の縦ピクセル数
         protected int hitboxOffsetLeft = 0;　　　//当たり判定の左端のオフセット
         protected int hitboxOffsetRight = 0;     //当たり判定の右側のオフセット
         protected int hitboxOffsetTop = 0;       //当たり判定の上側のオフセット
@@ -92,6 +92,10 @@ namespace ActionGame
         public abstract void OnCollision(EnemyObject enemyObject);
 
         public abstract void OnCollisionI(ItemObject itemObject);
+
+        public abstract void OnCollisionG(GimmickObject gimmickObject);
+
+        public abstract void OnCollisionHand(Hund hund);
 
     }
 }

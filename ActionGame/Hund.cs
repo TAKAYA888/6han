@@ -73,10 +73,10 @@ namespace ActionGame
                 MoveY();
 
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x - Position.x)
-                    * (player.Position.x - Position.x)
-                    + (player.Position.y - Position.y)
-                    * (player.Position.y - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
 
                 if(Distance>960.0f)
                 {
@@ -117,11 +117,11 @@ namespace ActionGame
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x - Position.x)
-                    * (player.Position.x - Position.x)
-                    + (player.Position.y - Position.y)
-                    * (player.Position.y - Position.y));
-                
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+
             }
             //右端が壁にめりこんでいるか？
             else if (
@@ -134,11 +134,11 @@ namespace ActionGame
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x - Position.x)
-                    * (player.Position.x - Position.x)
-                    + (player.Position.y - Position.y)
-                    * (player.Position.y - Position.y));
-                
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+
             }
         }
 
@@ -167,11 +167,11 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x - Position.x)
-                    * (player.Position.x - Position.x)
-                    + (player.Position.y - Position.y)
-                    * (player.Position.y - Position.y));
-               
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+
             }
             // 下端が壁にめりこんでいるか？ 
             else if (
@@ -186,10 +186,10 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x - Position.x)
-                    * (player.Position.x - Position.x)
-                    + (player.Position.y - Position.y)
-                    * (player.Position.y - Position.y));                
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
             }            
         }
 
@@ -210,6 +210,14 @@ namespace ActionGame
         public void OnCollisionI(ItemObject itemObject)
         {
             
+        }
+
+        public void OnCollisionP(playerObject playerObject)
+        {
+            if(playerObject is Player)
+            {
+
+            }
         }
 
         //当たり判定の左端を取得

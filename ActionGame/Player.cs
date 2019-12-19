@@ -33,7 +33,11 @@ namespace ActionGame
         float LastAngle;　　　　　　　　　　　　　 //角度を制限するための変数
         float angleSpeed = 1.0f;　　　　　　　　　 //角度を変えるスピード
         int mutekiTimer;　　　　　　　　　　　　　 //無的時間を管理するための変数
-        int handCount;
+        float CosCount;
+        public int HandDestroyTimer = 0;
+        public int HandDestroyTime = 120;
+
+
 
         public int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
@@ -71,10 +75,10 @@ namespace ActionGame
                                                                    //サイズ関係-------------------------------------------------------------------------
             ImageWidth = 180;    //画像の横ピクセル数
             ImageHeight = 240;    //画像の縦ピクセル数
-            hitboxOffsetLeft = 0;  //当たり判定のオフセット
-            hitboxOffsetRight = 0;   //当たり判定のオフセット
-            hitboxOffsetTop = 0;     //当たり判定のオフセット
-            hitboxOffsetBottom = 0;  //当たり判定のオフセット
+            hitboxOffsetLeft = -ImageWidth/2;  //当たり判定のオフセット
+            hitboxOffsetRight = +ImageWidth/2;   //当たり判定のオフセット
+            hitboxOffsetTop = -ImageHeight/2;     //当たり判定のオフセット
+            hitboxOffsetBottom = ImageHeight/2;  //当たり判定のオフセット
         }
 
         //毎フレームの更新処理
@@ -98,25 +102,35 @@ namespace ActionGame
                 flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
             }
 
+            HandDestroyTimer--;
+            HandDestroyTimer = HandDestroyTimer < 0 ? 0 : HandDestroyTimer;
+
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
             //ゲーム上に手が存在しなかったら
             if (!HundFrag)
             {
                 // 重力による落下 
-                VelocityY += Gravity;                
+                VelocityY += Gravity;
+
+                CosCount = 1.0f / 2.0f * MathHelper.pi;
             }           
             else
             {                
                 //腕が壁とくっついたら
                 if (playScene.hund.HundHitFrag)
                 {
+                    CosCount -= 0.1f;
+                    if(CosCount<=0)
+                    {
+                        CosCount = 0;
+                    }
 
                     //手とPlayerの距離を縮めています
                     if (playScene.hund.Distance > 100)
                     {
                         //手とPlayerの距離を縮めています
-                        playScene.hund.Distance -= 8f;
+                        playScene.hund.Distance -= (float)Math.Cos(CosCount)*10;
                     }
                     else
                     {
@@ -369,7 +383,7 @@ namespace ActionGame
         {
             if (mutekiTimer % 6 < 4)
             {
-                Camera.DrawGraph(Position.x, Position.y, Image.PlayerImage01);
+                Camera.DrawRotaGraph(Position.x, Position.y, 0, Image.PlayerImage01, 1);
             }
             playerArraw.Draw();
         }
@@ -392,13 +406,22 @@ namespace ActionGame
             }
         }
 
-        public void OnCollisionG(GimmickObject needle)
+        public override void OnCollisionG(GimmickObject needle)
         {
             if (needle is NeedleObject)
             {
                 HP -= 10;//無理やり即死させますスミマセン
             }
-        }        
+        }
+
+        public override void OnCollisionHand(Hund hund)
+        {
+            if(HandDestroyTimer<=0)
+            {
+                HundFrag = false;
+                playScene.hund = null;
+            }
+        }
 
         public void DrawHitPoint()
         {
