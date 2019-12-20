@@ -126,6 +126,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BGM\Game_clear.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BGM\Game_over.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BGM\Play_scene.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BGM\Title.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="DxLibW.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -207,7 +219,11 @@
     <Content Include="Sound\Alarm.mp3" />
     <Content Include="Sound\ArmShot.mp3" />
     <Content Include="Sound\EnemySound01.mp3" />
+    <Content Include="Sound\Enemy_damage.wav" />
+    <Content Include="Sound\Gimmick.wav" />
     <Content Include="Sound\PlayerDamage.mp3" />
+    <Content Include="Sound\Player_damage.wav" />
+    <Content Include="Sound\Select.wav" />
     <Content Include="Sound\Woolem.mp3" />
   </ItemGroup>
   <ItemGroup />
