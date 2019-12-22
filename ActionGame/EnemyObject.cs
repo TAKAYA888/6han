@@ -78,7 +78,7 @@ namespace ActionGame
 
 
         //更新処理
-        public abstract void Update();
+        public abstract void Update(Player player);
 
         //描画処理
         public abstract void Draw();

@@ -16,6 +16,7 @@ namespace ActionGame
 
         //ザコ敵のリソース画像
         public static int EnemyImage01; //ザコ敵01画像
+        public static int EnemyImage02; //ザコ敵02画像
 
         //アイテムのリソース画像
         public static int ItemStart;
@@ -51,6 +52,7 @@ namespace ActionGame
 
             //ザコ敵のリソース画像
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");
+            EnemyImage02 = DX.LoadGraph("Image/Enemy02.png");
 
             //アイテムのリソース画像
             ItemTitle = DX.LoadGraph("Image/ItemTitle.png");

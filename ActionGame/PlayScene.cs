@@ -39,6 +39,7 @@ namespace ActionGame
         {
             //enemy1 = new Enemy1(this, 700, 300);
             enemyObjects.Add(new Enemy1(this, 700, 300));
+            enemyObjects.Add(new Enemy2(this, 1500, 1400));
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
@@ -95,7 +96,7 @@ namespace ActionGame
             //EnemyObの更新処理
             foreach (EnemyObject enemyObject in enemyObjects)
             {
-                enemyObject.Update();
+                enemyObject.Update(player);
             }
             
             //playerObjectとEnemyObjectの衝突処理
@@ -128,6 +129,8 @@ namespace ActionGame
                     EnemyObject enemyObject = enemyObjects[i];
 
                     if (enemyObject.isDead) continue;
+
+                    if (hund == null) { break; }//バグったので一時的に書き足しました
 
                     if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
                          enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
