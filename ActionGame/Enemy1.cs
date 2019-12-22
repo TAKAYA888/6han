@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DxLibDLL;
 
 namespace ActionGame
 {
@@ -125,6 +126,11 @@ namespace ActionGame
         public override void OnCollisionH(Hund hund)
         {
             isDead = true;
+        }
+
+        public override void miniMapDraw()
+        {
+            DX.DrawRotaGraphF(x / 1.5f, y / 2+200, 0.2, 0, Image.EnemyImage01);
         }
     }
 }

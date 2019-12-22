@@ -91,6 +91,8 @@ namespace ActionGame
             //DX.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
+        public abstract void miniMapDraw();
+
         //他のオブジェクトと衝突したときに呼ばれる
         public abstract void OnCollision(playerObject player);
 

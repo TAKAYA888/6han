@@ -127,7 +127,7 @@ namespace ActionGame
                     }
 
                     //手とPlayerの距離を縮めています
-                    if (playScene.hund.Distance > 100)
+                    if (playScene.hund.Distance > 200)
                     {
                         //手とPlayerの距離を縮めています
                         playScene.hund.Distance -= (float)Math.Cos(CosCount)*10;
@@ -135,7 +135,7 @@ namespace ActionGame
                     else
                     {
                         //これ以上短くしない
-                        playScene.hund.Distance =100;
+                        playScene.hund.Distance =200;
                     }
                     if (NowHundFrag)
                     {

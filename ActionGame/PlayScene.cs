@@ -23,6 +23,7 @@ namespace ActionGame
         }
 
         public Map map;
+        MiniMap miniMap;
         //ハンドを設定
         public Hund hund;
 
@@ -41,9 +42,19 @@ namespace ActionGame
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
+            miniMap = new MiniMap(this);
         }
         public override void Update()
         {
+            if (isPausing)
+            {
+                if (Input.GetButtonDown(DX.PAD_INPUT_8))
+                {
+                    isPausing = false;
+                }
+                return;
+            }
+
             //手を消す処理
             if (Input.GetButtonDown(DX.PAD_INPUT_2))
             {
@@ -63,16 +74,8 @@ namespace ActionGame
             foreach (playerObject playerObject in playerObjects)
             {
                 playerObject.Update();
-            }
+            }            
 
-            if (isPausing)
-            {
-                if (Input.GetButtonDown(DX.PAD_INPUT_8))
-                {
-                    isPausing = false;
-                }
-                return;
-            }
             if (state == State.PlayerDied)
             {
                 timeToGameOver--;//カウントダウン
@@ -205,7 +208,12 @@ namespace ActionGame
             //不要となったオブジェクトを除去する(player)
             playerObjects.RemoveAll(player => player.isDead);
 
-            //--------------------------------------------------------------------------------------------------            
+            //--------------------------------------------------------------------------------------------------     
+            
+            if(Input.GetButtonDown(DX.PAD_INPUT_8))
+            {
+                isPausing = true;
+            }
         }
         public override void Draw()
         {
@@ -244,6 +252,22 @@ namespace ActionGame
             //針の描画
             needle.Draw();
             needle.DrawHitBox();
+
+            // ポーズ中の半透明のスクリーンの描画
+            if (isPausing)
+            {
+                // 半透明の指定。第2引数で0～255でアルファ値（不透明度）を指定する。
+                // 不透明度を変えたら、明示的に元に戻すまでは継続されるので注意
+                DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 80);
+                // 画面全体を黒で塗りつぶす
+                DX.DrawBox(0, 0, Screen.Width, Screen.Height, DX.GetColor(0, 0, 0), DX.TRUE);
+                // 不透明度を元に戻す
+                DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 255);
+
+                miniMap.Draw();
+            }
+
+
         }
     }
 }

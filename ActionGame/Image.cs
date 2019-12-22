@@ -33,6 +33,7 @@ namespace ActionGame
         public static int IconIto; //糸のアイコン画像
         public static int IconMap; //マップのアイコン画像
         public static int MapImage; //マップ画像
+        public static int miniMapBackBround;//ミニマップの背景画像
         public static int Stage01; //ステージのイメージ画像０１
         public static int TitleImage;　//タイトル画面の画像
         public static int TogeWani01; //ワニのトゲ画像０１
@@ -67,6 +68,7 @@ namespace ActionGame
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
             MapImage = DX.LoadGraph("Image/Map.jpg");
+            miniMapBackBround = DX.LoadGraph("Image/minimap.png");
             Stage01 = DX.LoadGraph("Image/Stage01.jpg");
             TitleImage = DX.LoadGraph("Image/Title.png");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
