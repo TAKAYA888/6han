@@ -47,6 +47,11 @@ namespace ActionGame
         }
         public override void Update()
         {
+            if(player.isDead==true)
+            {
+                Game.ChangeScene(new GameOverScene());
+            }
+
             if (isPausing)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_8))
