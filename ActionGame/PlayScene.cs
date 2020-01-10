@@ -70,7 +70,7 @@ namespace ActionGame
             //---------------------------------------------------------------------------------------------------
             
             //ての作成
-            if (Input.GetButtonDown(DX.PAD_INPUT_10))
+            if (Input.GetButtonDown(DX.PAD_INPUT_10)|| Input.GetButtonDown(DX.PAD_INPUT_1))
             {
                 player.HandDestroyTimer = player.HandDestroyTime;                
                 hund = new Hund(this, player, player.Position.x, player.Position.y);

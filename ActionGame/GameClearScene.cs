@@ -30,11 +30,11 @@ namespace ActionGame
             {
                 Selecct = 2;
             }
-            if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 1)
+            if (Input.GetButtonDown(DX.PAD_INPUT_1) && Selecct == 1)
             {
                 Game.ChangeScene(new TitleScene());
             }
-            else if (Input.GetButtonDown(DX.PAD_INPUT_10) && Selecct == 2)
+            else if (Input.GetButtonDown(DX.PAD_INPUT_1) && Selecct == 2)
             {
                 Game.ChangeScene(new PlayScene());
             }

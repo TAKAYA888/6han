@@ -220,7 +220,7 @@ namespace ActionGame
             }
 
             //手の射出
-            if (Input.GetButtonDown(DX.PAD_INPUT_10))
+            if (Input.GetButtonDown(DX.PAD_INPUT_10)|| Input.GetButtonDown(DX.PAD_INPUT_1))
             {                
                 //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
