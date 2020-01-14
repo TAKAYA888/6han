@@ -43,6 +43,14 @@ namespace ActionGame
 
         public static int Ito; //糸の画像
 
+        //Particle関係
+        public static int particleDot1;
+        public static int particleRing4;
+        public static int particleSteam;
+        public static int particleFire;
+
+
+
         public static void Load()
         {
             //プレイヤーのリソース画像
@@ -79,6 +87,11 @@ namespace ActionGame
             
             Ito = DX.LoadGraph("Image/Ito.png");
 
+            //Particle関係
+            particleDot1 = DX.LoadGraph("Image/Particle/particle_dot_1.png");
+            particleRing4 = DX.LoadGraph("Image/Particle/particle_ring_4.png");
+            particleSteam = DX.LoadGraph("Image/Particle/particle_steam.png");
+            particleFire = DX.LoadGraph("Image/Particle/particle_fire.png");
         }
     }
 }

@@ -42,5 +42,17 @@ namespace ActionGame
         {
             return (float)Math.Atan2(toY - fromY, toX - fromX);
         }
+
+        /// <summary>
+        /// 線形補間
+        /// </summary>
+        /// <param name="a">開始値</param>
+        /// <param name="b">終了値</param>
+        /// <param name="t">進捗率（0～1）</param>
+        /// <returns></returns>
+        public static float Lerp(float a, float b, float t)
+        {
+            return a + (b - a) * t;
+        }
     }
 }

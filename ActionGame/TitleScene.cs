@@ -36,6 +36,11 @@ namespace ActionGame
             {
                 Application.GameEnd = true;
             }
+
+            if(Input.GetButton(DX.PAD_INPUT_1)&&Input.GetButton(DX.PAD_INPUT_2)&&Input.GetButton(DX.PAD_INPUT_3))
+            {
+                Game.ChangeScene(new TestScene());
+            }
         }
         public override void Draw()
         {

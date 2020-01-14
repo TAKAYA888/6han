@@ -7,13 +7,18 @@ namespace ActionGame
 {
     public class Game
     {
+
         static Scene scene;
+        public static ParticleManager particleManager;
+
         public void Init()
         {
             Input.Init();
             MyRandom.Init();
             Image.Load();
             scene = new TitleScene();
+
+            particleManager = new ParticleManager();
         }
 
         public void Update()
@@ -24,10 +29,13 @@ namespace ActionGame
                 Application.GameEnd = true;                
             }
             scene.Update();
+
+            particleManager.Update();
         }
         public void Draw()
         {
             scene.Draw();
+            particleManager.Draw();
         }
 
         public static void ChangeScene(Scene newScene)

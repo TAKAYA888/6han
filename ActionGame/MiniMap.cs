@@ -19,12 +19,20 @@ namespace ActionGame
         public const int Wall = 0;
         PlayScene playScene;
         int[,] terrain;
+        int[,] _object;
 
-        public MiniMap(PlayScene playScene)
+        public MiniMap(PlayScene playScene, string stageNeme)
         {
-            this.playScene = playScene;
             terrain = new int[Width, Height];
-            string[] lines = File.ReadAllLines("Map/stage1_terrain.csv");
+            _object = new int[Width, Height];
+            LoadTerrain("Map/" + stageNeme + "_terrain.csv");
+            LoadObjects("Map/" + stageNeme + "_object.csv");
+        }
+
+        void LoadTerrain(string filePath)
+        {
+            terrain = new int[Width, Height];
+            string[] lines = File.ReadAllLines(filePath);
 
             //Debug.Assert(lines.Length == Height, filePath + "の高さが不正です:" + lines.Length);
 
@@ -32,21 +40,38 @@ namespace ActionGame
             {
                 string[] splitted = lines[y].Split(new char[] { ',' });
 
-                //Debug.Assert(splitted.Length == Width, filePath + "の" + y + "行目の列数が不正です:" + splitted.Length);
+                Debug.Assert(splitted.Length == Width, filePath + "の" + y + "行目の列数が不正です:" + splitted.Length);
 
                 for (int x = 0; x < Width; x++)
                 {
                     terrain[x, y] = int.Parse(splitted[x]);
                 }
             }
-
-            
         }
 
+        void LoadObjects(string filePath)
+        {
+            _object = new int[Width, Height];
+            string[] lines = File.ReadAllLines(filePath);
+
+            //Debug.Assert(lines.Length == Height, filePath + "の高さが不正です:" + lines.Length);
+
+            for (int y = 0; y < Height; y++)
+            {
+                string[] splitted = lines[y].Split(new char[] { ',' });
+
+                Debug.Assert(splitted.Length == Width, filePath + "の" + y + "行目の列数が不正です:" + splitted.Length);
+
+                for (int x = 0; x < Width; x++)
+                {
+                    _object[x, y] = int.Parse(splitted[x]);
+                }
+            }
+        }
         public void Draw()
         {
 
-            DX.DrawGraph(0, 0, Image.miniMapBackBround);                   
+            DX.DrawGraph(0, 0, Image.miniMapBackBround);
 
             for (int y = 0; y < Height; y++)
             {
@@ -56,14 +81,37 @@ namespace ActionGame
 
                     if (id == None) continue; // 描画しない 
 
-                    DX.DrawRotaGraph(x * CellSizeX+100, y * CellSizeY+200,0.5,0, Image.Floor01);
+                    DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.Floor01);
                 }
             }
 
-            foreach (EnemyObject enemyObject in playScene.enemyObjects)
+            for (int y = 0; y < Height; y++)
             {
-                enemyObject.miniMapDraw();
+                for (int x = 0; x < Width; x++)
+                {
+                    int id = _object[x, y];
+
+                    if (id == None) continue; // 描画しない 
+                    
+                    else if(id==0)
+                    {
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01);
+                    }
+                    else if(id==1)
+                    {
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01);
+                    }
+                    else if(id==2)
+                    {
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.Ito);
+                    }
+                    else if(id==3)
+                    {
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.IconIto);
+                    }
+                }
             }
+
         }
     }
 }

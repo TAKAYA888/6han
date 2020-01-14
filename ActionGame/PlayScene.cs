@@ -43,7 +43,7 @@ namespace ActionGame
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             map = new Map(this, "stage1");
-            miniMap = new MiniMap(this);
+            miniMap = new MiniMap(this, "stage1");
         }
         public override void Update()
         {

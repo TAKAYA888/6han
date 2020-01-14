@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />
+    <Compile Include="DxParticle.cs" />
     <Compile Include="Enemy1.cs" />
     <Compile Include="Enemy2.cs" />
     <Compile Include="EnemyObject.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="MyLib.cs" />
     <Compile Include="MyRandom.cs" />
     <Compile Include="NeedleObject.cs" />
+    <Compile Include="ParticleManager.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerArraw.cs" />
     <Compile Include="playerObject.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Screen.cs" />
     <Compile Include="SE.cs" />
     <Compile Include="SpeedUp.cs" />
+    <Compile Include="TestScene.cs" />
     <Compile Include="TitleScene.cs" />
     <Compile Include="WoolenYarn.cs" />
   </ItemGroup>
@@ -198,6 +201,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Over.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Particle\particle_dot_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Particle\particle_fire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Particle\particle_ring_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Particle\particle_steam.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Player01.png">
