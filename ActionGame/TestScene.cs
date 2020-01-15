@@ -14,7 +14,7 @@ namespace ActionGame
         {
             if (Input.GetButton(DX.PAD_INPUT_1))
             {
-                Game.particleManager.Fountain(320, 240);
+                Game.particleManager.Splash(320, 240);
             }
 
             if (Input.GetButtonDown(DX.PAD_INPUT_2))

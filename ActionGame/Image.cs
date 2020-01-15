@@ -45,9 +45,22 @@ namespace ActionGame
 
         //Particle関係
         public static int particleDot1;
+        public static int particleDot2;
+        public static int particleDot3;
+        public static int particleRing1;
+        public static int particleRing2;
+        public static int particleRing3;
         public static int particleRing4;
-        public static int particleSteam;
         public static int particleFire;
+        public static int particleSteam;
+        public static int particleSmoke;
+        public static int particleGlitter1;
+        public static int particleStar1;
+        public static int particleStar2;
+        public static int particleLine1;
+        public static int particleLine2;
+        public static int particleSlash;
+        public static int particleStone1;
 
 
 
@@ -89,9 +102,22 @@ namespace ActionGame
 
             //Particle関係
             particleDot1 = DX.LoadGraph("Image/Particle/particle_dot_1.png");
+            particleDot2 = DX.LoadGraph("Image/Particle/particle_dot_2.png");
+            particleDot3 = DX.LoadGraph("Image/Particle/particle_dot_3.png");
+            particleRing1 = DX.LoadGraph("Image/Particle/particle_ring_1.png");
+            particleRing2 = DX.LoadGraph("Image/Particle/particle_ring_2.png");
+            particleRing3 = DX.LoadGraph("Image/Particle/particle_ring_3.png");
             particleRing4 = DX.LoadGraph("Image/Particle/particle_ring_4.png");
-            particleSteam = DX.LoadGraph("Image/Particle/particle_steam.png");
             particleFire = DX.LoadGraph("Image/Particle/particle_fire.png");
+            particleSteam = DX.LoadGraph("Image/Particle/particle_steam.png");
+            particleSmoke = DX.LoadGraph("Image/Particle/particle_smoke.png");
+            particleGlitter1 = DX.LoadGraph("Image/Particle/particle_glitter_1.png");
+            particleStar1 = DX.LoadGraph("Image/Particle/particle_star_1.png");
+            particleStar2 = DX.LoadGraph("Image/Particle/particle_star_2.png");
+            particleLine1 = DX.LoadGraph("Image/Particle/particle_line_1.png");
+            particleLine2 = DX.LoadGraph("Image/Particle/particle_line_2.png");
+            particleSlash = DX.LoadGraph("Image/Particle/particle_slash.png");
+            particleStone1 = DX.LoadGraph("Image/Particle/particle_stone_1.png");
         }
     }
 }
