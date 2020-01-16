@@ -23,7 +23,7 @@ namespace ActionGame
         float VelocityX = 0f;                     //移動速度(x方向)
         float VelocityY = 0f;　　　               //移動速度(y方向)
         float flyVelocityX = 0f;
-        public int HP = 1;                        //HP(体力)
+        public int HP = 1000;                        //HP(体力)
         public bool HundFrag;                     //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　　//一個前の手がくっついたかのフラグ
         public bool NowHundFrag = false;　　　　　//現在の手がくっついたかのフラグ（今のところはいらない）
@@ -37,7 +37,7 @@ namespace ActionGame
         public int HandDestroyTimer = 0;
         public int HandDestroyTime = 120;
 
-
+        public static int ScorePoint = 0;          //スコアポイントの変数
 
         public int haveWoolenYarn = 0;　　　　　　　　　　//持っている毛糸の数
 
@@ -396,6 +396,7 @@ namespace ActionGame
                 HP -= 1;
                 mutekiTimer = mutekitime;
             }
+            ScorePoint += 500;  //スコア
         }
 
         public override void OnCollisionI(ItemObject item)//あたり判定の対象)
@@ -404,6 +405,7 @@ namespace ActionGame
             {
                 haveWoolenYarn += 1;
             }
+            ScorePoint += 1000; //スコア
         }
 
         public override void OnCollisionG(GimmickObject needle)

@@ -41,6 +41,7 @@ namespace ActionGame
         }
         public override void Draw()
         {
+            
             DX.DrawGraph(0, 0, Image.GameClearImage);
             if (Selecct == 1)
             {
@@ -58,6 +59,8 @@ namespace ActionGame
                 }
                 DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
             }
+            DX.SetFontSize(60);
+            DX.DrawString(1150, 385, Player.ScorePoint.ToString(), DX.GetColor(255, 0, 0));//スコア
         }
     }
 }
