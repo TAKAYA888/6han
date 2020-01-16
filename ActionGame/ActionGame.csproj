@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />
+    <Compile Include="DxHelper.cs" />
     <Compile Include="DxParticle.cs" />
     <Compile Include="Enemy1.cs" />
     <Compile Include="Enemy2.cs" />

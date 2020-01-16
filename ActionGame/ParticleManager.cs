@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyMath_KNMR;
 using DxLibDLL;
+using MyLib;
 
 namespace ActionGame
 {
@@ -35,6 +36,11 @@ namespace ActionGame
             {
                 particle.Draw();
             }
+
+            // アルファ値を元に戻す
+            DxHelper.SetBlendMode(DX.DX_BLENDMODE_ALPHA, 255);
+            // 色を元に戻す
+            DxHelper.SetColor(255, 255, 255);
         }
 
 

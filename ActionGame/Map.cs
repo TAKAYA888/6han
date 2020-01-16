@@ -11,8 +11,11 @@ namespace ActionGame
 {
     public class Map
     {
-        public const int None = -1;
-        public const int Wall = 0;
+        //readonlyは読み込み専用の変数の事です
+        public readonly int None = -1;              //何もない場所
+        public readonly int Wall = 0;               //刺さらない壁しかし現在は刺さる
+        public readonly int ProtrusionBlock = 1;    //見た目は突起があるブロック、刺さる壁
+        public readonly int NormalBlock = 2;        //見た目は突起がないブロック、刺さる壁
 
         public const int Width = 64;
         public const int Height = 27;
@@ -28,6 +31,7 @@ namespace ActionGame
             LoadTerrain("Map/" + stageName + "_terrain.csv");
             LoadObjects("Map/" + stageName + "_object.csv");
         }
+
         void LoadTerrain(string filePath)
         {
             terrain = new int[Width, Height];
@@ -76,7 +80,7 @@ namespace ActionGame
             float spawnX = mapX * CellSize;
             float spawnY = mapY * CellSize;
 
-            if(objectID == 0)//Player
+            if (objectID == 0)//Player
             {
                 Player player = new Player(playScene, spawnX, spawnY);
 
@@ -119,7 +123,13 @@ namespace ActionGame
 
                     if (id == None) continue; // 描画しない 
 
-                    Camera.DrawGraph(x * CellSize, y * CellSize, Image.Floor01);
+                    else if (id == Wall) Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[0]);
+
+                    else if (id == ProtrusionBlock) Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[1]);
+
+                    else if (id == NormalBlock) Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[2]);
+
+                    else Camera.DrawGraph(x * CellSize, y * CellSize, Image.mapchip[0]);
                 }
             }
         }
@@ -139,9 +149,17 @@ namespace ActionGame
 
         public bool IsWall(float worldX, float worldY)
         {
+            bool DoubtHitBlock = false;
+
             int terrainID = GetTerrain(worldX, worldY); // 指定された座標の地形のIDを取得
 
-            return terrainID == Wall; // 地形が壁ならtrue、違うならfalseを返却する
+            // 地形が壁ならtrue、違うならfalseを返却する        
+            if (terrainID == Wall || terrainID == ProtrusionBlock || terrainID == NormalBlock)
+            {
+                DoubtHitBlock = true;
+            }
+
+            return DoubtHitBlock;
         }
     }
 }

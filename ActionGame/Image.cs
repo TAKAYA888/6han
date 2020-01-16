@@ -10,13 +10,13 @@ namespace ActionGame
     public static class Image
     {
         //プレイヤーのリソース画像
-        public static int PlayerImage01; //プレイヤーの正面画像
-        public static int PlayerArraws;  //playerの矢印
-        public static int PlayerHand;//playerの手
+        public static int[] PlayerImage01 = new int[18]; //プレイヤーの正面画像
+        public static int PlayerArraws;                  //playerの矢印
+        public static int PlayerHand;                    //playerの手
 
         //ザコ敵のリソース画像
-        public static int EnemyImage01; //ザコ敵01画像
-        public static int EnemyImage02; //ザコ敵02画像
+        public static int EnemyImage01;                  //ザコ敵01画像
+        public static int EnemyImage02;                  //ザコ敵02画像
 
         //アイテムのリソース画像
         public static int ItemStart;
@@ -26,8 +26,8 @@ namespace ActionGame
         public static int ItemContinue;
 
         //その他のリソース画像
-        public static int[] mapchip = new int[128];
-        public static int Block01; //ブロックの画像０１
+        public static int[] mapchip = new int[12];     //
+        public static int Block01; //ブロックの画像０１        
         public static int Floor01; //フロアの画像０１
         public static int GameClearImage; //ゲームクリア画像
         public static int GameOverImage; //ゲームオーバー画像
@@ -67,7 +67,7 @@ namespace ActionGame
         public static void Load()
         {
             //プレイヤーのリソース画像
-            PlayerImage01 = DX.LoadGraph("Image/Player01.png");
+            DX.LoadDivGraph("Image/Player01.png", PlayerImage01.Length, 4, 5, 120, 180, PlayerImage01);
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
             PlayerHand = DX.LoadGraph("Image/Hand.png");
 
@@ -83,7 +83,7 @@ namespace ActionGame
             ItemContinue = DX.LoadGraph("Image/Continue.png");
 
             //その他のリソース画像
-            DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 16, 8, 32, 32, mapchip);
+            DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 6, 2, 60, 60, mapchip);
             Block01 = DX.LoadGraph("Image/Block01.png");
             Floor01 = DX.LoadGraph("Image/Floor01.png");
             GameClearImage = DX.LoadGraph("Image/GameClear.jpg");
@@ -97,7 +97,7 @@ namespace ActionGame
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
-            
+
             Ito = DX.LoadGraph("Image/Ito.png");
 
             //Particle関係

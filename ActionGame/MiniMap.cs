@@ -95,11 +95,11 @@ namespace ActionGame
                     
                     else if(id==0)
                     {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01);
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01[1]);
                     }
                     else if(id==1)
                     {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01);
+                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01[1]);
                     }
                     else if(id==2)
                     {

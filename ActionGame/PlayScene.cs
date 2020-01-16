@@ -47,7 +47,7 @@ namespace ActionGame
         }
         public override void Update()
         {
-            if(player.isDead==true)
+            if (player.isDead == true)
             {
                 Game.ChangeScene(new GameOverScene());
             }
@@ -60,19 +60,14 @@ namespace ActionGame
                 }
                 return;
             }
-
-            //手を消す処理
-            if (Input.GetButtonDown(DX.PAD_INPUT_2))
-            {
-                hund = null;
-                player.HundFrag = false;
-            }
-            //---------------------------------------------------------------------------------------------------
             
+            //---------------------------------------------------------------------------------------------------
+
             //ての作成
-            if (Input.GetButtonDown(DX.PAD_INPUT_10)|| Input.GetButtonDown(DX.PAD_INPUT_1))
+            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hund == null)
             {
-                player.HandDestroyTimer = player.HandDestroyTime;                
+                player.HandDestroyTimer = player.HandDestroyTime;
+                player.HundFrag = true;
                 hund = new Hund(this, player, player.Position.x, player.Position.y);
             }
 
@@ -80,7 +75,7 @@ namespace ActionGame
             foreach (playerObject playerObject in playerObjects)
             {
                 playerObject.Update();
-            }            
+            }
 
             if (state == State.PlayerDied)
             {
@@ -97,17 +92,17 @@ namespace ActionGame
             {
                 hund.Update();
             }
-            
+
             //EnemyObの更新処理
             foreach (EnemyObject enemyObject in enemyObjects)
             {
                 enemyObject.Update(player);
             }
-            
+
             //playerObjectとEnemyObjectの衝突処理
             for (int i = 0; i < enemyObjects.Count; i++)
             {
-                for(int j =0;j<playerObjects.Count;j++)
+                for (int j = 0; j < playerObjects.Count; j++)
                 {
                     playerObject player = playerObjects[j];
 
@@ -209,7 +204,7 @@ namespace ActionGame
                         b.OnCollision(playerObject);
                     }
                 }
-                
+
             }
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
@@ -217,8 +212,8 @@ namespace ActionGame
             playerObjects.RemoveAll(player => player.isDead);
 
             //--------------------------------------------------------------------------------------------------     
-            
-            if(Input.GetButtonDown(DX.PAD_INPUT_8))
+
+            if (Input.GetButtonDown(DX.PAD_INPUT_8))
             {
                 isPausing = true;
             }
@@ -233,7 +228,7 @@ namespace ActionGame
                 go.DrawHitBox();
             }
 
-            foreach(playerObject playerObject in playerObjects)
+            foreach (playerObject playerObject in playerObjects)
             {
                 playerObject.Draw();
                 playerObject.DrawHitBox();
@@ -242,16 +237,16 @@ namespace ActionGame
             map.DrawTerrain();
             //線と手を描画しています
             if (player != null && hund != null)
-            {                
+            {
                 Camera.DrawLine(player.Position, hund.Position);
             }
 
-            if(hund != null)
+            if (hund != null)
             {
                 hund.Draw();
-            }            
+            }
 
-            foreach( EnemyObject enemy in enemyObjects )
+            foreach (EnemyObject enemy in enemyObjects)
             {
                 enemy.Draw();
                 enemy.DrawHitBox();
@@ -274,8 +269,6 @@ namespace ActionGame
 
                 miniMap.Draw();
             }
-
-
         }
     }
 }

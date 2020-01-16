@@ -30,8 +30,8 @@ namespace ActionGame
         public float Distance;           　　　//Playerとの距離
         public float FirstAngle;         　　　//初期角度
         public float LastAngle;          　　　//最終角度
-        float VelocityX ;                      //移動速度(x方向)
-        float VelocityY ;                      //移動速度(y方向)
+        float VelocityX;                      //移動速度(x方向)
+        float VelocityY;                      //移動速度(y方向)
         public bool HundHitFrag = false;
         bool BeforHundHitFrag = false;
 
@@ -53,7 +53,7 @@ namespace ActionGame
         float prevTop;         //1フレーム前の上端
         float prevBottom;      //1フレーム前の下端
         //-----------------------------------------------------------------------------------
-        public Hund(PlayScene playScene,Player player,float x,float y)
+        public Hund(PlayScene playScene, Player player, float x, float y)
         {
             this.player = player;
             Position.x = x;
@@ -65,9 +65,9 @@ namespace ActionGame
         }
 
         public void Update()
-        {            
+        {
             BeforHundHitFrag = HundHitFrag;
-            if(hit==Hit.NotHit)
+            if (hit == Hit.NotHit)
             {
                 MoveX();
                 MoveY();
@@ -78,13 +78,13 @@ namespace ActionGame
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
 
-                if(Distance>960.0f)
+                if (Distance > 960.0f || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
                     VelocityX = -VelocityX;
                     VelocityY = -VelocityY;
-                }                               
+                }
 
-                if (Distance<=1)
+                if (Distance <= 1)
                 {
                     player.playScene.hund = null;
                     player.HundFrag = false;
@@ -94,7 +94,7 @@ namespace ActionGame
             {
                 VelocityX = 0;
                 VelocityY = 0;
-            }            
+            }
         }
 
         void MoveX()
@@ -145,7 +145,7 @@ namespace ActionGame
         void MoveY()
         {
             // 縦に移動する 
-            Position.y += VelocityY;          
+            Position.y += VelocityY;
 
             // 当たり判定の四隅の座標を取得 
             float left = GetLeft();
@@ -190,12 +190,12 @@ namespace ActionGame
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
-            }            
+            }
         }
 
         public void Draw()
         {
-            Camera.DrawRotaGraph(Position.x, Position.y, 180, Image.PlayerHand,1);
+            Camera.DrawRotaGraph(Position.x, Position.y, 180, Image.PlayerHand, 1);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
@@ -209,12 +209,12 @@ namespace ActionGame
 
         public void OnCollisionI(ItemObject itemObject)
         {
-            
+
         }
 
         public void OnCollisionP(playerObject playerObject)
         {
-            if(playerObject is Player)
+            if (playerObject is Player)
             {
 
             }

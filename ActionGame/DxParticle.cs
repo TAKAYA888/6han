@@ -70,6 +70,8 @@ namespace ActionGame
                 return; // 何もしないで終了
             }
 
+            state = State.Active;
+
             ++age;      //経過時間をインクリメント
 
             //寿命を超えたら死亡する
@@ -83,13 +85,7 @@ namespace ActionGame
 
                 return;
             }
-
-            //進捗率
-            //float progressRate = (float)age / lifeSpan;
-
-            //拡大率を計算
-            //scale = MyMath.Lerp(startScale, endScale, progressRate);
-
+            
             //外力を適用
             Vy += forceY;
             Vx += forceX;
@@ -111,9 +107,7 @@ namespace ActionGame
             // カスタムUpdate処理を実行
             if (OnUpdate != null)
                 OnUpdate(this);
-
-            // アルファ値の計算
-            //alpha = (int)MyMath.Lerp(startAlpha, endAlpha, progressRate);
+            
         }
 
         public void Draw()
@@ -122,26 +116,13 @@ namespace ActionGame
             if (state != State.Active) return;
 
             // 色を指定
-            DX.SetDrawBright(red, green, blue);
-            //アルファ値を設定
-            DX.SetDrawBlendMode(blendMode, alpha);
-
-            // 進捗率 
-            float progressRate = (float)age / lifeSpan;
-
-            // 拡大率を計算 
-            float scale = MyMath.Lerp(startScale, endScale, progressRate);
-
-            // アルファ値の計算 
-            int currentAlpha = (int)(Math.Min(Math.Min(progressRate / fadeInTime, (1f - progressRate) / fadeOutTime), 1f) * alpha);
+            DxHelper.SetColor(red, green, blue);
+            // アルファ値を指定
+            DxHelper.SetBlendMode(blendMode, currentAlpha);           
 
             //描画する
-            DX.DrawRotaGraphFastF(positionX, positionY, currentAlpha, angle, imageHandle);
-
-            // アルファ値を元に戻す
-            DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 255);
-            // 色を元に戻す
-            DX.SetDrawBright(255, 255, 255);
+            DX.DrawRotaGraphFastF(positionX, positionY, currentScale, angle, imageHandle);
+            
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ namespace ActionGame
         public void Update()
         {
             Input.Update();
+
             if (Input.GetButtonDown(DX.PAD_INPUT_9)|| Input.GetButtonDown(DX.PAD_INPUT_7))
             {
                 Application.GameEnd = true;                
