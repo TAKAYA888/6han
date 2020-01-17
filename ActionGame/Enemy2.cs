@@ -153,7 +153,7 @@ namespace ActionGame
             //isDead = true;
         }
 
-        public override void OnCollisionH(Hund hund)
+        public override void OnCollisionH(Hand hund)
         {
             HP -= 1;
             if (HP <= 0)

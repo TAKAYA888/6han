@@ -76,7 +76,7 @@
     <Compile Include="GameOverScene.cs" />
     <Compile Include="GimmickObject.cs" />
     <Compile Include="Goal.cs" />
-    <Compile Include="Hund.cs" />
+    <Compile Include="Hand.cs" />
     <Compile Include="Image.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

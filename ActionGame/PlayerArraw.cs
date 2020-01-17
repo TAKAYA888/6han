@@ -51,7 +51,7 @@ namespace ActionGame
             ArrawAngle = Math.Abs(ArrawAngle % 360);
 
             //回転時の移動処理
-            Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(200, 0))
+            Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(100, 0))
                 * Matrix3.createRotation(ArrawAngle)
                 * Matrix3.createTranslation(player.Position);
 

@@ -92,7 +92,7 @@ namespace ActionGame
             IconMap = DX.LoadGraph("Image/IconMap.png");
             MapImage = DX.LoadGraph("Image/Map.jpg");
             miniMapBackBround = DX.LoadGraph("Image/minimap.png");
-            Stage01 = DX.LoadGraph("Image/Stage01.jpg");
+            Stage01 = DX.LoadGraph("Image/Stage.png");
             TitleImage = DX.LoadGraph("Image/Title.png");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");

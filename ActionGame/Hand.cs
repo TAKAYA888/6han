@@ -9,7 +9,7 @@ using DxLibDLL;
 
 namespace ActionGame
 {
-    public class Hund
+    public class Hand
     {
         public enum Hit
         {
@@ -39,8 +39,8 @@ namespace ActionGame
 
 
         //サイズ関係-------------------------------------------------------------------------
-        int imageWidth = 120;//画像の横ピクセル数
-        int imageHeight = 60;//画像の縦ピクセル数
+        int imageWidth = 120;       //画像の横ピクセル数
+        int imageHeight = 60;       //画像の縦ピクセル数
         int hitboxOffsetLeft = -10;　　//当たり判定のオフセット
         int hitboxOffsetRight = 80;   //当たり判定のオフセット
         int hitboxOffsetTop = -50;     //当たり判定のオフセット
@@ -53,7 +53,7 @@ namespace ActionGame
         float prevTop;         //1フレーム前の上端
         float prevBottom;      //1フレーム前の下端
         //-----------------------------------------------------------------------------------
-        public Hund(PlayScene playScene, Player player, float x, float y)
+        public Hand(PlayScene playScene, Player player, float x, float y)
         {
             this.player = player;
             Position.x = x;

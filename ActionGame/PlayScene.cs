@@ -16,6 +16,9 @@ namespace ActionGame
         //針
         NeedleObject needle;
 
+        //時計
+        int timer;
+
         public enum State
         {
             Active,
@@ -25,7 +28,7 @@ namespace ActionGame
         public Map map;
         MiniMap miniMap;
         //ハンドを設定
-        public Hund hund;
+        public Hand hund;
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();
@@ -47,6 +50,8 @@ namespace ActionGame
         }
         public override void Update()
         {
+            timer++;
+
             if (player.isDead == true)
             {
                 Game.ChangeScene(new GameOverScene());
@@ -66,9 +71,8 @@ namespace ActionGame
             //ての作成
             if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hund == null)
             {
-                player.HandDestroyTimer = player.HandDestroyTime;
-                player.HundFrag = true;
-                hund = new Hund(this, player, player.Position.x, player.Position.y);
+                player.HandDestroyTimer = player.HandDestroyTime;                
+                hund = new Hand(this, player, player.Position.x, player.Position.y);
             }
 
             //PlayerObjectの更新処理
@@ -220,6 +224,7 @@ namespace ActionGame
         }
         public override void Draw()
         {
+            Console.WriteLine(timer);
             Camera.DrawGraph(0, 0, Image.Stage01);
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)

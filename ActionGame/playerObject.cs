@@ -95,7 +95,7 @@ namespace ActionGame
 
         public abstract void OnCollisionG(GimmickObject gimmickObject);
 
-        public abstract void OnCollisionHand(Hund hund);
+        public abstract void OnCollisionHand(Hand hund);
 
     }
 }
