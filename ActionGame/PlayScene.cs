@@ -28,7 +28,7 @@ namespace ActionGame
         public Map map;
         MiniMap miniMap;
         //ハンドを設定
-        public Hand hund;
+        public Hand hand;
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();
@@ -69,10 +69,10 @@ namespace ActionGame
             //---------------------------------------------------------------------------------------------------
 
             //ての作成
-            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hund == null)
+            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand == null)
             {
                 player.HandDestroyTimer = player.HandDestroyTime;                
-                hund = new Hand(this, player, player.Position.x, player.Position.y);
+                hand = new Hand(this, player, player.Position.x, player.Position.y);
             }
 
             //PlayerObjectの更新処理
@@ -92,9 +92,9 @@ namespace ActionGame
             }
 
             //手の更新処理
-            if (hund != null)
+            if (hand != null)
             {
-                hund.Update();
+                hand.Update();
             }
 
             //EnemyObの更新処理
@@ -126,7 +126,7 @@ namespace ActionGame
             }
 
             //手とEnemyobjectの衝突処理
-            if (hund != null)
+            if (hand != null)
             {
                 for (int i = 0; i < enemyObjects.Count; ++i)
                 {
@@ -134,29 +134,29 @@ namespace ActionGame
 
                     if (enemyObject.isDead) continue;
 
-                    if (hund == null) { break; }//バグったので一時的に書き足しました
+                    if (hand == null) { break; }//バグったので一時的に書き足しました
 
-                    if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
+                    if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
                          enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
                     {
-                        hund.OnCollision(enemyObject);
-                        enemyObject.OnCollisionH(hund);
+                        hand.OnCollision(enemyObject);
+                        enemyObject.OnCollisionH(hand);
                     }
                 }
             }
 
             for (int i = 0; i < playerObjects.Count(); i++)
             {
-                if (hund == null)
+                if (hand == null)
                     break;
 
                 playerObject player = playerObjects[i];
 
-                if (MyMath.RectRectIntersect(hund.GetLeft(), hund.GetTop(), hund.GetRight(), hund.GetBottom(),
+                if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
                          player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
                 {
-                    hund.OnCollisionP(player);
-                    player.OnCollisionHand(hund);
+                    hand.OnCollisionP(player);
+                    player.OnCollisionHand(hand);
                 }
 
 
@@ -241,14 +241,14 @@ namespace ActionGame
 
             map.DrawTerrain();
             //線と手を描画しています
-            if (player != null && hund != null)
+            if (player != null && hand != null)
             {
-                Camera.DrawLine(player.Position, hund.Position);
+                Camera.DrawLine(player.Position, hand.Position);
             }
 
-            if (hund != null)
+            if (hand != null)
             {
-                hund.Draw();
+                hand.Draw();
             }
 
             foreach (EnemyObject enemy in enemyObjects)

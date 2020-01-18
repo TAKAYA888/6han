@@ -46,9 +46,9 @@ namespace ActionGame
             DX.DrawPixel((int)right, (int)bottom, DX.GetColor(0, 0, 0));
         }
 
-        public static void DrawRotaGraph(float _x,float _y,float angle,int handle,int trun)
+        public static void DrawRotaGraph(float _x,float _y,float size,float angle,int handle,int trun)
         {
-            DX.DrawRotaGraphF(_x - x, _y - y, 1, angle, handle,1,trun);
+            DX.DrawRotaGraphF(_x - x, _y - y, size, angle, handle,1,trun);
         }
 
         public static void DrawLine(Vector2 pos1,Vector2 pos2)

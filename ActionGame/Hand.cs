@@ -69,14 +69,14 @@ namespace ActionGame
             BeforHundHitFrag = HundHitFrag;
             if (hit == Hit.NotHit)
             {
-                MoveX();
-                MoveY();
-
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+
+                MoveX();
+                MoveY();
 
                 if (Distance > 960.0f || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
@@ -86,7 +86,7 @@ namespace ActionGame
 
                 if (Distance <= 1)
                 {
-                    player.playScene.hund = null;
+                    player.playScene.hand = null;
                     player.HundFrag = false;
                 }
             }
@@ -166,12 +166,18 @@ namespace ActionGame
                 VelocityY = 0; // 縦の移動速度を0に 
                 hit = Hit.Hit;
                 HundHitFrag = true;
-                Distance = (float)Math.Sqrt(
+                if (player.playerArraw.ArrawAngle != 90 * 3)
+                {
+                    Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
-
+                }
+                else
+                {
+                    Distance = Math.Abs(Position.y - player.Position.y + (player.ImageHeight / 2));
+                }
             }
             // 下端が壁にめりこんでいるか？ 
             else if (
@@ -195,14 +201,14 @@ namespace ActionGame
 
         public void Draw()
         {
-            Camera.DrawRotaGraph(Position.x, Position.y, 180, Image.PlayerHand, 1);
+            Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand, 1);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
         public void OnCollision(EnemyObject enemyObject)
         {
-            player.playScene.hund = null;
+            player.playScene.hand = null;
             HundHitFrag = false;
             player.HundFrag = false;
         }

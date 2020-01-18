@@ -69,7 +69,7 @@ namespace ActionGame
             //プレイヤーのリソース画像
             DX.LoadDivGraph("Image/Player01.png", PlayerImage01.Length, 4, 5, 120, 180, PlayerImage01);
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
-            PlayerHand = DX.LoadGraph("Image/Hand.png");
+            PlayerHand = DX.LoadGraph("Image/PlayerHand01.png");
 
             //ザコ敵のリソース画像
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");

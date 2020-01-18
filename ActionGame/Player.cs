@@ -23,7 +23,7 @@ namespace ActionGame
         float VelocityX = 0f;                           //移動速度(x方向)
         float VelocityY = 0f;　　　                     //移動速度(y方向)
         float flyVelocityX = 0f;
-        public int HP = 1000;                           //HP(体力)
+        public int HP;                                  //HP(体力)
         public bool HundFrag;                           //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　      　//一個前の手がくっついたかのフラグ
         public bool FrastHandAngleFrag = false;　　　 　//手のくっついた時の角度が90度以上かそうでないかの判断を行うためのフラグ
@@ -31,7 +31,7 @@ namespace ActionGame
         float angle = MathHelper.toRadians(315);     　 //手との角度
         float FirstAngle;                               //角度を制限するための変数
         float LastAngle;　　　　　　　　　　　　     　 //角度を制限するための変数
-        float angleSpeed;　　　　　　　　     　 //角度を変えるスピード
+        float angleSpeed;　　　　　　　　            　 //角度を変えるスピード
         int mutekiTimer;                                //無的時間を管理するための変数                
         public int HandDestroyTimer = 0;                //手がPlayerに当たっても消さないためのタイマー       
         float DistanceSpeed;                            //手とプレイヤーの距離を縮める速さ
@@ -39,20 +39,29 @@ namespace ActionGame
 
         public static int ScorePoint = 0;               //スコアポイントの変数
 
-        bool UpAndDownHit = false;                      //上下が当たっているかどうかの確認です
-        bool LeftAndRightHit = false;                   //左右が当たっているかどうかの確認です
-        bool gennsokuFrag = true;                       //振り子運動中にどっちの方向に進んでいるかを判断するためのフラグ
+        //bool UpAndDownHit = false;                      //上下が当たっているかどうかの確認です
+        //bool LeftAndRightHit = false;                   //左右が当たっているかどうかの確認です
+        //bool gennsokuFrag = true;                       //振り子運動中にどっちの方向に進んでいるかを判断するためのフラグ
 
-        public int haveWoolenYarn = 0;　　　　　　　　　//持っている毛糸の数
+        public int haveWoolenYarn = 0;         //持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
         //固定変数系-------------------------------------------------------------------------
+        readonly int MaxHP = 3;
         readonly float WalkSpeed = 4f;　　　　　　//歩く速さ
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
         readonly float MaxFallSpeed = 12;         //落ちる速度の最高速
         readonly int mutekitime = 60;             //無的時間の長さ
         public int HandDestroyTime = 60;          //発射後どのくらいで手を消すか？
+        //-----------------------------------------------------------------------------------
+
+
+        //フラグ関係--------------------------------------------------------------------------
+        bool UpAndDownHit = false;                      //上下が当たっているかどうかの確認です
+        bool LeftAndRightHit = false;                   //左右が当たっているかどうかの確認です
+        bool gennsokuFrag = true;                       //振り子運動中にどっちの方向に進んでいるかを判断するためのフラグ
+        bool FacingRight = true;
         //-----------------------------------------------------------------------------------
 
 
@@ -77,8 +86,10 @@ namespace ActionGame
             Position.y = y;　　　　　　　　　　　　　　　　　　　　　//上と同じ
             HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
             playerArraw = new PlayerArraw(this, Position);  　　　　 //矢印の生成
+
+            HP = MaxHP;
             //サイズ関係-------------------------------------------------------------------------
-            ImageWidth = 120;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
+            ImageWidth = 110;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
             ImageHeight = 180;   　　　　　　　　　　　　　　　　　　 //画像の縦ピクセル数
             hitboxOffsetLeft = -ImageWidth / 2; 　　　　　　　        //当たり判定のオフセット
             hitboxOffsetRight = ImageWidth / 2;                       //当たり判定のオフセット
@@ -101,12 +112,10 @@ namespace ActionGame
             //無的時間のカウントダウン
             mutekiTimer--;
 
-            //0以下にならないようにする
-            if (mutekiTimer < 0)
-            {
-                //時間を0にする
-                mutekiTimer = 0;
-            }
+            //0以下にならないようにする、時間を0にする
+            if (mutekiTimer < 0) mutekiTimer = 0;
+
+            //
             if (BeforHundFrag && !HundFrag)
             {
                 flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
@@ -114,16 +123,7 @@ namespace ActionGame
 
             //手を殺すためのタイマーでてきてすぐに殺さないため
             HandDestroyTimer--;
-            //三項演算子です　
-            //if(HandDestroyTimer<0)
-            //{
-            //    HandDestroyTimer = 0;
-            //}
-            //else
-            //{
-            //    HandDestroyTimer = HandDestroyTimer;
-            //}
-            //と同じことをしています。使った意味は使いたかったから
+            //0以下にしない            
             HandDestroyTimer = HandDestroyTimer < 0 ? 0 : HandDestroyTimer;
 
             //一個前のハンドフラグを代入
@@ -137,6 +137,8 @@ namespace ActionGame
                     VelocityX += -WalkSpeed;
                     //アニメーションカウントアップ
                     AnimationTimer++;
+
+                    FacingRight = false;
                 }
                 else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
                 {
@@ -144,6 +146,8 @@ namespace ActionGame
                     VelocityX += WalkSpeed;
                     //アニメーションカウントアップ
                     AnimationTimer++;
+
+                    FacingRight = true;
                 }
                 else
                 {
@@ -159,18 +163,18 @@ namespace ActionGame
             {
                 //腕が壁とくっついたら
                 //かつ角度が90以上なら　：　90だとradが0になるから
-                if (playScene.hund.HundHitFrag)
+                if (playScene.hand.HundHitFrag)
                 {
                     //手とPlayerの距離を縮めています
-                    if (playScene.hund.Distance > 150)
+                    if (playScene.hand.Distance > 150)
                     {
                         //手とPlayerの距離を縮めています
-                        playScene.hund.Distance -= DistanceSpeed;
+                        playScene.hand.Distance -= DistanceSpeed;
                     }
                     else
                     {
                         //これ以上短くしない
-                        playScene.hund.Distance = 150;
+                        playScene.hand.Distance = 150;
                     }
 
                     if (angle != 90)
@@ -183,9 +187,9 @@ namespace ActionGame
                     angle += angleSpeed;
 
                     //回転時の移動処理
-                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hund.Distance, 0))
+                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hand.Distance, 0))
                         * Matrix3.createRotation(angle)
-                        * Matrix3.createTranslation(playScene.hund.Position);
+                        * Matrix3.createTranslation(playScene.hand.Position);
 
                     //座標の設定
                     Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
@@ -197,9 +201,9 @@ namespace ActionGame
                     //手を消す
                     if (Input.GetButtonDown(DX.PAD_INPUT_2))
                     {
-                        playScene.hund.HundHitFrag = false;
+                        playScene.hand.HundHitFrag = false;
                         HundFrag = false;
-                        playScene.hund = null;
+                        playScene.hand = null;
                     }
                 }
 
@@ -287,8 +291,11 @@ namespace ActionGame
                 playScene.map.IsWall(left, middle4) ||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
-                float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
-                SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                if (HandDestroyTimer <= 0)
+                {
+                    float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
+                    SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
+                }
                 //フラグをオンにする
                 LeftAndRightHit = true;
             }
@@ -301,8 +308,11 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle4) ||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
-                float wallLeft = right - right % Map.CellSize;//壁の左端
-                SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                if (HandDestroyTimer <= 0)
+                {
+                    float wallLeft = right - right % Map.CellSize;//壁の左端
+                    SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
+                }
                 //フラグをオンにする
                 LeftAndRightHit = true;
             }
@@ -486,12 +496,62 @@ namespace ActionGame
         //描画処理
         public override void Draw()
         {
-            //点滅処理です　三分の一で描画しない
-            if (mutekiTimer % 3 < 2)
+            //右向きにするかどうかの変数
+            int FacingRightNow;
+
+            //bool分が入らなかったのでint型にしています
+            if (FacingRight)
             {
-                Camera.DrawRotaGraph(Position.x, Position.y, 0, Image.PlayerImage01[AnimationTimer / 10 % 4 + 8], 1);
+                FacingRightNow = 0;
             }
+            else
+            {
+                FacingRightNow = 1;
+            }
+
+            //何番目の画像を使うか判断するための変数です
+            int PlayerImageNumber = 0;
+
+            //手を射出しているかどうか
+            if (HundFrag)
+            {
+                PlayerImageNumber = 4;
+                if (HP <= MaxHP * 2 / 3)
+                {
+                    PlayerImageNumber++;
+                }
+            }
+            //歩いてるかどうか
+            else if (VelocityX != 0)
+            {
+                PlayerImageNumber = AnimationTimer / 10 % 4 + 8;
+                if (HP <= MaxHP * 2 / 3)
+                {
+                    PlayerImageNumber += 4;
+                }
+            }
+            else
+            {
+                PlayerImageNumber = 0;
+                if (HP <= MaxHP * 2 / 3)
+                {
+                    PlayerImageNumber++;
+                }
+            }
+
+            //無敵時に点滅するif分
+            if (mutekiTimer / 5 % 3 < 2)
+            {
+                Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage01[PlayerImageNumber], FacingRightNow);
+            }
+
+            //矢印の描画
             playerArraw.Draw();
+
+            int test = MaxHP * 2 / 3;
+
+            DX.DrawString(0, 0, HP.ToString(), DX.GetColor(255, 255, 255));
+            DX.DrawString(10, 0, test.ToString(), DX.GetColor(255, 255, 255));
         }
 
         //あたり判定？
@@ -527,7 +587,7 @@ namespace ActionGame
             if (HandDestroyTimer <= 0)
             {
                 HundFrag = false;
-                playScene.hund = null;
+                playScene.hand = null;
             }
         }
 
