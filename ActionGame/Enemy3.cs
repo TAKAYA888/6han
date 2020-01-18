@@ -4,35 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
+using MyMath_KNMR;
 
 namespace ActionGame
 {
-    class Enemy2 : EnemyObject
+    class Enemy3 : EnemyObject
     {
+        int counter = 0;
+
         enum State
         {
             Stop,
             Move
         }
-
         State state = State.Stop;
 
-        int HP = 2;//HP
-        float diff = 0;//プレイヤーXとエネミーXの差
+        int HP = 3;//HP
         const float Gravity = 0.6f; // 重力 
         const float MaxFallSpeed = 12f;   // 最大落下速度 
-        float vx = -6; // 横移動速度 
+        float vx = 0; // 横移動速度 
         float vy = 0; // 縦移動速度
-        //GimmickObject groundObject = null; // 乗っている床オブジェクト
-        //Direction direction = Direction.Right; // 向いている方向
 
-        public Enemy2(PlayScene playScene, float x, float y) : base(playScene)
+
+        public Enemy3(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
 
             imageWidth = 180;
-            imageHeight = 120;
+            imageHeight = 180;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
@@ -40,27 +40,25 @@ namespace ActionGame
         }
         public override void Update(Player player)
         {
+            counter++;
 
             if (HP <= 0)
             {
                 isDead = true;
             }
 
-            float playerX = player.Position.x;
-            vy += Gravity;
-
-            if (x > playerX)
+            if (counter < 200)
             {
-                diff = x - playerX;
+                state = State.Stop;
             }
-            else
-            {
-                diff = playerX - x;
-            }
-
-            if (diff <= 60 * 5)
+            else if (counter < 400)
             {
                 state = State.Move;
+            }
+
+            if (counter == 400)
+            {
+                counter = 0;
             }
 
             if (state == State.Stop)
@@ -69,14 +67,13 @@ namespace ActionGame
             }
             if (state == State.Move)
             {
-                MoveX();
-
+                //playScene.enemyBullets.Add(new EnemyBullet(x, y, 180f * MyMath.Deg2Rad, 8f));
             }
 
+            vy += Gravity;
             MoveY();
-
+            MoveX();
         }
-
         void MoveX()
         {
             x += vx;
@@ -143,18 +140,19 @@ namespace ActionGame
             }
         }
 
-
         public override void Draw()
         {
+            //bool flip = direction == Direction.Left;
             if (state == State.Stop)
             {
-                Camera.DrawGraph(x, y, Image.EnemyImage02);
+                Camera.DrawGraph(x, y, Image.EnemyImage03);
             }
             else
             {
-                Camera.DrawGraph(x, y, Image.EnemyImage02_1);
+                Camera.DrawGraph(x, y, Image.EnemyImage03_1);
             }
         }
+
         public override void OnCollision(playerObject playerObject)
         {
             //isDead = true;
@@ -168,6 +166,7 @@ namespace ActionGame
                 isDead = true; // 死亡 
             }
         }
+
         public override void miniMapDraw()
         {
             DX.DrawRotaGraphF(x / 1.5f, y / 2 + 200, 0.2, 0, Image.EnemyImage01);

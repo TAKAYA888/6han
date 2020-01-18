@@ -69,6 +69,8 @@
     <Compile Include="DxParticle.cs" />
     <Compile Include="Enemy1.cs" />
     <Compile Include="Enemy2.cs" />
+    <Compile Include="Enemy3.cs" />
+    <Compile Include="EnemyBullet.cs" />
     <Compile Include="EnemyObject.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Application.cs" />
@@ -182,6 +184,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Enemy03_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Enemy_shot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Floor01.png">

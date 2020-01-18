@@ -8,6 +8,9 @@ namespace ActionGame
 {
     public static class MyMath
     {
+        public const float PI = 3.14159265359f;//円周率
+        public const float Deg2Rad = PI / 180f;//度からラジアンに変換する定数
+
         /// <summary> 
         /// 四角形同士が重なっているか？ 
         /// </summary> 

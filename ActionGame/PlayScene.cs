@@ -34,6 +34,7 @@ namespace ActionGame
 
         public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();
+        public List<EnemyBullet> enemyBullets;//敵弾のリスト
         public List<playerObject> playerObjects = new List<playerObject>();
 
         public State state = State.Active;
@@ -45,6 +46,8 @@ namespace ActionGame
             //enemy1 = new Enemy1(this, 700, 300);
             enemyObjects.Add(new Enemy1(this, 700, 300));
             enemyObjects.Add(new Enemy2(this, 1500, 1400));
+            enemyObjects.Add(new Enemy3(this, 1700, 1400));
+            enemyBullets = new List<EnemyBullet>();
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
             moveFloor = new MoveFloorObject(this, 1500, 1400);
@@ -104,6 +107,12 @@ namespace ActionGame
             foreach (EnemyObject enemyObject in enemyObjects)
             {
                 enemyObject.Update(player);
+            }
+
+            // 敵弾の更新処理
+            foreach (EnemyBullet b in enemyBullets)
+            {
+                b.Update();
             }
 
             //playerObjectとEnemyObjectの衝突処理
@@ -220,6 +229,8 @@ namespace ActionGame
             itemObjects.RemoveAll(go => go.isDead);
             //不要となったオブジェクトを除去する(player)
             playerObjects.RemoveAll(player => player.isDead);
+            //不要となったオブジェクトを除去する(enemy_shot)
+            enemyBullets.RemoveAll(eb => eb.isDead);
 
             //--------------------------------------------------------------------------------------------------     
 
@@ -261,6 +272,13 @@ namespace ActionGame
             {
                 enemy.Draw();
                 enemy.DrawHitBox();
+            }
+
+            // 敵弾の描画
+            foreach (EnemyBullet b in enemyBullets)
+            {
+                b.Draw();
+                //b.DrawHitBox();
             }
 
             //針の描画
