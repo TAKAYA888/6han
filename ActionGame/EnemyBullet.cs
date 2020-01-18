@@ -48,7 +48,7 @@ namespace ActionGame
         //描画処理
         public void Draw()
         {
-            DX.DrawRotaGraphF(x, y, 1, 0f, Image.Enemy_shot);
+            Camera.DrawGraph(x, y, Image.Enemy_shot);
         }
     }
 }
