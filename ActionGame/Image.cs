@@ -40,6 +40,7 @@ namespace ActionGame
         public static int TogeWani01; //ワニのトゲ画像０１
         public static int TogeWani02;　//ワニのトゲ画像０２
         public static int TogeWani03;　//ワニのトゲ画像０２
+        public static int MoveFloor; //動く床の画像
 
         public static int Ito; //糸の画像
 
@@ -97,6 +98,7 @@ namespace ActionGame
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
+            MoveFloor = DX.LoadGraph("Image/MoveFloor.png");
 
             Ito = DX.LoadGraph("Image/Ito.png");
 

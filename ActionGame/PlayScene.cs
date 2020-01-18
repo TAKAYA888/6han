@@ -15,6 +15,8 @@ namespace ActionGame
         public Player player;
         //針
         NeedleObject needle;
+        //動く床
+        MoveFloorObject moveFloor;
 
         //時計
         int timer;
@@ -45,6 +47,7 @@ namespace ActionGame
             enemyObjects.Add(new Enemy2(this, 1500, 1400));
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             needle = new NeedleObject(this, 840, 1440);
+            moveFloor = new MoveFloorObject(this, 1500, 1400);
             map = new Map(this, "stage1");
             miniMap = new MiniMap(this, "stage1");
         }
@@ -174,6 +177,9 @@ namespace ActionGame
             //    needle.OnCollision(player);
             //}
 
+            //動く床
+            moveFloor.Update();
+
             //アイテムオブジェクト----------------------------------------------------------------------------
 
             int itemObjectsCount = itemObjects.Count;//ループ前の個数を取得しておく
@@ -260,6 +266,10 @@ namespace ActionGame
             //針の描画
             needle.Draw();
             needle.DrawHitBox();
+
+            //動く床の描画
+            moveFloor.Draw();
+            moveFloor.DrawHitBox();
 
             // ポーズ中の半透明のスクリーンの描画
             if (isPausing)
