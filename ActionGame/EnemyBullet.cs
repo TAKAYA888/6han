@@ -41,7 +41,7 @@ namespace ActionGame
             if (y + VisibleRadiius < 0 || y - VisibleRadiius > Screen.Height ||
                 x + VisibleRadiius < 0 || x - VisibleRadiius > Screen.Width)
             {
-                isDead = true;
+                //isDead = true;
             }
         }
 
@@ -49,6 +49,8 @@ namespace ActionGame
         public void Draw()
         {
             Camera.DrawGraph(x, y, Image.Enemy_shot);
-        }
+            //あたり判定です
+            Camera.DrawLineBox(x, y, x + 16, y + 16, DX.GetColor(255, 0, 0));
+        }      
     }
 }
