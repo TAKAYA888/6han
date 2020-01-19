@@ -32,10 +32,11 @@ namespace ActionGame
         //ハンドを設定
         public Hand hand;
 
-        public List<ItemObject> itemObjects = new List<ItemObject>(); //アイテムオブジェクトの配列
-        public List<EnemyObject> enemyObjects = new List<EnemyObject>();
-        public List<EnemyBullet> enemyBullets;//敵弾のリスト
-        public List<playerObject> playerObjects = new List<playerObject>();
+        public List<ItemObject> itemObjects = new List<ItemObject>();             //アイテムオブジェクトの配列
+        public List<EnemyObject> enemyObjects = new List<EnemyObject>();          //Enemyの配列
+        public List<EnemyBullet> enemyBullets;                                    //敵弾のリスト
+        public List<playerObject> playerObjects = new List<playerObject>();       //Playerの配列
+        public List<GimmickObject> gimmickObjects = new List<GimmickObject>();    //ギミックオブジェクトの配列
 
         public State state = State.Active;
         int timeToGameOver = 120;
@@ -63,6 +64,7 @@ namespace ActionGame
                 Game.ChangeScene(new GameOverScene());
             }
 
+            //ポーズ画面の処理
             if (isPausing)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_8))
@@ -71,20 +73,14 @@ namespace ActionGame
                 }
                 return;
             }
-            
+
             //---------------------------------------------------------------------------------------------------
 
             //ての作成
             if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand == null)
             {
-                player.HandDestroyTimer = player.HandDestroyTime;                
+                player.HandDestroyTimer = player.HandDestroyTime;
                 hand = new Hand(this, player, player.Position.x, player.Position.y);
-            }
-
-            //PlayerObjectの更新処理
-            foreach (playerObject playerObject in playerObjects)
-            {
-                playerObject.Update();
             }
 
             if (state == State.PlayerDied)
@@ -97,23 +93,7 @@ namespace ActionGame
                 }
             }
 
-            //手の更新処理
-            if (hand != null)
-            {
-                hand.Update();
-            }
-
-            //EnemyObの更新処理
-            foreach (EnemyObject enemyObject in enemyObjects)
-            {
-                enemyObject.Update(player);
-            }
-
-            // 敵弾の更新処理
-            foreach (EnemyBullet b in enemyBullets)
-            {
-                b.Update();
-            }
+            ObjectUpdate();
 
             //playerObjectとEnemyObjectの衝突処理
             for (int i = 0; i < enemyObjects.Count; i++)
@@ -157,6 +137,7 @@ namespace ActionGame
                 }
             }
 
+            //playerと手の当たり判定
             for (int i = 0; i < playerObjects.Count(); i++)
             {
                 if (hand == null)
@@ -170,12 +151,7 @@ namespace ActionGame
                     hand.OnCollisionP(player);
                     player.OnCollisionHand(hand);
                 }
-
-
             }
-
-            //死んでいるEnemyの処理？
-            enemyObjects.RemoveAll(ene => ene.isDead);
 
             //針
             //オブジェクトAとBが重なっているか？
@@ -185,9 +161,6 @@ namespace ActionGame
             //    player.OnCollisionG(needle);
             //    needle.OnCollision(player);
             //}
-
-            //動く床
-            moveFloor.Update();
 
             //アイテムオブジェクト----------------------------------------------------------------------------
 
@@ -225,14 +198,16 @@ namespace ActionGame
                 }
 
             }
+            //--------------------------------------------------------------------------------------------------     
+
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
             //不要となったオブジェクトを除去する(player)
             playerObjects.RemoveAll(player => player.isDead);
             //不要となったオブジェクトを除去する(enemy_shot)
             enemyBullets.RemoveAll(eb => eb.isDead);
-
-            //--------------------------------------------------------------------------------------------------     
+            //死んでいるEnemyの処理？
+            enemyObjects.RemoveAll(ene => ene.isDead);
 
             if (Input.GetButtonDown(DX.PAD_INPUT_8))
             {
@@ -277,8 +252,13 @@ namespace ActionGame
             // 敵弾の描画
             foreach (EnemyBullet b in enemyBullets)
             {
-                b.Draw();
-                //b.DrawHitBox();
+                b.Draw();                
+            }
+
+            foreach(GimmickObject gimmick in gimmickObjects)
+            {
+                gimmick.Draw();
+                gimmick.DrawHitBox();
             }
 
             //針の描画
@@ -302,6 +282,42 @@ namespace ActionGame
 
                 miniMap.Draw();
             }
+        }
+
+        void ObjectUpdate()
+        {
+            //手の更新処理
+            if (hand != null)
+            {
+                hand.Update();
+            }
+
+            //PlayerObjectの更新処理
+            foreach (playerObject playerObject in playerObjects)
+            {
+                playerObject.Update();
+            }            
+
+            //EnemyObの更新処理
+            foreach (EnemyObject enemyObject in enemyObjects)
+            {
+                enemyObject.Update(player);
+            }
+
+            // 敵弾の更新処理
+            foreach (EnemyBullet b in enemyBullets)
+            {
+                b.Update();
+            }
+
+            //ギミックの更新処理
+            foreach (GimmickObject gimmick in gimmickObjects)
+            {
+                gimmick.Update();
+            }
+
+            //動く床
+            moveFloor.Update();
         }
     }
 }
