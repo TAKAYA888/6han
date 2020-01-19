@@ -17,12 +17,20 @@ namespace ActionGame
             Walk,//歩き、立ち
             Jump,//ジャンプ中
         }
+
+        public enum State
+        {
+            Normal,
+            Speed,
+        }
+
         //-----------------------------------------------------------------------------------
 
         //ステータス関係の変数---------------------------------------------------------------               
         float VelocityX = 0f;                           //移動速度(x方向)
         float VelocityY = 0f;　　　                     //移動速度(y方向)
         float flyVelocityX = 0f;
+        int PlayerStateNumber;
         public int HP;                                  //HP(体力)
         public bool HundFrag;                           //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　      　//一個前の手がくっついたかのフラグ
@@ -38,12 +46,9 @@ namespace ActionGame
         int AnimationTimer;                             //アニメーション用のタイマー
 
         public static int ScorePoint = 0;               //スコアポイントの変数
+        
 
-        //bool UpAndDownHit = false;                      //上下が当たっているかどうかの確認です
-        //bool LeftAndRightHit = false;                   //左右が当たっているかどうかの確認です
-        //bool gennsokuFrag = true;                       //振り子運動中にどっちの方向に進んでいるかを判断するためのフラグ
-
-        public int haveWoolenYarn = 0;         //持っている毛糸の数
+        public int haveWoolenYarn = 0;                  //持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
 
@@ -74,7 +79,8 @@ namespace ActionGame
         //float prevBottom;            //1フレーム前の下端
         //-----------------------------------------------------------------------------------
 
-        JumpState jumpState;                //ジャンプステートの初期化
+        State state;
+        //JumpState jumpState;                //ジャンプステートの初期化
         public PlayScene playScene;       　//playSceneの宣言
         public PlayerArraw playerArraw;     //矢印の宣言
 
@@ -372,17 +378,12 @@ namespace ActionGame
             {
                 float wallTop = bottom - bottom % Map.CellSize - 0.1f; // 床のy座標 
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
-                VelocityY = 0; // 縦の移動速度を0に 
-                jumpState = JumpState.Walk;
+                VelocityY = 0; // 縦の移動速度を0に                 
                 flyVelocityX = 0;
                 if (HundFrag && HandDestroyTimer <= 0)
                 {
                     angleSpeed = 0;
                 }
-            }
-            else // 着地してなかったら 
-            {
-                jumpState = JumpState.Jump; // 状態をジャンプ中に 
             }
         }
 
@@ -542,16 +543,18 @@ namespace ActionGame
             //無敵時に点滅するif分
             if (mutekiTimer / 5 % 3 < 2)
             {
-                Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage01[PlayerImageNumber], FacingRightNow);
+                if (state == State.Normal)
+                {
+                    Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage01[PlayerImageNumber], FacingRightNow);
+                }
+                else if (state == State.Speed)
+                {
+                    Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage02[PlayerImageNumber], FacingRightNow);
+                }
             }
 
             //矢印の描画
             playerArraw.Draw();
-
-            int test = MaxHP * 2 / 3;
-
-            DX.DrawString(0, 0, HP.ToString(), DX.GetColor(255, 255, 255));
-            DX.DrawString(10, 0, test.ToString(), DX.GetColor(255, 255, 255));
         }
 
         //あたり判定？
@@ -570,6 +573,10 @@ namespace ActionGame
             if (item is WoolenYarn)
             {
                 haveWoolenYarn += 1;
+            }
+            else if (item is SpeedUp)
+            {
+                state = State.Speed;
             }
             ScorePoint += 1000; //スコア
         }

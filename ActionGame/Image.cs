@@ -10,7 +10,8 @@ namespace ActionGame
     public static class Image
     {
         //プレイヤーのリソース画像
-        public static int[] PlayerImage01 = new int[18]; //プレイヤーの正面画像
+        public static int[] PlayerImage01 = new int[18]; //プレイヤー(Normal)の画像
+        public static int[] PlayerImage02 = new int[18]; //プレイヤー(Speed)の画像
         public static int PlayerArraws;                  //playerの矢印
         public static int PlayerHand;                    //playerの手
 
@@ -30,23 +31,24 @@ namespace ActionGame
         public static int ItemContinue;
 
         //その他のリソース画像
-        public static int[] mapchip = new int[12];     //
-        public static int Block01; //ブロックの画像０１        
-        public static int Floor01; //フロアの画像０１
-        public static int GameClearImage; //ゲームクリア画像
-        public static int GameOverImage; //ゲームオーバー画像
-        public static int IconIto; //糸のアイコン画像
-        public static int IconMap; //マップのアイコン画像
-        public static int MapImage; //マップ画像
-        public static int miniMapBackBround;//ミニマップの背景画像
-        public static int Stage01; //ステージのイメージ画像０１
-        public static int TitleImage;　//タイトル画面の画像
-        public static int TogeWani01; //ワニのトゲ画像０１
-        public static int TogeWani02;　//ワニのトゲ画像０２
-        public static int TogeWani03;　//ワニのトゲ画像０２
-        public static int MoveFloor; //動く床の画像
+        public static int[] mapchip = new int[12];      //
+        public static int Block01;                      //ブロックの画像０１        
+        public static int Floor01;                      //フロアの画像０１
+        public static int SpeedUpItem;
+        public static int GameClearImage;               //ゲームクリア画像
+        public static int GameOverImage;                //ゲームオーバー画像
+        public static int IconIto;                      //糸のアイコン画像
+        public static int IconMap;                      //マップのアイコン画像
+        public static int MapImage;                     //マップ画像
+        public static int miniMapBackBround;            //ミニマップの背景画像
+        public static int Stage01;                      //ステージのイメージ画像０１
+        public static int TitleImage;                 　//タイトル画面の画像
+        public static int TogeWani01;                   //ワニのトゲ画像０１
+        public static int TogeWani02;　                 //ワニのトゲ画像０２
+        public static int TogeWani03;　                 //ワニのトゲ画像０２
+        public static int MoveFloor;                    //動く床の画像
 
-        public static int Ito; //糸の画像
+        public static int Ito;                          //糸の画像
 
         //Particle関係
         public static int particleDot1;
@@ -73,6 +75,7 @@ namespace ActionGame
         {
             //プレイヤーのリソース画像
             DX.LoadDivGraph("Image/Player01.png", PlayerImage01.Length, 4, 5, 120, 180, PlayerImage01);
+            DX.LoadDivGraph("Image/Player02.png", PlayerImage02.Length, 4, 5, 120, 180, PlayerImage02);
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
             PlayerHand = DX.LoadGraph("Image/PlayerHand01.png");
 
@@ -93,6 +96,7 @@ namespace ActionGame
 
             //その他のリソース画像
             DX.LoadDivGraph("Image/mapchip.png", mapchip.Length, 6, 2, 60, 60, mapchip);
+            SpeedUpItem = DX.LoadGraph("Image/ItemsSpeedUp.png");
             Block01 = DX.LoadGraph("Image/Block01.png");
             Floor01 = DX.LoadGraph("Image/Floor01.png");
             GameClearImage = DX.LoadGraph("Image/GameClear.jpg");
