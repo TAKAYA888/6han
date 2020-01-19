@@ -17,9 +17,9 @@ namespace ActionGame
         public readonly int ProtrusionBlock = 1;    //見た目は突起があるブロック、刺さる壁
         public readonly int NormalBlock = 2;        //見た目は突起がないブロック、刺さる壁
 
-        public const int Width = 64;
-        public const int Height = 27;
-        public const int CellSize = 60;
+        public const int Width = 64;                //
+        public const int Height = 27;               //
+        public const int CellSize = 60;             //
 
         PlayScene playScene;
         int[,] terrain;
@@ -86,7 +86,7 @@ namespace ActionGame
 
                 playScene.playerObjects.Add(player);
 
-                playScene.player = player;
+                playScene.player = player;                
             }
             else if (objectID == 1) 　//ゴール描画
             {
@@ -100,7 +100,26 @@ namespace ActionGame
             {
                 playScene.itemObjects.Add(new SpeedUp(playScene, spawnX, spawnY));
             }
-
+            else if (objectID == 4)    //Enemy1
+            {
+                playScene.enemyObjects.Add(new Enemy1(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 5)    //Enemy2
+            {
+                playScene.enemyObjects.Add(new Enemy2(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 6)    //Enemy3
+            {
+                playScene.enemyObjects.Add(new Enemy3(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 7)     //針
+            {
+                playScene.gimmickObjects.Add(new NeedleObject(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 8)     //動く床
+            {
+                playScene.gimmickObjects.Add(new MoveFloorObject(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()
