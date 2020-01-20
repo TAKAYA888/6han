@@ -92,20 +92,20 @@ namespace ActionGame
                     int id = _object[x, y];
 
                     if (id == None) continue; // 描画しない 
-                    
-                    else if(id==0)
+
+                    else if (id == 0)
                     {
                         DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01[1]);
                     }
-                    else if(id==1)
+                    else if (id == 1)
                     {
                         DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.PlayerImage01[1]);
                     }
-                    else if(id==2)
+                    else if (id == 2)
                     {
                         DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.Ito);
                     }
-                    else if(id==3)
+                    else if (id == 3)
                     {
                         DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.5, 0, Image.IconIto);
                     }

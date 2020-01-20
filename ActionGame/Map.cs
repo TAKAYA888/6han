@@ -29,7 +29,7 @@ namespace ActionGame
             this.playScene = playScene;
 
             LoadTerrain("Map/" + stageName + "_terrain.csv");
-            LoadObjects("Map/" + stageName + "_object.csv");
+            LoadObjects("Map/" + stageName + "_object.csv", "Map/" + stageName + "_number.csv");
         }
 
         void LoadTerrain(string filePath)
@@ -52,30 +52,34 @@ namespace ActionGame
             }
         }
 
-        void LoadObjects(string filePath)
+        void LoadObjects(string filePath, string numberFailPath)
         {
-            string[] lines = File.ReadAllLines(filePath); // ファイルを行ごとに読み込む
+            string[] ObjectLines = File.ReadAllLines(filePath); // ファイルを行ごとに読み込む(object)
+            string[] number = File.ReadAllLines(numberFailPath);//ファイルを行ごとに読み込む(number)
 
-            Debug.Assert(lines.Length == Height, filePath + "の高さが不正です：" + lines.Length);
+            Debug.Assert(ObjectLines.Length == Height, filePath + "の高さが不正です：" + ObjectLines.Length);
+            Debug.Assert(number.Length == Height, numberFailPath + "の高さが不正です:" + number.Length);
 
             for (int y = 0; y < Height; y++)
             {
-                string[] splitted = lines[y].Split(new char[] { ',' });
+                string[] splitted = ObjectLines[y].Split(new char[] { ',' });
+                string[] objectNumber = number[y].Split(new char[] { ',' });
 
                 Debug.Assert(splitted.Length == Width, filePath + "の" + y + "行目の列数が不正です:" + splitted.Length);
 
                 for (int x = 0; x < Width; x++)
                 {
                     int id = int.Parse(splitted[x]);
+                    int OBJECTnumber = int.Parse(objectNumber[x]);
 
                     if (id == -1) continue;
 
-                    SpawnObject(x, y, id);
+                    SpawnObject(x, y, id, OBJECTnumber);
                 }
             }
         }
 
-        void SpawnObject(int mapX, int mapY, int objectID)
+        void SpawnObject(int mapX, int mapY, int objectID, int objectNumber)
         {
             float spawnX = mapX * CellSize;
             float spawnY = mapY * CellSize;
@@ -86,7 +90,7 @@ namespace ActionGame
 
                 playScene.playerObjects.Add(player);
 
-                playScene.player = player;                
+                playScene.player = player;
             }
             else if (objectID == 1) 　//ゴール描画
             {
@@ -119,6 +123,24 @@ namespace ActionGame
             else if (objectID == 8)     //動く床
             {
                 playScene.gimmickObjects.Add(new MoveFloorObject(playScene, spawnX, spawnY));
+            }
+            else if (objectID == 9)     //鍵
+            {
+                key Key = new key(playScene, spawnX, spawnY);
+
+                Key.KeyNunber = objectNumber;
+
+                playScene.gimmickObjects.Add(Key);
+
+                playScene.keys.Add(Key);
+            }
+            else if (objectID == 10)    //鍵のドア
+            {
+                KeyDoor keyDoor = new KeyDoor(playScene, spawnX, spawnY);
+
+                keyDoor.DoorNunber = objectNumber;
+
+                playScene.gimmickObjects.Add(keyDoor);
             }
         }
 

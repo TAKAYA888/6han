@@ -77,6 +77,8 @@
     <Compile Include="GameClearScene.cs" />
     <Compile Include="GameOverScene.cs" />
     <Compile Include="GimmickObject.cs" />
+    <Compile Include="gimmickObject\key.cs" />
+    <Compile Include="gimmickObject\KeyDoor.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="Image.cs">
@@ -113,6 +115,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Map\stage1.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Map\stage1_number.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Map\stage1_object.csv">

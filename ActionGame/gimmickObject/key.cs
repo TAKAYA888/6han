@@ -6,48 +6,42 @@ using System.Threading.Tasks;
 
 namespace ActionGame
 {
-    class MoveFloorObject : GimmickObject
+    public class key : GimmickObject
     {
-        int counter = 0;
+        public int KeyNunber;
+        public bool openFrag;
 
-        public MoveFloorObject(PlayScene playScene, float x, float y) : base(playScene)
+        public key(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
-
-            imageWidth = 60;
+            imageWidth = 40;
             imageHeight = 60;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
             hitboxOffsetBottom = 0;
+            openFrag = false;
         }
+
         public override void Update()
         {
-            counter++;
 
-            if (counter < 200)
-            {
-                x += 1f; // 右に移動
-            }
-            else if (counter < 400)
-            {
-                x -= 1f; // 左に移動
-            }
-
-            if (counter == 400)
-            {
-                counter = 0;
-            }
         }
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.MoveFloor);
+            Camera.DrawGraph(x, y, Image.KeyImage[0]);
         }
 
         public override void OnCollision(playerObject playerObject)
         {
+            if(playerObject is Hand)
+            {
+                openFrag = true;
+            }
         }
     }
 }
+
+

@@ -9,12 +9,13 @@ using DxLibDLL;
 
 namespace ActionGame
 {
-    public class Hand
+    public class Hand : playerObject
     {
         public enum Hit
         {
             NotHit,
             Hit,
+            Retrun,
         }
 
         Hit hit;
@@ -23,9 +24,7 @@ namespace ActionGame
         Player player;
         //----------------------------------------------------------------------------------------------------------------
 
-        //ステータス関係変数--------------------------------------------------------------------------------------------------
-
-        public Vector2 Position = new Vector2(0, 0); 　//現在地
+        //ステータス関係変数--------------------------------------------------------------------------------------------------        
         public float playerPosY;
         public float Distance;           　　　//Playerとの距離
         public float FirstAngle;         　　　//初期角度
@@ -38,33 +37,28 @@ namespace ActionGame
         //----------------------------------------------------------------------------------------------------------------
 
 
-        //サイズ関係-------------------------------------------------------------------------
-        int imageWidth = 120;       //画像の横ピクセル数
-        int imageHeight = 60;       //画像の縦ピクセル数
-        int hitboxOffsetLeft = -10;　　//当たり判定のオフセット
-        int hitboxOffsetRight = 80;   //当たり判定のオフセット
-        int hitboxOffsetTop = -50;     //当たり判定のオフセット
-        int hitboxOffsetBotton = 70;  //当たり判定のオフセット
-
-        float prevX;           //1フレーム前のx座標
-        float prevY;           //1フレーム前のy座標
-        float prevLeft;        //1フレーム前の左端
-        float prevRight;       //1フレーム前の右端
-        float prevTop;         //1フレーム前の上端
-        float prevBottom;      //1フレーム前の下端
+        ////サイズ関係-------------------------------------------------------------------------             
         //-----------------------------------------------------------------------------------
-        public Hand(PlayScene playScene, Player player, float x, float y)
+        public Hand(PlayScene playScene, float x, float y) : base(playScene)
         {
-            this.player = player;
+            player = playScene.player;
+            HundHitFrag = false;
             Position.x = x;
             Position.y = y;
             hit = Hit.NotHit;
+
+            ImageWidth = 120;       //画像の横ピクセル数
+            ImageHeight = 60;       //画像の縦ピクセル数
+            hitboxOffsetLeft = -10;　　//当たり判定のオフセット
+            hitboxOffsetRight = 80;   //当たり判定のオフセット
+            hitboxOffsetTop = -50;     //当たり判定のオフセット
+            hitboxOffsetBottom = 70;  //当たり判定のオフセット
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
             playerPosY = player.Position.y;
         }
 
-        public void Update()
+        public override void Update()
         {
             BeforHundHitFrag = HundHitFrag;
             if (hit == Hit.NotHit)
@@ -75,25 +69,29 @@ namespace ActionGame
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
 
-                MoveX();
-                MoveY();
-
                 if (Distance > 960.0f || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
                     VelocityX = -VelocityX;
                     VelocityY = -VelocityY;
                 }
 
+                MoveX();
+                MoveY();
+
                 if (Distance <= 1)
                 {
-                    player.playScene.hand = null;
+                    isDead = true;
                     player.HundFrag = false;
                 }
             }
-            else
+            else if (hit == Hit.NotHit)
             {
                 VelocityX = 0;
                 VelocityY = 0;
+            }
+            else if (hit == Hit.Retrun)
+            {
+                float PlayerToAngle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
             }
         }
 
@@ -108,9 +106,9 @@ namespace ActionGame
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
-            if (player.playScene.map.IsWall(left, top) || //左上が壁か？
-                player.playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
-                player.playScene.map.IsWall(left, bottom))   //左下が壁か？
+            if (playScene.map.IsWall(left, top) || //左上が壁か？
+                playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
                 hit = Hit.Hit;
@@ -125,9 +123,9 @@ namespace ActionGame
             }
             //右端が壁にめりこんでいるか？
             else if (
-                player.playScene.map.IsWall(right, top) ||　　　//左上が壁か？
-                player.playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
-                player.playScene.map.IsWall(right, bottom))     //左下が壁か？
+                playScene.map.IsWall(right, top) ||　　　//左上が壁か？
+                playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
+                playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 hit = Hit.Hit;
                 float wallLeft = right - right % Map.CellSize;//壁の左端
@@ -138,7 +136,6 @@ namespace ActionGame
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
-
             }
         }
 
@@ -156,10 +153,10 @@ namespace ActionGame
             float bottom = GetBottom() - 0.01f;
 
             // 上端が壁にめりこんでいるか？ 
-            if (player.playScene.map.IsWall(left, top) || // 左上が壁か？ 
-                player.playScene.map.IsWall(Center1, top) ||
-                player.playScene.map.IsWall(Center2, top) ||
-                player.playScene.map.IsWall(right, top))   // 右上が壁か？ 
+            if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
+                playScene.map.IsWall(Center1, top) ||
+                playScene.map.IsWall(Center2, top) ||
+                playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
                 SetTop(wallBottom); // プレイヤーの頭を天井に沿わす 
@@ -181,10 +178,10 @@ namespace ActionGame
             }
             // 下端が壁にめりこんでいるか？ 
             else if (
-                player.playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
-                player.playScene.map.IsWall(Center1, bottom) ||
-                player.playScene.map.IsWall(Center2, bottom) ||
-                player.playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
+                playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
+                playScene.map.IsWall(Center1, bottom) ||
+                playScene.map.IsWall(Center2, bottom) ||
+                playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
                 float wallTop = bottom - bottom % Map.CellSize; // 床のy座標 
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
@@ -199,79 +196,40 @@ namespace ActionGame
             }
         }
 
-        public void Draw()
+        public override void Draw()
         {
             Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand, 1);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
-        public void OnCollision(EnemyObject enemyObject)
+        public override void OnCollision(EnemyObject enemyObject)
         {
-            player.playScene.hand = null;
-            HundHitFrag = false;
             player.HundFrag = false;
+            isDead = true;
         }
 
-        public void OnCollisionI(ItemObject itemObject)
+        public override void OnCollisionI(ItemObject itemObject)
         {
 
         }
 
-        public void OnCollisionP(playerObject playerObject)
+        public override void OnCollisionP(playerObject playerObject)
         {
-            if (playerObject is Player)
+        }
+
+        public override void OnCollisionG(GimmickObject gimmickObject)
+        {
+            if (gimmickObject is key && !HundHitFrag)
             {
-
+                HundHitFrag = true;
+                hit = Hit.Hit;
+                Distance = (float)Math.Sqrt(
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
             }
-        }
-
-        //当たり判定の左端を取得
-        public virtual float GetLeft()
-        {
-            return Position.x + hitboxOffsetLeft;
-        }
-
-        //左端を指定することにより位置を設定する
-        public virtual void SetLeft(float left)
-        {
-            Position.x = left - hitboxOffsetLeft;
-        }
-
-        //当たり判定の右端を取得
-        public virtual float GetRight()
-        {
-            return Position.x + imageWidth - hitboxOffsetRight;
-        }
-
-        //右端を指定することにより位置を設定する
-        public virtual void SetRight(float right)
-        {
-            Position.x = right + hitboxOffsetRight - imageWidth;
-        }
-
-        //当たり判定の上端を取得
-        public virtual float GetTop()
-        {
-            return Position.y + hitboxOffsetTop;
-        }
-
-        //上端を指定することにより位置を設定する
-        public virtual void SetTop(float top)
-        {
-            Position.y = top - hitboxOffsetTop;
-        }
-
-        //当たり判定の下端を取得する
-        public virtual float GetBottom()
-        {
-            return Position.y + imageHeight - hitboxOffsetBotton;
-        }
-
-        //下端を指定することにより位置を設定する
-        public virtual void SetBottom(float bottom)
-        {
-            Position.y = bottom + hitboxOffsetBotton - imageHeight;
         }
     }
 }

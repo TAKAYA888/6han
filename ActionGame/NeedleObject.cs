@@ -31,12 +31,12 @@ namespace ActionGame
             Camera.DrawGraph(x, y, Image.TogeWani02);
         }
 
-        public override void OnCollision(Player player)
+        public override void OnCollision(playerObject playerObject)
         {
-            // if (other is Player)
-            // {
-            //     isDead = true;
-            // }
+            if (playerObject is Player)
+            {
+                isDead = true;
+            }
         }
     }
 }

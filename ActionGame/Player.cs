@@ -35,7 +35,7 @@ namespace ActionGame
         public bool HundFrag;                           //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　      　//一個前の手がくっついたかのフラグ
         public bool FrastHandAngleFrag = false;　　　 　//手のくっついた時の角度が90度以上かそうでないかの判断を行うためのフラグ
-        float Distance;　　　　　　　　　　　　　       //手とこいつの距離
+        //float Distance;　　　　　　　　　　　　　       //手とこいつの距離
         float angle = MathHelper.toRadians(315);     　 //手との角度
         float FirstAngle;                               //角度を制限するための変数
         float LastAngle;　　　　　　　　　　　　     　 //角度を制限するための変数
@@ -46,7 +46,7 @@ namespace ActionGame
         int AnimationTimer;                             //アニメーション用のタイマー
 
         public static int ScorePoint = 0;               //スコアポイントの変数
-        
+
 
         public int haveWoolenYarn = 0;                  //持っている毛糸の数
 
@@ -81,13 +81,14 @@ namespace ActionGame
 
         State state;
         //JumpState jumpState;                //ジャンプステートの初期化
-        public PlayScene playScene;       　//playSceneの宣言
+        //public PlayScene playScene;       　//playSceneの宣言
         public PlayerArraw playerArraw;     //矢印の宣言
+        public Hand hand;
 
         //コンストラクタ
         public Player(PlayScene playScene, float x, float y) : base(playScene)
         {
-            this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
+            //this.playScene = playScene;　　　　　　　　　　　　　　　//PlaySceneの受け取り
             Position.x = x;　　　　　　　　　　　　　　　　　　　　　//初期座標の設定
             Position.y = y;　　　　　　　　　　　　　　　　　　　　　//上と同じ
             HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
@@ -99,7 +100,7 @@ namespace ActionGame
             ImageHeight = 180;   　　　　　　　　　　　　　　　　　　 //画像の縦ピクセル数
             hitboxOffsetLeft = -ImageWidth / 2; 　　　　　　　        //当たり判定のオフセット
             hitboxOffsetRight = ImageWidth / 2;                       //当たり判定のオフセット
-            hitboxOffsetTop = -ImageHeight / 2;                       //当たり判定のオフセット
+            hitboxOffsetTop = -ImageHeight / 2 + 5;                       //当たり判定のオフセット
             hitboxOffsetBottom = ImageHeight / 2;                     //当たり判定のオフセット
         }
 
@@ -169,18 +170,18 @@ namespace ActionGame
             {
                 //腕が壁とくっついたら
                 //かつ角度が90以上なら　：　90だとradが0になるから
-                if (playScene.hand.HundHitFrag)
+                if (hand.HundHitFrag)
                 {
                     //手とPlayerの距離を縮めています
-                    if (playScene.hand.Distance > 150)
+                    if (hand.Distance > 150)
                     {
                         //手とPlayerの距離を縮めています
-                        playScene.hand.Distance -= DistanceSpeed;
+                        hand.Distance -= DistanceSpeed;
                     }
                     else
                     {
                         //これ以上短くしない
-                        playScene.hand.Distance = 150;
+                        hand.Distance = 150;
                     }
 
                     if (angle != 90)
@@ -193,9 +194,9 @@ namespace ActionGame
                     angle += angleSpeed;
 
                     //回転時の移動処理
-                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(playScene.hand.Distance, 0))
+                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(hand.Distance, 0))
                         * Matrix3.createRotation(angle)
-                        * Matrix3.createTranslation(playScene.hand.Position);
+                        * Matrix3.createTranslation(hand.Position);
 
                     //座標の設定
                     Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
@@ -207,9 +208,8 @@ namespace ActionGame
                     //手を消す
                     if (Input.GetButtonDown(DX.PAD_INPUT_2))
                     {
-                        playScene.hand.HundHitFrag = false;
                         HundFrag = false;
-                        playScene.hand = null;
+                        hand.isDead = true;
                     }
                 }
 
@@ -236,6 +236,14 @@ namespace ActionGame
             //手の射出
             if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && !HundFrag)
             {
+                Hand hand_A = new Hand(playScene, Position.x, Position.y);
+
+                hand = hand_A;
+
+                playScene.playerObjects.Add(hand_A);
+
+                HandDestroyTimer = HandDestroyTime;
+
                 //手を縮めるスピード
                 DistanceSpeed = 10;
 
@@ -553,6 +561,12 @@ namespace ActionGame
                 }
             }
 
+            if (hand != null && !hand.isDead)
+            {
+                Camera.DrawLine(Position, hand.Position);
+                hand.Draw();
+            }
+
             //矢印の描画
             playerArraw.Draw();
         }
@@ -589,12 +603,15 @@ namespace ActionGame
             }
         }
 
-        public override void OnCollisionHand(Hand hund)
+        public override void OnCollisionP(playerObject playerObject)
         {
-            if (HandDestroyTimer <= 0)
+            if (playerObject is Hand)
             {
-                HundFrag = false;
-                playScene.hand = null;
+                if (HandDestroyTimer <= 0)
+                {
+                    HundFrag = false;
+                    hand.isDead = true;
+                }
             }
         }
 

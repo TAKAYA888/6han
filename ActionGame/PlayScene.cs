@@ -30,13 +30,14 @@ namespace ActionGame
         public Map map;
         MiniMap miniMap;
         //ハンドを設定
-        public Hand hand;
+        //public Hand hand;
 
         public List<ItemObject> itemObjects = new List<ItemObject>();             //アイテムオブジェクトの配列
         public List<EnemyObject> enemyObjects = new List<EnemyObject>();          //Enemyの配列
         public List<EnemyBullet> enemyBullets;                                    //敵弾のリスト
         public List<playerObject> playerObjects = new List<playerObject>();       //Playerの配列
         public List<GimmickObject> gimmickObjects = new List<GimmickObject>();    //ギミックオブジェクトの配列
+        public List<key> keys = new List<key>();
 
         public State state = State.Active;
         int timeToGameOver = 120;
@@ -76,12 +77,6 @@ namespace ActionGame
 
             //---------------------------------------------------------------------------------------------------
 
-            //ての作成
-            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand == null)
-            {
-                player.HandDestroyTimer = player.HandDestroyTime;
-                hand = new Hand(this, player, player.Position.x, player.Position.y);
-            }
 
             if (state == State.PlayerDied)
             {
@@ -117,39 +112,87 @@ namespace ActionGame
                 }
             }
 
-            //手とEnemyobjectの衝突処理
-            if (hand != null)
+            ////手とEnemyobjectの衝突処理
+            //if (hand != null)
+            //{
+            //    for (int i = 0; i < enemyObjects.Count; ++i)
+            //    {
+            //        EnemyObject enemyObject = enemyObjects[i];
+
+            //        if (enemyObject.isDead) continue;
+
+            //        if (hand == null) { break; }//バグったので一時的に書き足しました
+
+            //        if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
+            //             enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
+            //        {
+            //            hand.OnCollision(enemyObject);
+            //            enemyObject.OnCollisionH(hand);
+            //        }
+            //    }
+            //}
+
+            ////playerと手の当たり判定
+            //for (int i = 0; i < playerObjects.Count(); i++)
+            //{
+            //    if (hand == null)
+            //        break;
+
+            //    playerObject player = playerObjects[i];
+
+            //    if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
+            //             player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            //    {
+            //        hand.OnCollisionP(player);
+            //        player.OnCollisionHand(hand);
+            //    }
+            //}
+
+            for (int i = 0; i < playerObjects.Count(); i++)
             {
-                for (int i = 0; i < enemyObjects.Count; ++i)
+                playerObject objectA = playerObjects[i];
+
+                if (objectA.isDead == true) continue;
+
+                for (int j = 0; j < playerObjects.Count(); j++)
                 {
-                    EnemyObject enemyObject = enemyObjects[i];
+                    if (i == j)
+                        break;
 
-                    if (enemyObject.isDead) continue;
+                    playerObject objectB = playerObjects[j];
 
-                    if (hand == null) { break; }//バグったので一時的に書き足しました
+                    if (objectB.isDead == true) break;
 
-                    if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
-                         enemyObject.GetLeft(), enemyObject.GetTop(), enemyObject.GetRight(), enemyObject.GetBottom()))
+                    if (MyMath.RectRectIntersect(
+                        objectA.GetLeft(), objectA.GetTop(), objectA.GetRight(), objectA.GetBottom(),
+                        objectB.GetLeft(), objectB.GetTop(), objectB.GetRight(), objectB.GetBottom()))
                     {
-                        hand.OnCollision(enemyObject);
-                        enemyObject.OnCollisionH(hand);
+                        objectA.OnCollisionP(objectB);
+                        objectB.OnCollisionP(objectA);
                     }
                 }
             }
 
-            //playerと手の当たり判定
             for (int i = 0; i < playerObjects.Count(); i++)
             {
-                if (hand == null)
-                    break;
+                playerObject playerObject = playerObjects[i];
 
-                playerObject player = playerObjects[i];
+                if (playerObject.isDead == true) continue;
 
-                if (MyMath.RectRectIntersect(hand.GetLeft(), hand.GetTop(), hand.GetRight(), hand.GetBottom(),
-                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+                for (int j = 0; j < gimmickObjects.Count(); j++)
                 {
-                    hand.OnCollisionP(player);
-                    player.OnCollisionHand(hand);
+                    GimmickObject gimmickObject = gimmickObjects[j];
+
+                    if (gimmickObject.isDead == true) break;
+
+                    if(MyMath.RectRectIntersect(
+                        playerObject.GetLeft(),playerObject.GetTop(),playerObject.GetRight(),playerObject.GetBottom(),
+                        gimmickObject.GetLeft(),gimmickObject.GetTop(),gimmickObject.GetRight(),gimmickObject.GetBottom())
+                        )
+                    {
+                        playerObject.OnCollisionG(gimmickObject);
+                        gimmickObject.OnCollision(playerObject);
+                    }
                 }
             }
 
@@ -196,7 +239,6 @@ namespace ActionGame
                         b.OnCollision(playerObject);
                     }
                 }
-
             }
             //--------------------------------------------------------------------------------------------------     
 
@@ -232,16 +274,6 @@ namespace ActionGame
             }
 
             map.DrawTerrain();
-            //線と手を描画しています
-            if (player != null && hand != null)
-            {
-                Camera.DrawLine(player.Position, hand.Position);
-            }
-
-            if (hand != null)
-            {
-                hand.Draw();
-            }
 
             foreach (EnemyObject enemy in enemyObjects)
             {
@@ -252,10 +284,10 @@ namespace ActionGame
             // 敵弾の描画
             foreach (EnemyBullet b in enemyBullets)
             {
-                b.Draw();                
+                b.Draw();
             }
 
-            foreach(GimmickObject gimmick in gimmickObjects)
+            foreach (GimmickObject gimmick in gimmickObjects)
             {
                 gimmick.Draw();
                 gimmick.DrawHitBox();
@@ -286,17 +318,11 @@ namespace ActionGame
 
         void ObjectUpdate()
         {
-            //手の更新処理
-            if (hand != null)
+            //Player
+            for (int i = 0; i < playerObjects.Count(); i++)
             {
-                hand.Update();
+                playerObjects[i].Update();
             }
-
-            //PlayerObjectの更新処理
-            foreach (playerObject playerObject in playerObjects)
-            {
-                playerObject.Update();
-            }            
 
             //EnemyObの更新処理
             foreach (EnemyObject enemyObject in enemyObjects)
@@ -316,8 +342,8 @@ namespace ActionGame
                 gimmick.Update();
             }
 
-            //動く床
-            moveFloor.Update();
+            ////動く床
+            //moveFloor.Update();
         }
     }
 }

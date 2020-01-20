@@ -47,6 +47,7 @@ namespace ActionGame
         public static int TogeWani02;　                 //ワニのトゲ画像０２
         public static int TogeWani03;　                 //ワニのトゲ画像０２
         public static int MoveFloor;                    //動く床の画像
+        public static int[] KeyImage = new int[2];      //鍵の見た目
 
         public static int Ito;                          //糸の画像
 
@@ -106,11 +107,12 @@ namespace ActionGame
             MapImage = DX.LoadGraph("Image/Map.jpg");
             miniMapBackBround = DX.LoadGraph("Image/minimap.png");
             Stage01 = DX.LoadGraph("Image/Stage.png");
-            TitleImage = DX.LoadGraph("Image/Title.png");
+            TitleImage = DX.LoadGraph("Image/Title01.jpg");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
             MoveFloor = DX.LoadGraph("Image/MoveFloor.png");
+            DX.LoadDivGraph("Image/Switch.png", KeyImage.Length, 2, 1, 40, 60, KeyImage);
 
             Ito = DX.LoadGraph("Image/Ito.png");
 

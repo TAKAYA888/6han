@@ -157,7 +157,14 @@ namespace ActionGame
         }
         public override void OnCollision(playerObject playerObject)
         {
-            //isDead = true;
+            if (playerObject is Hand)
+            {
+                HP -= 1;
+                if (HP <= 0)
+                {
+                    isDead = true; // 死亡 
+                }
+            }
         }
 
         public override void OnCollisionH(Hand hund)
