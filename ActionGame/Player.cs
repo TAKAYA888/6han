@@ -110,151 +110,159 @@ namespace ActionGame
         //毎フレームの更新処理
         public override void Update()
         {
-            //HPが無くなると死ぬ
-            if (HP <= 0)
+            if (HP < 0)
             {
-                isDead = true;
+                HP = 0;
             }
 
-            //速度をリセットする
-            VelocityX = 0;
-
-            //無的時間のカウントダウン
-            mutekiTimer--;
-
-            //0以下にならないようにする、時間を0にする
-            if (mutekiTimer < 0) mutekiTimer = 0;
-
-            //
-            //if (BeforHundFrag && !HundFrag)
-            //{
-            //    flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
-            //}
-
-            //手を殺すためのタイマーでてきてすぐに殺さないため
-            HandDestroyTimer--;
-            //0以下にしない            
-            HandDestroyTimer = HandDestroyTimer < 0 ? 0 : HandDestroyTimer;
-
-            AngleSpeedStopTimer--;
-
-            if (AngleSpeedStopTimer < 0)
+            if (HP != 0)
             {
-                AngleSpeedStopTimer = 0;
-            }
+                ////HPが無くなると死ぬ
+                //if (HP <= 0)
+                //{
+                //    isDead = true;
+                //}
 
-            AnimationTimer++;
+                //速度をリセットする
+                VelocityX = 0;
 
-            //一個前のハンドフラグを代入
-            BeforHundFrag = HundFrag;
-            //ゲーム上に手が存在しなかったら
-            if (!HundFrag)
-            {
-                if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                //無的時間のカウントダウン
+                mutekiTimer--;
+
+                //0以下にならないようにする、時間を0にする
+                if (mutekiTimer < 0) mutekiTimer = 0;
+
+                //
+                //if (BeforHundFrag && !HundFrag)
+                //{
+                //    flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
+                //}
+
+                //手を殺すためのタイマーでてきてすぐに殺さないため
+                HandDestroyTimer--;
+                //0以下にしない            
+                HandDestroyTimer = HandDestroyTimer < 0 ? 0 : HandDestroyTimer;
+
+                AngleSpeedStopTimer--;
+
+                if (AngleSpeedStopTimer < 0)
                 {
-                    //左が押されたら、速度に「WalkSpeed」を引く
-                    VelocityX += -WalkSpeed;
-                    //アニメーションカウントアップ
-
-
-                    FacingRight = false;
+                    AngleSpeedStopTimer = 0;
                 }
-                else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
-                {
-                    //左が押されたら、速度に「WalkSpeed」を引く                    
-                    VelocityX += WalkSpeed;
 
-                    FacingRight = true;
-                }
-                else
+                AnimationTimer++;
+
+                //一個前のハンドフラグを代入
+                BeforHundFrag = HundFrag;
+                //ゲーム上に手が存在しなかったら
+                if (!HundFrag)
                 {
-                    //速度を0にする
-                    VelocityX += 0;
-                    if (HP != 1)
+                    if (Input.GetButton(DX.PAD_INPUT_LEFT))
                     {
-                        AnimationTimer = 0;
+                        //左が押されたら、速度に「WalkSpeed」を引く
+                        VelocityX += -WalkSpeed;
+                        //アニメーションカウントアップ
+
+
+                        FacingRight = false;
                     }
-                }
-
-                // 重力による落下 
-                VelocityY += Gravity;
-            }
-            else
-            {
-                //腕が壁とくっついたら
-                //かつ角度が90以上なら　：　90だとradが0になるから
-                if (hand.HundHitFrag)
-                {
-                    //手とPlayerの距離を縮めています
-                    if (hand.Distance > 150)
+                    else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
                     {
-                        //手とPlayerの距離を縮めています
-                        hand.Distance -= DistanceSpeed;
+                        //左が押されたら、速度に「WalkSpeed」を引く                    
+                        VelocityX += WalkSpeed;
+
+                        FacingRight = true;
                     }
                     else
                     {
-                        //これ以上短くしない
-                        hand.Distance = 150;
+                        //速度を0にする
+                        VelocityX += 0;
+                        if (HP != 1)
+                        {
+                            AnimationTimer = 0;
+                        }
                     }
 
-                    if (angle != 90)
+                    // 重力による落下 
+                    VelocityY += Gravity;
+                }
+                else
+                {
+                    //腕が壁とくっついたら
+                    //かつ角度が90以上なら　：　90だとradが0になるから
+                    if (hand.HundHitFrag)
                     {
-                        //振り子の減衰についてのプログラミング
-                        PendulumDecay();
+                        //手とPlayerの距離を縮めています
+                        if (hand.Distance > 150)
+                        {
+                            //手とPlayerの距離を縮めています
+                            hand.Distance -= DistanceSpeed;
+                        }
+                        else
+                        {
+                            //これ以上短くしない
+                            hand.Distance = 150;
+                        }
+
+                        if (angle != 90)
+                        {
+                            //振り子の減衰についてのプログラミング
+                            PendulumDecay();
+                        }
+
+                        //角度の変更
+                        angle += angleSpeed;
+
+                        //回転時の移動処理
+                        Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(hand.Distance, 0))
+                            * Matrix3.createRotation(angle)
+                            * Matrix3.createTranslation(hand.Position);
+
+                        //座標の設定
+                        Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
+
+                        //移動量に足す
+                        VelocityX = NextPosition.x - Position.x;
+                        VelocityY = NextPosition.y - Position.y;
+
+                        if (Input.GetButtonDown(DX.PAD_INPUT_3))
+                        {
+                            DistanceSpeed = 10;
+                        }
+
+                        //手を消す
+                        if (Input.GetButtonDown(DX.PAD_INPUT_2))
+                        {
+                            HundFrag = false;
+                            hand.HundHitFrag = false;
+                            hand.isDead = true;
+                        }
                     }
 
-                    //角度の変更
-                    angle += angleSpeed;
-
-                    //回転時の移動処理
-                    Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(hand.Distance, 0))
-                        * Matrix3.createRotation(angle)
-                        * Matrix3.createTranslation(hand.Position);
-
-                    //座標の設定
-                    Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
-
-                    //移動量に足す
-                    VelocityX = NextPosition.x - Position.x;
-                    VelocityY = NextPosition.y - Position.y;
-
-                    if(Input.GetButtonDown(DX.PAD_INPUT_3))
-                    {
-                        DistanceSpeed = 10;
-                    }
-
-                    //手を消す
-                    if (Input.GetButtonDown(DX.PAD_INPUT_2))
-                    {
-                        HundFrag = false;
-                        hand.HundHitFrag = false;
-                        hand.isDead = true;
-                    }
+                    // 重力による落下 
+                    VelocityY += Gravity / 10;
+                }
+                if (VelocityY >= MaxFallSpeed)
+                {
+                    VelocityY = MaxFallSpeed;
                 }
 
-                // 重力による落下 
-                VelocityY += Gravity / 10;
+                //入力処理
+                HundleInput();
+
+                //縦移動
+                MoveY();
+                //横移動
+                MoveX();
+
+                //矢印の更新処理
+                playerArraw.Update();
+
+                // 乗っている床の情報を破棄 
+                groundObject = null;
+
+                Camera.LookAt(Position);
             }
-            if (VelocityY >= MaxFallSpeed)
-            {
-                VelocityY = MaxFallSpeed;
-            }
-
-            //入力処理
-            HundleInput();
-
-            //縦移動
-            MoveY();
-            //横移動
-            MoveX();
-
-            //矢印の更新処理
-            playerArraw.Update();
-
-            // 乗っている床の情報を破棄 
-            groundObject = null;
-
-            Camera.LookAt(Position);
         }
 
         //入力関係の処理を行います
@@ -275,6 +283,15 @@ namespace ActionGame
                 DistanceSpeed = 10;
 
                 gennsokuFrag = true;
+
+                //回転時の移動処理
+                Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(50, 0))
+                    * Matrix3.createRotation(playerArraw.ArrawAngle)
+                    * Matrix3.createTranslation(Position);
+
+                Vector2 effectpos = new Vector2(0) * NextPlayerPos;
+
+                Game.particleManager.ShockWave(effectpos.x, effectpos.y, MathHelper.toRadians(playerArraw.ArrawAngle));
 
                 //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
@@ -576,6 +593,10 @@ namespace ActionGame
                     PlayerImageNumber += 4;
                 }
             }
+            else if (HP == 0)
+            {
+                PlayerImageNumber = 17;
+            }
             else
             {
                 PlayerImageNumber = 0;
@@ -584,6 +605,7 @@ namespace ActionGame
                     PlayerImageNumber++;
                 }
             }
+
 
             //無敵時に点滅するif分
             if (mutekiTimer / 5 % 3 < 2 && HP != 1)
@@ -633,6 +655,11 @@ namespace ActionGame
             {
                 HP -= 1;
                 mutekiTimer = mutekitime;
+                if(HP==0)
+                {
+
+                    Game.particleManager.Slash(Position.x, Position.y, 45);
+                }
             }
             ScorePoint += 500;  //スコア
         }
@@ -655,7 +682,9 @@ namespace ActionGame
         {
             if (needle is NeedleObject)
             {
-                HP -= 10;//無理やり即死させますスミマセン
+                VelocityX = 0;
+                HP = 0;//無理やり即死させますスミマセン
+                Game.particleManager.Slash(Position.x, Position.y, 0);
             }
             else if (needle is MoveFloorObject)
             {

@@ -34,7 +34,6 @@ namespace ActionGame
         public float DistanceLimit;
         public bool HundHitFrag = false;
         bool BeforHundHitFrag = false;
-
         //----------------------------------------------------------------------------------------------------------------
 
 

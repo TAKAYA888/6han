@@ -58,10 +58,11 @@ namespace ActionGame
                     Vx = MyLib.MyRandom.PlusMinus(1.5f),
                     forceY = 0.15f,
                     startScale = 0.5f,
+                    blendMode = DX.DX_BLENDMODE_ADD,
                     endScale = 0f,
-                    red = 170,
-                    green = 170,
-                    blue = 255,
+                    red = 255,
+                    green = 0,
+                    blue = 0,
                 });
         }
 
@@ -245,17 +246,21 @@ namespace ActionGame
             }
         }
 
-        public void ShockWave(float x, float y,float angle)
+        public void ShockWave(float x, float y, float angle)
         {
             particles.Add(new DxParticle()
             {
-                positionY = x,
-                positionX = y,
+                positionX = x,
+                positionY = y,
                 lifeSpan = 10,
                 imageHandle = Image.particleRing4,
                 startScale = 0.15f,
                 endScale = 0.8f,
                 fadeOutTime = 1f,
+                blendMode = DX.DX_BLENDMODE_ADD,
+                red = 255,
+                green = 100,
+                blue = 100,
                 angle = angle,
             });
         }
@@ -473,8 +478,10 @@ namespace ActionGame
                     startScale = 0.7f,
                     endScale = 0.6f,
                     fadeOutTime = 1f,
-                    angle = angle,
-                    blendMode = DX.DX_BLENDMODE_ADD,
+                    angle = angle,                    
+                    red = 255,
+                    blue = 0,
+                    green = 0,
                 });
 
 

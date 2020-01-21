@@ -45,6 +45,7 @@ namespace ActionGame
 
         public PlayScene()
         {
+            DX.SetFontSize(64);
             //enemy1 = new Enemy1(this, 700, 300);
             enemyObjects.Add(new Enemy1(this, 700, 300));
             enemyObjects.Add(new Enemy2(this, 1500, 1400));
@@ -317,6 +318,10 @@ namespace ActionGame
 
                 miniMap.Draw();
             }
+
+            DX.DrawGraph(0, 0, Image.IconIto);
+            DX.DrawString(110, 50, "×" + player.haveWoolenYarn.ToString(), DX.GetColor(255, 255, 255));
+            DX.DrawGraph(0, 130, Image.IconMap);
         }
 
         void ObjectUpdate()

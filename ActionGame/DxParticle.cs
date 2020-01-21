@@ -121,8 +121,7 @@ namespace ActionGame
             DxHelper.SetBlendMode(blendMode, currentAlpha);           
 
             //描画する
-            DX.DrawRotaGraphFastF(positionX, positionY, currentScale, angle, imageHandle);
-            
+            Camera.DrawRotaGraph(positionX, positionY, currentScale, angle, imageHandle,1);            
         }
 
         /// <summary>
