@@ -57,6 +57,12 @@ namespace ActionGame
         public static int ScoreB;               　　    //スコアB画像
         public static int ScoreC;              　　     //スコアC画像
 
+        //ギミック
+        public static int Gimmick1;                　　   //ギミックdoor→画像
+        public static int Gimmick2;                　　   //ギミックdoor←画像
+        public static int Gimmick3;                　　   //ギミックdoor↓画像
+        public static int Gimmick4;                　　   //ギミックdoor↑画像
+
         //Particle関係
         public static int particleDot1;
         public static int particleDot2;
@@ -128,6 +134,13 @@ namespace ActionGame
             ScoreA = DX.LoadGraph("Image/ScoreA.png");
             ScoreB = DX.LoadGraph("Image/ScoreB.png");
             ScoreC = DX.LoadGraph("Image/ScoreC.png");
+
+            //ギミック
+            Gimmick1 = DX.LoadGraph("Image/GimmickRight.png");
+            Gimmick2 = DX.LoadGraph("Image/GimmickLeft.png");
+            Gimmick3 = DX.LoadGraph("Image/GimmickDown.png");
+            Gimmick4 = DX.LoadGraph("Image/GimmickUp.png");
+
 
             //Particle関係
             particleDot1 = DX.LoadGraph("Image/Particle/particle_dot_1.png");
