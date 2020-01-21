@@ -51,6 +51,12 @@ namespace ActionGame
 
         public static int Ito;                          //糸の画像
 
+        //スコア
+        public static int ScoreS;                　　   //スコアS画像
+        public static int ScoreA;               　　    //スコアA画像
+        public static int ScoreB;               　　    //スコアB画像
+        public static int ScoreC;              　　     //スコアC画像
+
         //Particle関係
         public static int particleDot1;
         public static int particleDot2;
@@ -104,7 +110,7 @@ namespace ActionGame
             GameOverImage = DX.LoadGraph("Image/GameOver.jpg");
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
-            MapImage = DX.LoadGraph("Image/Map.jpg");
+            MapImage = DX.LoadGraph("Image/Map.png");
             miniMapBackBround = DX.LoadGraph("Image/minimap.png");
             Stage01 = DX.LoadGraph("Image/Stage.png");
             TitleImage = DX.LoadGraph("Image/Title01.jpg");
@@ -114,7 +120,14 @@ namespace ActionGame
             MoveFloor = DX.LoadGraph("Image/MoveFloor.png");
             DX.LoadDivGraph("Image/Switch.png", KeyImage.Length, 2, 1, 40, 60, KeyImage);
 
+            //糸
             Ito = DX.LoadGraph("Image/Ito.png");
+
+            //スコア
+            ScoreS = DX.LoadGraph("Image/ScoreS.png");
+            ScoreA = DX.LoadGraph("Image/ScoreA.png");
+            ScoreB = DX.LoadGraph("Image/ScoreB.png");
+            ScoreC = DX.LoadGraph("Image/ScoreC.png");
 
             //Particle関係
             particleDot1 = DX.LoadGraph("Image/Particle/particle_dot_1.png");
