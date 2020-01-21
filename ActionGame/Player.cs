@@ -29,7 +29,7 @@ namespace ActionGame
         float VelocityX = 0f;                           //移動速度(x方向)
         float VelocityY = 0f;　　　                     //移動速度(y方向)
         //float flyVelocityX = 0f;
-        int PlayerStateNumber;
+        public int PlayerStateNumber;
         public int HP;                                  //HP(体力)
         public bool HundFrag;                           //手がくっついたかのフラグ
         public bool BeforHundFrag = false;　　　      　//一個前の手がくっついたかのフラグ
@@ -96,6 +96,7 @@ namespace ActionGame
             HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
             playerArraw = new PlayerArraw(this, Position);  　　　　 //矢印の生成
 
+            PlayerStateNumber = 0;
             HP = MaxHP;
             //サイズ関係-------------------------------------------------------------------------
             ImageWidth = 110;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
@@ -217,10 +218,16 @@ namespace ActionGame
                     VelocityX = NextPosition.x - Position.x;
                     VelocityY = NextPosition.y - Position.y;
 
+                    if(Input.GetButtonDown(DX.PAD_INPUT_3))
+                    {
+                        DistanceSpeed = 10;
+                    }
+
                     //手を消す
                     if (Input.GetButtonDown(DX.PAD_INPUT_2))
                     {
                         HundFrag = false;
+                        hand.HundHitFrag = false;
                         hand.isDead = true;
                     }
                 }
@@ -399,7 +406,8 @@ namespace ActionGame
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
                 SetTop(wallBottom); // プレイヤーの頭を天井に沿わす 
-                VelocityY = 0; // 縦の移動速度を0に                 
+                VelocityY = 0; // 縦の移動速度を0に  
+                DistanceSpeed = 0;
             }
             // 下端が壁にめりこんでいるか？ 
             else if (
@@ -638,6 +646,7 @@ namespace ActionGame
             else if (item is SpeedUp)
             {
                 state = State.Speed;
+                PlayerStateNumber = 1;
             }
             ScorePoint += 1000; //スコア
         }

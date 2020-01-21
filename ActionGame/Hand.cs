@@ -31,6 +31,7 @@ namespace ActionGame
         public float LastAngle;          　　　//最終角度
         float VelocityX;                      //移動速度(x方向)
         float VelocityY;                      //移動速度(y方向)
+        public float DistanceLimit;
         public bool HundHitFrag = false;
         bool BeforHundHitFrag = false;
 
@@ -46,6 +47,7 @@ namespace ActionGame
             Position.x = x;
             Position.y = y;
             hit = Hit.NotHit;
+            DistanceLimit = 960;
 
             ImageWidth = 120;             //画像の横ピクセル数
             ImageHeight = 60;             //画像の縦ピクセル数
@@ -60,6 +62,14 @@ namespace ActionGame
 
         public override void Update()
         {
+            if(player.PlayerStateNumber==0)
+            {
+                DistanceLimit = 960.0f / 2.0f;
+            }
+            else
+            {
+                DistanceLimit = 960.0f;
+            }
             BeforHundHitFrag = HundHitFrag;
             if (hit == Hit.NotHit)
             {
@@ -69,14 +79,10 @@ namespace ActionGame
                     + (player.Position.y + (player.ImageHeight / 2) - Position.y)
                     * (player.Position.y + (player.ImageHeight / 2) - Position.y));
 
-                if (Distance > 960.0f || Input.GetButtonDown(DX.PAD_INPUT_2))
+                if (Distance > DistanceLimit || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
-                    VelocityX = -VelocityX;
-                    VelocityY = -VelocityY;
+                    hit = Hit.Retrun;
                 }
-
-                MoveX();
-                MoveY();
 
                 if (Distance <= 1)
                 {
@@ -84,7 +90,7 @@ namespace ActionGame
                     player.HundFrag = false;
                 }
             }
-            else if (hit == Hit.NotHit)
+            else if (hit == Hit.Hit)
             {
                 VelocityX = 0;
                 VelocityY = 0;
@@ -92,7 +98,12 @@ namespace ActionGame
             else if (hit == Hit.Retrun)
             {
                 float PlayerToAngle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                VelocityX = (float)Math.Cos(PlayerToAngle) * 10;
+                VelocityY = (float)Math.Sin(PlayerToAngle) * 10;
             }
+
+            MoveX();
+            MoveY();
         }
 
         void MoveX()
@@ -114,6 +125,7 @@ namespace ActionGame
                 hit = Hit.Hit;
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 HundHitFrag = true;
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
@@ -131,7 +143,7 @@ namespace ActionGame
                 float wallLeft = right - right % Map.CellSize;//壁の左端
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 HundHitFrag = true;
-                
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
@@ -201,7 +213,14 @@ namespace ActionGame
 
         public override void Draw()
         {
-            Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand, 1);
+            if (player.PlayerStateNumber == 0)
+            {
+                Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand, 1);
+            }
+            else
+            {
+                Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand2, 1);
+            }
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }

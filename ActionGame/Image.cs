@@ -15,6 +15,7 @@ namespace ActionGame
         public static int[] PlayerImage03 = new int[18]; //プレイヤー(Damege)の画像
         public static int PlayerArraws;                  //playerの矢印
         public static int PlayerHand;                    //playerの手
+        public static int PlayerHand2;                  
 
         //ザコ敵のリソース画像
         public static int EnemyImage01;                  //ザコ敵01画像
@@ -93,6 +94,7 @@ namespace ActionGame
             DX.LoadDivGraph("Image/Player03.png", PlayerImage03.Length, 4, 5, 120, 180, PlayerImage03);
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
             PlayerHand = DX.LoadGraph("Image/PlayerHand01.png");
+            PlayerHand2 = DX.LoadGraph("Image/PlayerHand02.png");
 
             //ザコ敵のリソース画像
             EnemyImage01 = DX.LoadGraph("Image/Enemy01.png");
