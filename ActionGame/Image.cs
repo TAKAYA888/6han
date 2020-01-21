@@ -58,10 +58,10 @@ namespace ActionGame
         public static int ScoreC;              　　     //スコアC画像
 
         //ギミック
-        public static int Gimmick1;                　　   //ギミックdoor→画像
-        public static int Gimmick2;                　　   //ギミックdoor←画像
-        public static int Gimmick3;                　　   //ギミックdoor↓画像
-        public static int Gimmick4;                　　   //ギミックdoor↑画像
+        public static int[] Gimmick1 = new int[3];                　　   //ギミックdoor←画像
+        public static int[] Gimmick2 = new int[3];                　　   //ギミックdoor→画像
+        public static int[] Gimmick3 = new int[3];                　　   //ギミックdoor↑画像
+        public static int[] Gimmick4 = new int[3];                　　   //ギミックdoor↓画像
 
         //Particle関係
         public static int particleDot1;
@@ -136,10 +136,10 @@ namespace ActionGame
             ScoreC = DX.LoadGraph("Image/ScoreC.png");
 
             //ギミック
-            Gimmick1 = DX.LoadGraph("Image/GimmickRight.png");
-            Gimmick2 = DX.LoadGraph("Image/GimmickLeft.png");
-            Gimmick3 = DX.LoadGraph("Image/GimmickDown.png");
-            Gimmick4 = DX.LoadGraph("Image/GimmickUp.png");
+            DX.LoadDivGraph("Image/GimmickLeft.png", Gimmick1.Length, 3, 1, 60, 60, Gimmick1);
+            DX.LoadDivGraph("Image/GimmickRight.png", Gimmick2.Length, 3, 1, 60, 60, Gimmick2);
+            DX.LoadDivGraph("Image/GimmickUp.png", Gimmick3.Length, 3, 1, 60, 120, Gimmick3);
+            DX.LoadDivGraph("Image/GimmickDown.png", Gimmick4.Length, 3, 1, 60, 60, Gimmick4);
 
 
             //Particle関係
