@@ -47,12 +47,12 @@ namespace ActionGame
             Position.y = y;
             hit = Hit.NotHit;
 
-            ImageWidth = 120;       //画像の横ピクセル数
-            ImageHeight = 60;       //画像の縦ピクセル数
-            hitboxOffsetLeft = -10;　　//当たり判定のオフセット
-            hitboxOffsetRight = 80;   //当たり判定のオフセット
-            hitboxOffsetTop = -50;     //当たり判定のオフセット
-            hitboxOffsetBottom = 70;  //当たり判定のオフセット
+            ImageWidth = 120;             //画像の横ピクセル数
+            ImageHeight = 60;             //画像の縦ピクセル数
+            hitboxOffsetLeft = -10;　   　//当たり判定のオフセット
+            hitboxOffsetRight = 80;       //当たり判定のオフセット
+            hitboxOffsetTop = -50;        //当たり判定のオフセット
+            hitboxOffsetBottom = 70;      //当たり判定のオフセット
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
             playerPosY = player.Position.y;
@@ -131,6 +131,7 @@ namespace ActionGame
                 float wallLeft = right - right % Map.CellSize;//壁の左端
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 HundHitFrag = true;
+                
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
@@ -163,6 +164,7 @@ namespace ActionGame
                 VelocityY = 0; // 縦の移動速度を0に 
                 hit = Hit.Hit;
                 HundHitFrag = true;
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 if (player.playerArraw.ArrawAngle != 90 * 3)
                 {
                     Distance = (float)Math.Sqrt(
@@ -188,6 +190,7 @@ namespace ActionGame
                 VelocityY = 0; // 縦の移動速度を0に 
                 hit = Hit.Hit;
                 HundHitFrag = true;
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)
@@ -224,6 +227,7 @@ namespace ActionGame
             {
                 HundHitFrag = true;
                 hit = Hit.Hit;
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x + (player.ImageWidth / 2) - Position.x)
                     * (player.Position.x + (player.ImageWidth / 2) - Position.x)

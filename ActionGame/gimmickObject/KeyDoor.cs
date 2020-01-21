@@ -34,7 +34,7 @@ namespace ActionGame
 
                 if (nowkey.KeyNunber == DoorNunber)
                 {
-                    if(nowkey.openFrag)
+                    if (nowkey.openFrag)
                     {
                         openFrag = true;
                     }
@@ -45,7 +45,7 @@ namespace ActionGame
 
         public override void Draw()
         {
-            if(openFrag)
+            if (openFrag)
             {
 
             }
@@ -59,7 +59,18 @@ namespace ActionGame
         {
             if (playerObject is Player)
             {
-
+                if (!openFrag && playerObject.GetPrevBottom() <= GetPrevTop())
+                {
+                    playerObject.SetBottom(GetPrevTop() - 1f);
+                }
+                if (!openFrag && playerObject.GetPrevLeft() >= GetPrevRight())
+                {
+                    playerObject.SetLeft(GetPrevRight());
+                }
+                else if (!openFrag && playerObject.GetPrevRight() <= GetPrevLeft())
+                {
+                    playerObject.SetRight(GetPrevLeft());
+                }
             }
         }
     }

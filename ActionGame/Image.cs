@@ -12,6 +12,7 @@ namespace ActionGame
         //プレイヤーのリソース画像
         public static int[] PlayerImage01 = new int[18]; //プレイヤー(Normal)の画像
         public static int[] PlayerImage02 = new int[18]; //プレイヤー(Speed)の画像
+        public static int[] PlayerImage03 = new int[18]; //プレイヤー(Damege)の画像
         public static int PlayerArraws;                  //playerの矢印
         public static int PlayerHand;                    //playerの手
 
@@ -47,7 +48,7 @@ namespace ActionGame
         public static int TogeWani02;　                 //ワニのトゲ画像０２
         public static int TogeWani03;　                 //ワニのトゲ画像０２
         public static int MoveFloor;                    //動く床の画像
-        public static int[] KeyImage = new int[2];      //鍵の見た目
+        public static int[] KeyImage = new int[2];      //鍵の見た目        
 
         public static int Ito;                          //糸の画像
 
@@ -89,6 +90,7 @@ namespace ActionGame
             //プレイヤーのリソース画像
             DX.LoadDivGraph("Image/Player01.png", PlayerImage01.Length, 4, 5, 120, 180, PlayerImage01);
             DX.LoadDivGraph("Image/Player02.png", PlayerImage02.Length, 4, 5, 120, 180, PlayerImage02);
+            DX.LoadDivGraph("Image/Player03.png", PlayerImage03.Length, 4, 5, 120, 180, PlayerImage03);
             PlayerArraws = DX.LoadGraph("Image/Arrows.png");
             PlayerHand = DX.LoadGraph("Image/PlayerHand01.png");
 
@@ -117,13 +119,14 @@ namespace ActionGame
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
             MapImage = DX.LoadGraph("Image/Map.png");
-            miniMapBackBround = DX.LoadGraph("Image/minimap.png");
+            miniMapBackBround = DX.LoadGraph("Image/Map.png");
             Stage01 = DX.LoadGraph("Image/Stage.png");
             TitleImage = DX.LoadGraph("Image/Title01.jpg");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
             MoveFloor = DX.LoadGraph("Image/MoveFloor.png");
+
             DX.LoadDivGraph("Image/Switch.png", KeyImage.Length, 2, 1, 40, 60, KeyImage);
 
             //糸

@@ -88,7 +88,7 @@ namespace ActionGame
                 }
             }
 
-            ObjectUpdate();
+            
 
             //playerObjectとEnemyObjectの衝突処理
             for (int i = 0; i < enemyObjects.Count; i++)
@@ -185,9 +185,9 @@ namespace ActionGame
 
                     if (gimmickObject.isDead == true) break;
 
-                    if(MyMath.RectRectIntersect(
-                        playerObject.GetLeft(),playerObject.GetTop(),playerObject.GetRight(),playerObject.GetBottom(),
-                        gimmickObject.GetLeft(),gimmickObject.GetTop(),gimmickObject.GetRight(),gimmickObject.GetBottom())
+                    if (MyMath.RectRectIntersect(
+                        playerObject.GetLeft(), playerObject.GetTop(), playerObject.GetRight(), playerObject.GetBottom(),
+                        gimmickObject.GetLeft(), gimmickObject.GetTop(), gimmickObject.GetRight(), gimmickObject.GetBottom())
                         )
                     {
                         playerObject.OnCollisionG(gimmickObject);
@@ -241,6 +241,9 @@ namespace ActionGame
                 }
             }
             //--------------------------------------------------------------------------------------------------     
+
+            ObjectUpdate();
+
 
             //不要となったオブジェクトを除去する
             itemObjects.RemoveAll(go => go.isDead);
@@ -321,6 +324,8 @@ namespace ActionGame
             //Player
             for (int i = 0; i < playerObjects.Count(); i++)
             {
+                playerObjects[i].StorePostionAndHitBox();//1フレーム前の情報を記憶させる
+
                 playerObjects[i].Update();
             }
 
@@ -339,6 +344,8 @@ namespace ActionGame
             //ギミックの更新処理
             foreach (GimmickObject gimmick in gimmickObjects)
             {
+                gimmick.StorePostionAndHitBox();//1フレーム前の情報を記憶させる
+
                 gimmick.Update();
             }
 

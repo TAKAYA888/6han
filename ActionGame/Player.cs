@@ -23,13 +23,12 @@ namespace ActionGame
             Normal,
             Speed,
         }
-
         //-----------------------------------------------------------------------------------
 
         //ステータス関係の変数---------------------------------------------------------------               
         float VelocityX = 0f;                           //移動速度(x方向)
         float VelocityY = 0f;　　　                     //移動速度(y方向)
-        float flyVelocityX = 0f;
+        //float flyVelocityX = 0f;
         int PlayerStateNumber;
         public int HP;                                  //HP(体力)
         public bool HundFrag;                           //手がくっついたかのフラグ
@@ -41,7 +40,8 @@ namespace ActionGame
         float LastAngle;　　　　　　　　　　　　     　 //角度を制限するための変数
         float angleSpeed;　　　　　　　　            　 //角度を変えるスピード
         int mutekiTimer;                                //無的時間を管理するための変数                
-        public int HandDestroyTimer = 0;                //手がPlayerに当たっても消さないためのタイマー       
+        public int HandDestroyTimer = 0;                //手がPlayerに当たっても消さないためのタイマー
+        public int AngleSpeedStopTimer = 0;
         float DistanceSpeed;                            //手とプレイヤーの距離を縮める速さ
         int AnimationTimer;                             //アニメーション用のタイマー
 
@@ -58,7 +58,8 @@ namespace ActionGame
         readonly float Gravity = 0.6f;　　　　　　//重力加速度
         readonly float MaxFallSpeed = 12;         //落ちる速度の最高速
         readonly int mutekitime = 60;             //無的時間の長さ
-        public int HandDestroyTime = 60;          //発射後どのくらいで手を消すか？
+        public int HandDestroyTime = 20;          //発射後どのくらいで手を消すか？
+        public readonly int AngleSpeedStopTime = 60;
         //-----------------------------------------------------------------------------------
 
 
@@ -84,6 +85,7 @@ namespace ActionGame
         //public PlayScene playScene;       　//playSceneの宣言
         public PlayerArraw playerArraw;     //矢印の宣言
         public Hand hand;
+        GimmickObject groundObject = null; // 乗っている床オブジェクト 
 
         //コンストラクタ
         public Player(PlayScene playScene, float x, float y) : base(playScene)
@@ -123,15 +125,24 @@ namespace ActionGame
             if (mutekiTimer < 0) mutekiTimer = 0;
 
             //
-            if (BeforHundFrag && !HundFrag)
-            {
-                flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
-            }
+            //if (BeforHundFrag && !HundFrag)
+            //{
+            //    flyVelocityX = MathHelper.cos(angle) * WalkSpeed * 4;
+            //}
 
             //手を殺すためのタイマーでてきてすぐに殺さないため
             HandDestroyTimer--;
             //0以下にしない            
             HandDestroyTimer = HandDestroyTimer < 0 ? 0 : HandDestroyTimer;
+
+            AngleSpeedStopTimer--;
+
+            if (AngleSpeedStopTimer < 0)
+            {
+                AngleSpeedStopTimer = 0;
+            }
+
+            AnimationTimer++;
 
             //一個前のハンドフラグを代入
             BeforHundFrag = HundFrag;
@@ -143,16 +154,14 @@ namespace ActionGame
                     //左が押されたら、速度に「WalkSpeed」を引く
                     VelocityX += -WalkSpeed;
                     //アニメーションカウントアップ
-                    AnimationTimer++;
+
 
                     FacingRight = false;
                 }
                 else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
                 {
-                    //左が押されたら、速度に「WalkSpeed」を引く
+                    //左が押されたら、速度に「WalkSpeed」を引く                    
                     VelocityX += WalkSpeed;
-                    //アニメーションカウントアップ
-                    AnimationTimer++;
 
                     FacingRight = true;
                 }
@@ -160,7 +169,10 @@ namespace ActionGame
                 {
                     //速度を0にする
                     VelocityX += 0;
-                    AnimationTimer = 0;
+                    if (HP != 1)
+                    {
+                        AnimationTimer = 0;
+                    }
                 }
 
                 // 重力による落下 
@@ -216,6 +228,11 @@ namespace ActionGame
                 // 重力による落下 
                 VelocityY += Gravity / 10;
             }
+            if (VelocityY >= MaxFallSpeed)
+            {
+                VelocityY = MaxFallSpeed;
+            }
+
             //入力処理
             HundleInput();
 
@@ -226,6 +243,9 @@ namespace ActionGame
 
             //矢印の更新処理
             playerArraw.Update();
+
+            // 乗っている床の情報を破棄 
+            groundObject = null;
 
             Camera.LookAt(Position);
         }
@@ -255,7 +275,7 @@ namespace ActionGame
                 HundFrag = true;
                 //角度を360度以上にならないように制限
                 angle = angle % 360;
-                flyVelocityX = 0;
+                //flyVelocityX = 0;
 
                 //角度の初期設定
                 if (angle < 90)
@@ -284,8 +304,14 @@ namespace ActionGame
             //当たってない状態にもどす
             LeftAndRightHit = false;
 
+            // 床オブジェクトに乗っている場合は、その床の移動量だけ移動させる 
+            if (groundObject != null)
+            {
+                VelocityX += groundObject.GetDeltaX();
+            }
+
             //positionに速度を足す
-            Position.x = Position.x + VelocityX + flyVelocityX;
+            Position.x = Position.x + VelocityX/* + flyVelocityX*/;
 
             //当たり判定の四隅の座標を取得
             float left = GetLeft() + 0.01f;
@@ -294,7 +320,6 @@ namespace ActionGame
             float middle1 = top + 30;
             float middle2 = top + 30 * 2;
             float middle3 = top + 30 * 3;
-            float middle4 = top + 30 * 4;
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
@@ -302,7 +327,6 @@ namespace ActionGame
                 playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
                 playScene.map.IsWall(left, middle2) ||
                 playScene.map.IsWall(left, middle3) ||
-                playScene.map.IsWall(left, middle4) ||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
@@ -319,7 +343,6 @@ namespace ActionGame
                 playScene.map.IsWall(right, middle1) ||
                 playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
                 playScene.map.IsWall(right, middle3) ||
-                playScene.map.IsWall(right, middle4) ||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
@@ -348,6 +371,12 @@ namespace ActionGame
 
         void MoveY()
         {
+            // 床オブジェクトに乗っている場合は、その床の移動量だけ移動させる 
+            if (groundObject != null)
+            {
+                VelocityY += groundObject.GetDeltaY();
+            }
+
             // 縦に移動する 
             Position.y += VelocityY;
 
@@ -387,8 +416,8 @@ namespace ActionGame
                 float wallTop = bottom - bottom % Map.CellSize - 0.1f; // 床のy座標 
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
                 VelocityY = 0; // 縦の移動速度を0に                 
-                flyVelocityX = 0;
-                if (HundFrag && HandDestroyTimer <= 0)
+                //flyVelocityX = 0;
+                if (hand != null && hand.HundHitFrag && AngleSpeedStopTimer <= 0)
                 {
                     angleSpeed = 0;
                 }
@@ -549,7 +578,7 @@ namespace ActionGame
             }
 
             //無敵時に点滅するif分
-            if (mutekiTimer / 5 % 3 < 2)
+            if (mutekiTimer / 5 % 3 < 2 && HP != 1)
             {
                 if (state == State.Normal)
                 {
@@ -558,6 +587,24 @@ namespace ActionGame
                 else if (state == State.Speed)
                 {
                     Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage02[PlayerImageNumber], FacingRightNow);
+                }
+            }
+            else if (HP == 1)
+            {
+                if (AnimationTimer / 10 % 3 < 2)
+                {
+                    if (state == State.Normal)
+                    {
+                        Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage01[PlayerImageNumber], FacingRightNow);
+                    }
+                    else if (state == State.Speed)
+                    {
+                        Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage02[PlayerImageNumber], FacingRightNow);
+                    }
+                }
+                else
+                {
+                    Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage03[PlayerImageNumber], FacingRightNow);
                 }
             }
 
@@ -600,6 +647,39 @@ namespace ActionGame
             if (needle is NeedleObject)
             {
                 HP -= 10;//無理やり即死させますスミマセン
+            }
+            else if (needle is MoveFloorObject)
+            {
+                groundObject = needle; // この床オブジェクトを覚えておく 
+                if (GetPrevBottom() <= needle.GetPrevTop())
+                {
+                    SetBottom(needle.GetPrevTop());
+                    VelocityY = 0;
+                }
+                //else if (GetPrevTop() <= needle.GetPrevBottom())
+                //{
+                //    VelocityY = 0;
+                //    SetTop(needle.GetPrevBottom());
+                //}
+                //else if (GetPrevLeft() <= needle.GetPrevRight())
+                //{
+                //    SetLeft(needle.GetPrevRight());
+                //    VelocityX = 0;
+                //}
+                //else if (GetPrevRight() <= needle.GetPrevLeft())
+                //{
+                //    SetRight(needle.GetPrevLeft());
+                //    VelocityX = 0;
+                //}                
+            }
+            else if (needle is KeyDoor)
+            {
+                if (GetPrevBottom() <= needle.GetPrevTop())
+                {
+                    //SetBottom(needle.GetPrevTop() - 1f);
+                    VelocityY = 0;
+                    //flyVelocityX = 0;
+                }
             }
         }
 

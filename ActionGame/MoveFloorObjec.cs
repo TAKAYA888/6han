@@ -47,7 +47,7 @@ namespace ActionGame
         }
 
         public override void OnCollision(playerObject playerObject)
-        {
+        {            
         }
     }
 }

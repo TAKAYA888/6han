@@ -21,6 +21,13 @@ namespace ActionGame
         protected int hitboxOffsetTop = 0;       //当たり判定の上側のオフセット
         protected int hitboxOffsetBottom = 0;    //当たり判定の下側のオフセット
 
+        float prevX;      // 1フレーム前のx座標 
+        float prevY;      // 1フレーム前のy座標 
+        float prevLeft;   // 1フレーム前の左端 
+        float prevRight;  // 1フレーム前の右端 
+        float prevTop;    // 1フレーム前の上端 
+        float prevBottom; // 1フレーム前の下端 
+
         //コンストラクタ
         public playerObject(PlayScene playScene)
         {
@@ -73,6 +80,53 @@ namespace ActionGame
         public virtual void SetBottom(float bottom)
         {
             Position.y = bottom + hitboxOffsetBottom - ImageHeight;
+        }
+
+        // 1フレーム前からの移動量（x方向） 
+        public float GetDeltaX()
+        {
+            return Position.x - prevX;
+        }
+
+        // 1フレーム前からの移動量（y方向） 
+        public float GetDeltaY()
+        {
+            return Position.y - prevY;
+        }
+
+        // 1フレーム前の左端を取得する 
+        public float GetPrevLeft()
+        {
+            return prevLeft;
+        }
+
+        // 1フレーム前の右端を取得する 
+        public float GetPrevRight()
+        {
+            return prevRight;
+        }
+
+        // 1フレーム前の上端を取得する 
+        public float GetPrevTop()
+        {
+            return prevTop;
+        }
+
+        // 1フレーム前の下端を取得する 
+        public float GetPrevBottom()
+        {
+            return prevBottom;
+        }
+
+        // 1フレーム前の場所と当たり判定を記憶する 
+        public void StorePostionAndHitBox()
+        {
+            prevX = Position.x;
+            prevY = Position.y;
+            prevLeft = GetLeft();
+            prevRight = GetRight();
+            prevTop = GetTop();
+            prevBottom = GetBottom();
         }
 
         //更新処理
