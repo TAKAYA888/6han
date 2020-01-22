@@ -18,7 +18,8 @@ namespace ActionGame
         State state = State.Stop;
 
         int HP = 2;//HP
-        float diff = 0;//プレイヤーXとエネミーXの差
+        float diff1 = 0;//プレイヤーXとエネミーXの差
+        float diff2 = 0;//プレイヤーYとエネミーYの差
         const float Gravity = 0.6f; // 重力 
         const float MaxFallSpeed = 12f;   // 最大落下速度 
         float vx = -6; // 横移動速度 
@@ -47,18 +48,28 @@ namespace ActionGame
             }
 
             float playerX = player.Position.x;
+            float playerY = player.Position.y;
+
             vy += Gravity;
 
             if (x > playerX)
             {
-                diff = x - playerX;
+                diff1 = x - playerX;
             }
             else
             {
-                diff = playerX - x;
+                diff1 = playerX - x;
+            }
+            if (y > playerY)
+            {
+                diff2 = y - playerY;
+            }
+            else
+            {
+                diff2 = playerY - y;
             }
 
-            if (diff <= 60 * 5)
+            if (diff1 <= 60 * 6 && diff2 <= 60 * 7)
             {
                 state = State.Move;
             }
