@@ -16,7 +16,7 @@ namespace ActionGame
 
         public GameClearScene()
         {
-            //DX.PlayMusic("", DX.DX_PLAYTYPE_LOOP);
+            DX.PlayMusic("BGM/Game_clear.mp3", DX.DX_PLAYTYPE_LOOP);
         }
 
         public override void Update()
