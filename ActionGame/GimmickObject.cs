@@ -21,6 +21,7 @@ namespace ActionGame
         protected int hitboxOffsetRight = 0;//当たり判定の右側のオフセット
         protected int hitboxOffsetTop = 0;//当たり判定の上側のオフセット
         protected int hitboxOffsetBottom = 0;//当たり判定の下側のオフセット
+        public bool openFrag;               
 
         float prevX;      // 1フレーム前のx座標
         float prevY;      // 1フレーム前のy座標

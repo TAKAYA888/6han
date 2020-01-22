@@ -44,6 +44,7 @@ namespace ActionGame
         }
 
 
+
         //以下パーティカルの種類-----------------------------------------------------------------------------------------------------
         public void Splash(float x, float y)
         {
@@ -475,10 +476,10 @@ namespace ActionGame
                     Vy = vy,
                     Vx = vx,
                     damp = 0.98f,
-                    startScale = 0.7f,
+                    startScale = 1.5f,
                     endScale = 0.6f,
                     fadeOutTime = 1f,
-                    angle = angle,                    
+                    angle = angle,
                     red = 255,
                     blue = 0,
                     green = 0,
@@ -658,7 +659,7 @@ namespace ActionGame
                 lifeSpan = 25,
                 imageHandle = Image.particleRing2,
                 startScale = 0.1f,
-                endScale = 0.4f,
+                endScale = 0.8f,
                 alpha = 180,
                 fadeOutTime = 1f,
                 blendMode = DX.DX_BLENDMODE_ADD,
@@ -673,7 +674,7 @@ namespace ActionGame
                 lifeSpan = 12,
                 imageHandle = Image.particleRing2,
                 startScale = 0.2f,
-                endScale = 0.6f,
+                endScale = 1.2f,
                 alpha = 150,
                 fadeOutTime = 1f,
                 blendMode = DX.DX_BLENDMODE_ADD,
@@ -695,7 +696,7 @@ namespace ActionGame
                     lifeSpan = MyLib.MyRandom.Range(10, 45),
                     imageHandle = Image.particleGlitter1,
                     startScale = 0.05f,
-                    endScale = MyLib.MyRandom.Range(0.4f, 0.8f),
+                    endScale = MyLib.MyRandom.Range(0.8f, 1.6f),
                     alpha = 255,
                     fadeOutTime = 1f,
                     blendMode = DX.DX_BLENDMODE_ADD,
@@ -719,7 +720,7 @@ namespace ActionGame
                         forceY = -0.07f,
                         damp = 1f,
                         startScale = 0.3f,
-                        endScale = 0.15f,
+                        endScale = 0.3f,
                         alpha = 255,
                         fadeOutTime = 1f,
                         angle = MathHelper.toRadians(90.0f),
@@ -756,7 +757,7 @@ namespace ActionGame
 
         public void Claw(float x, float y)
         {
-            float angle = MathHelper.toRadians(70.0f);
+            float angle = MathHelper.toRadians(24.0f);
             float speed = 6f;
             float vy = (float)Math.Sin(angle) * speed;
             float vx = (float)Math.Cos(angle) * speed;
@@ -771,8 +772,8 @@ namespace ActionGame
                     Vy = vy,
                     Vx = vx,
                     damp = 0.98f,
-                    startScale = 0.7f,
-                    endScale = 0.6f,
+                    startScale = 1.4f,
+                    endScale = 1.2f,
                     alpha = 255,
                     fadeOutTime = 1f,
                     angle = angle,
@@ -791,8 +792,8 @@ namespace ActionGame
                     Vy = vy,
                     Vx = vx,
                     damp = 0.98f,
-                    startScale = 0.55f,
-                    endScale = 0.45f,
+                    startScale = 1.1f,
+                    endScale = 0.9f,
                     alpha = 255,
                     fadeOutTime = 1f,
                     angle = angle,
@@ -811,8 +812,8 @@ namespace ActionGame
                     Vy = vy,
                     Vx = vx,
                     damp = 0.98f,
-                    startScale = 0.55f,
-                    endScale = 0.45f,
+                    startScale = 1.1f,
+                    endScale = 0.9f,
                     alpha = 255,
                     fadeOutTime = 1f,
                     angle = angle,
@@ -836,8 +837,8 @@ namespace ActionGame
                         Vy = (float)Math.Sin(angle2) * speed2,
                         Vx = (float)Math.Cos(angle2) * speed2,
                         damp = 1f,
-                        startScale = 0.3f,
-                        endScale = 0.45f,
+                        startScale = 0.6f,
+                        endScale = 0.9f,
                         alpha = 255,
                         fadeOutTime = 1f,
                         angle = angle2,
@@ -1162,3 +1163,4 @@ namespace ActionGame
         }
     }
 }
+

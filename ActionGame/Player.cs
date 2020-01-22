@@ -44,7 +44,7 @@ namespace ActionGame
         public int AngleSpeedStopTimer = 0;
         float DistanceSpeed;                            //手とプレイヤーの距離を縮める速さ
         int AnimationTimer;                             //アニメーション用のタイマー
-
+        int EndTimer;
         public static int ScorePoint = 0;               //スコアポイントの変数
 
 
@@ -63,22 +63,12 @@ namespace ActionGame
         //-----------------------------------------------------------------------------------
 
 
-        //フラグ関係--------------------------------------------------------------------------
+        //フラグ関係--------------------------------------------------------------------------------------------------------------
         bool UpAndDownHit = false;                      //上下が当たっているかどうかの確認です
         bool LeftAndRightHit = false;                   //左右が当たっているかどうかの確認です
         bool gennsokuFrag = true;                       //振り子運動中にどっちの方向に進んでいるかを判断するためのフラグ
         bool FacingRight = true;
-        //-----------------------------------------------------------------------------------
-
-
-        //サイズ関係-------------------------------------------------------------------------       
-        //float prevX;                 //1フレーム前のx座標
-        //float prevY;                 //1フレーム前のy座標
-        //float prevLeft;              //1フレーム前の左端
-        //float prevRight;             //1フレーム前の右端
-        //float prevTop;               //1フレーム前の上端
-        //float prevBottom;            //1フレーム前の下端
-        //-----------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------        
 
         State state;
         //JumpState jumpState;                //ジャンプステートの初期化
@@ -113,6 +103,7 @@ namespace ActionGame
             if (HP < 0)
             {
                 HP = 0;
+
             }
 
             if (HP != 0)
@@ -183,6 +174,13 @@ namespace ActionGame
                         }
                     }
 
+                    if (Input.GetButtonDown(DX.PAD_INPUT_3) && haveWoolenYarn != 0)
+                    {
+                        HP = MaxHP;
+                        haveWoolenYarn--;
+                        Game.particleManager.Heal(Position.x, Position.y);
+                    }
+
                     // 重力による落下 
                     VelocityY += Gravity;
                 }
@@ -204,7 +202,7 @@ namespace ActionGame
                             hand.Distance = 150;
                         }
 
-                        if (angle != 90)
+                        if (angle % 90 != 0)
                         {
                             //振り子の減衰についてのプログラミング
                             PendulumDecay();
@@ -263,6 +261,15 @@ namespace ActionGame
 
                 Camera.LookAt(Position);
             }
+            else
+            {
+                EndTimer++;
+
+                if (EndTimer > 240)
+                {
+                    isDead = true;
+                }
+            }
         }
 
         //入力関係の処理を行います
@@ -292,6 +299,8 @@ namespace ActionGame
                 Vector2 effectpos = new Vector2(0) * NextPlayerPos;
 
                 Game.particleManager.ShockWave(effectpos.x, effectpos.y, MathHelper.toRadians(playerArraw.ArrawAngle));
+
+                SE.Play(SE.ArmShotSE);
 
                 //初期角度
                 angle = playerArraw.ArrawAngle + 180.0f;
@@ -489,6 +498,15 @@ namespace ActionGame
                     }
                 }
 
+                //if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                //{
+                //    angleSpeed -= 0.01f;
+                //}
+                //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                //{
+                //    angleSpeed += 0.01f;
+                //}
+
                 if (angleSpeed > -0.1f && angleSpeed < 0.1f)
                 {
                     if (FirstAngle + rad < angle && gennsokuFrag)
@@ -553,6 +571,15 @@ namespace ActionGame
                         gennsokuFrag = !gennsokuFrag;
                     }
                 }
+
+                //if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                //{
+                //    angleSpeed += 0.01f;
+                //}
+                //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                //{
+                //    angleSpeed -= 0.01f;
+                //}
             }
         }
 
@@ -655,10 +682,10 @@ namespace ActionGame
             {
                 HP -= 1;
                 mutekiTimer = mutekitime;
-                if(HP==0)
+                if (HP == 0)
                 {
-
-                    Game.particleManager.Slash(Position.x, Position.y, 45);
+                    HundFrag = false;
+                    Game.particleManager.Slash(Position.x, Position.y, MathHelper.toRadians(45.0f));
                 }
             }
             ScorePoint += 500;  //スコア
@@ -683,8 +710,9 @@ namespace ActionGame
             if (needle is NeedleObject)
             {
                 VelocityX = 0;
+                HundFrag = false;
                 HP = 0;//無理やり即死させますスミマセン
-                Game.particleManager.Slash(Position.x, Position.y, 0);
+                Game.particleManager.Claw(Position.x, Position.y);
             }
             else if (needle is MoveFloorObject)
             {
@@ -739,4 +767,3 @@ namespace ActionGame
         }
     }
 }
-

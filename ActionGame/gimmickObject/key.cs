@@ -8,8 +8,7 @@ namespace ActionGame
 {
     public class key : GimmickObject
     {
-        public int KeyNunber;
-        public bool openFrag;
+        public int KeyNunber;        
 
         public key(PlayScene playScene, float x, float y) : base(playScene)
         {

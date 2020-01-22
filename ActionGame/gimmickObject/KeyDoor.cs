@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace ActionGame
 {
     class KeyDoor : GimmickObject
-    {
-        bool openFrag;
-
+    {        
         public int DoorNunber;
 
         public KeyDoor(PlayScene playScene, float x, float y) : base(playScene)
