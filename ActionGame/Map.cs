@@ -142,6 +142,10 @@ namespace ActionGame
 
                 playScene.gimmickObjects.Add(keyDoor);
             }
+            else if (objectID == 11)
+            {
+                playScene.itemObjects.Add(new Grounds(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()

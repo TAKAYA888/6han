@@ -232,7 +232,7 @@ namespace ActionGame
 
         public override void OnCollisionI(ItemObject itemObject)
         {
-
+            
         }
 
         public override void OnCollisionP(playerObject playerObject)

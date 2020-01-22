@@ -80,6 +80,7 @@
     <Compile Include="gimmickObject\key.cs" />
     <Compile Include="gimmickObject\KeyDoor.cs" />
     <Compile Include="Goal.cs" />
+    <Compile Include="Grouns.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="Image.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

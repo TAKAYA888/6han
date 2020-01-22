@@ -6,38 +6,37 @@ using System.Threading.Tasks;
 
 namespace ActionGame
 {
-    //これは毛糸クラスです
-    public　class WoolenYarn:ItemObject
+    public class Grounds : ItemObject
     {
-        public WoolenYarn(PlayScene playScene, float x, float y) : base(playScene)
+        public Grounds(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
 
-            imageWidth = 72;
-            imageHeight = 72;
+            imageWidth = 3000;
+            imageHeight = 64;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
-            hitboxOffsetTop = 0;
+            hitboxOffsetTop = 50;
             hitboxOffsetBottom = 0;
         }
         public override void Update()
         {
-            
+
         }
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.Ito);
+
         }
 
         public override void OnCollision(playerObject playerObject)
         {
-           isDead = true;
-            if (playerObject is Player)
-            {
-                isDead = true;
-            }
+            //isDead = true;
+            //if (playerObject is Player)
+            //{
+            //    isDead = true;
+            //}
         }
     }
 }
