@@ -254,7 +254,12 @@ namespace ActionGame
             {
                 player.haveWoolenYarn++;
                 Player.ScorePoint += 1000;
-            }            
+            }  
+            else if(itemObject is SpeedUp)
+            {
+                player.PlayerStateNumber = 1;
+                Player.ScorePoint += 1000;
+            }
         }
 
         public override void OnCollisionP(playerObject playerObject)

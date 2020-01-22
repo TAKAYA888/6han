@@ -70,7 +70,7 @@ namespace ActionGame
         bool FacingRight = true;
         //------------------------------------------------------------------------------------------------------------------------        
 
-        State state;
+        public static State state;
         //JumpState jumpState;                //ジャンプステートの初期化
         //public PlayScene playScene;       　//playSceneの宣言
         public PlayerArraw playerArraw;     //矢印の宣言
@@ -108,6 +108,11 @@ namespace ActionGame
 
             if (HP != 0)
             {
+
+                if(PlayerStateNumber==1)
+                {
+                    state = State.Speed;
+                }
                 ////HPが無くなると死ぬ
                 //if (HP <= 0)
                 //{

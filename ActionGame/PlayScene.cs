@@ -46,14 +46,14 @@ namespace ActionGame
         public PlayScene()
         {
             DX.SetFontSize(64);
-            //enemy1 = new Enemy1(this, 700, 300);
-            enemyObjects.Add(new Enemy1(this, 700, 300));
-            enemyObjects.Add(new Enemy2(this, 1500, 1400));
-            enemyObjects.Add(new Enemy3(this, 1700, 1400));
+            ////enemy1 = new Enemy1(this, 700, 300);
+            //enemyObjects.Add(new Enemy1(this, 700, 300));
+            //enemyObjects.Add(new Enemy2(this, 1500, 1400));
+            //enemyObjects.Add(new Enemy3(this, 1700, 1400));
             enemyBullets = new List<EnemyBullet>();
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
-            needle = new NeedleObject(this, 840, 1440);
-            moveFloor = new MoveFloorObject(this, 1500, 1400);
+            //needle = new NeedleObject(this, 840, 1440);
+            //moveFloor = new MoveFloorObject(this, 1500, 1400);
             map = new Map(this, "stage1");
             miniMap = new MiniMap(this, "stage1");
             DX.PlayMusic("BGM/Play_scene.mp3", DX.DX_PLAYTYPE_LOOP);
@@ -298,13 +298,13 @@ namespace ActionGame
                 gimmick.DrawHitBox();
             }
 
-            //針の描画
-            needle.Draw();
-            needle.DrawHitBox();
+            ////針の描画
+            //needle.Draw();
+            //needle.DrawHitBox();
 
-            //動く床の描画
-            moveFloor.Draw();
-            moveFloor.DrawHitBox();
+            ////動く床の描画
+            //moveFloor.Draw();
+            //moveFloor.DrawHitBox();
 
             // ポーズ中の半透明のスクリーンの描画
             if (isPausing)
