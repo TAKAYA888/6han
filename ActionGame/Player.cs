@@ -688,7 +688,7 @@ namespace ActionGame
                     Game.particleManager.Slash(Position.x, Position.y, MathHelper.toRadians(45.0f));
                 }
             }
-            ScorePoint += 500;  //スコア
+            
         }
 
         public override void OnCollisionI(ItemObject item)//あたり判定の対象)
@@ -696,13 +696,15 @@ namespace ActionGame
             if (item is WoolenYarn)
             {
                 haveWoolenYarn += 1;
+                ScorePoint += 1000; //スコア
             }
             else if (item is SpeedUp)
             {
                 state = State.Speed;
                 PlayerStateNumber = 1;
+                ScorePoint += 1000; //スコア
             }
-            ScorePoint += 1000; //スコア
+           
         }
 
         public override void OnCollisionG(GimmickObject needle)

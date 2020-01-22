@@ -13,7 +13,7 @@ namespace ActionGame
             this.x = x;
             this.y = y;
 
-            imageWidth = 3000;
+            imageWidth = 3840;
             imageHeight = 64;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;

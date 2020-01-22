@@ -228,11 +228,13 @@ namespace ActionGame
         {
             player.HundFrag = false;
             isDead = true;
+            Player.ScorePoint += 1000;
         }
 
         public override void OnCollisionI(ItemObject itemObject)
         {
             hit = Hit.Retrun;
+            Player.ScorePoint += 1000;
         }
 
         public override void OnCollisionP(playerObject playerObject)
