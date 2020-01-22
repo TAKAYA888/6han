@@ -91,9 +91,9 @@ namespace ActionGame
             //サイズ関係-------------------------------------------------------------------------
             ImageWidth = 110;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
             ImageHeight = 180;   　　　　　　　　　　　　　　　　　　 //画像の縦ピクセル数
-            hitboxOffsetLeft = -ImageWidth / 2; 　　　　　　　        //当たり判定のオフセット
-            hitboxOffsetRight = ImageWidth / 2;                       //当たり判定のオフセット
-            hitboxOffsetTop = -ImageHeight / 2 + 5;                       //当たり判定のオフセット
+            hitboxOffsetLeft = -ImageWidth / 2+20 ; 　　　　　　　        //当たり判定のオフセット
+            hitboxOffsetRight = ImageWidth / 2+20;                       //当たり判定のオフセット
+            hitboxOffsetTop = -ImageHeight / 2 +25;                       //当たり判定のオフセット
             hitboxOffsetBottom = ImageHeight / 2;                     //当たり判定のオフセット
         }
 
@@ -191,7 +191,7 @@ namespace ActionGame
                     if (hand.HundHitFrag)
                     {
                         //手とPlayerの距離を縮めています
-                        if (hand.Distance > 150)
+                        if (hand.Distance > 100)
                         {
                             //手とPlayerの距離を縮めています
                             hand.Distance -= DistanceSpeed;
@@ -199,7 +199,7 @@ namespace ActionGame
                         else
                         {
                             //これ以上短くしない
-                            hand.Distance = 150;
+                            hand.Distance = 100;
                         }
 
                         if (angle % 90 != 0)

@@ -60,9 +60,9 @@ namespace ActionGame
 
             ImageWidth = 120;             //画像の横ピクセル数
             ImageHeight = 60;             //画像の縦ピクセル数
-            hitboxOffsetLeft = -10;　   　//当たり判定のオフセット
-            hitboxOffsetRight = 80;       //当たり判定のオフセット
-            hitboxOffsetTop = -50;        //当たり判定のオフセット
+            hitboxOffsetLeft = -5;　   　//当たり判定のオフセット
+            hitboxOffsetRight = 90;       //当たり判定のオフセット
+            hitboxOffsetTop = -40;        //当たり判定のオフセット
             hitboxOffsetBottom = 70;      //当たり判定のオフセット
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * Velocity;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * Velocity;

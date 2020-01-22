@@ -30,7 +30,14 @@ namespace ActionGame
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.KeyImage[0]);
+            if(openFrag)
+            {
+                Camera.DrawGraph(x, y, Image.KeyImage[1]);
+            }
+            else
+            {
+                Camera.DrawGraph(x, y, Image.KeyImage[0]);
+            }
         }
 
         public override void OnCollision(playerObject playerObject)
