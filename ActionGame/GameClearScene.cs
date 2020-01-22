@@ -80,7 +80,7 @@ namespace ActionGame
             else 
             {
                 DX.SetFontSize(240);
-                DX.DrawString(1000, 510, "S", DX.GetColor(255, 0, 0)); //スコアS評価
+                DX.DrawString(900, 510, "S", DX.GetColor(255, 0, 0)); //スコアS評価
             }
         }
     }
