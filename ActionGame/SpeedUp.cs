@@ -31,8 +31,7 @@ namespace ActionGame
         }
 
         public override void OnCollision(playerObject playerObject)
-        {
-            isDead = true;
+        {            
             if (playerObject is Player)
             {
                 isDead = true;

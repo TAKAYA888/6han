@@ -118,7 +118,11 @@ namespace ActionGame
             }
             else if (objectID == 7)     //針
             {
-                playScene.gimmickObjects.Add(new NeedleObject(playScene, spawnX, spawnY));
+                NeedleObject needleObject = new NeedleObject(playScene, spawnX, spawnY);
+
+                needleObject.number = objectNumber;
+
+                playScene.gimmickObjects.Add(needleObject);
             }
             else if (objectID == 8)     //動く床
             {

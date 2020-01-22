@@ -32,6 +32,7 @@ namespace ActionGame
         float VelocityX;                      //移動速度(x方向)
         float VelocityY;                      //移動速度(y方向)
         public float DistanceLimit;
+        float Velocity;
         public bool HundHitFrag = false;
         bool BeforHundHitFrag = false;
         //----------------------------------------------------------------------------------------------------------------
@@ -48,15 +49,26 @@ namespace ActionGame
             hit = Hit.NotHit;
             DistanceLimit = 960;
 
+            if (player.PlayerStateNumber == 0)
+            {
+                Velocity = 10;
+            }
+            else
+            {
+                Velocity = 20;
+            }
+
             ImageWidth = 120;             //画像の横ピクセル数
             ImageHeight = 60;             //画像の縦ピクセル数
             hitboxOffsetLeft = -10;　   　//当たり判定のオフセット
             hitboxOffsetRight = 80;       //当たり判定のオフセット
             hitboxOffsetTop = -50;        //当たり判定のオフセット
             hitboxOffsetBottom = 70;      //当たり判定のオフセット
-            VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * 10;
-            VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * 10;
+            VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * Velocity;
+            VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * Velocity;
             playerPosY = player.Position.y;
+
+            
         }
 
         public override void Update()
@@ -233,8 +245,16 @@ namespace ActionGame
 
         public override void OnCollisionI(ItemObject itemObject)
         {
-            hit = Hit.Retrun;
-            Player.ScorePoint += 1000;
+            if(itemObject is Grounds)
+            {
+                hit = Hit.Retrun;
+                
+            }
+            else if(itemObject is WoolenYarn)
+            {
+                player.haveWoolenYarn++;
+                Player.ScorePoint += 1000;
+            }            
         }
 
         public override void OnCollisionP(playerObject playerObject)

@@ -49,7 +49,7 @@ namespace ActionGame
             }
             else
             {
-                Camera.DrawGraph(x, y, Image.mapchip[0]);
+                Camera.DrawGraph(x, y, Image.Gimmick1[0]);
             }
         }
 
