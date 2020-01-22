@@ -56,6 +56,7 @@ namespace ActionGame
             moveFloor = new MoveFloorObject(this, 1500, 1400);
             map = new Map(this, "stage1");
             miniMap = new MiniMap(this, "stage1");
+            DX.PlayMusic("BGM/Play_scene.mp3", DX.DX_PLAYTYPE_LOOP);
         }
         public override void Update()
         {

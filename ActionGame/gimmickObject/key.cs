@@ -37,6 +37,7 @@ namespace ActionGame
         {
             if(playerObject is Hand)
             {
+                SE.Play(SE.keySE);
                 openFrag = true;
             }
         }

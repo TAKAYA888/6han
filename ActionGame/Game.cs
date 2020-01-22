@@ -16,6 +16,7 @@ namespace ActionGame
             Input.Init();
             MyRandom.Init();
             Image.Load();
+            SE.Load();
             scene = new TitleScene();
 
             particleManager = new ParticleManager();

@@ -399,15 +399,27 @@
     <Content Include="Image\TogeWani03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sound\Alarm.mp3" />
-    <Content Include="Sound\ArmShot.mp3" />
-    <Content Include="Sound\EnemySound01.mp3" />
-    <Content Include="Sound\Enemy_damage.wav" />
-    <Content Include="Sound\Gimmick.wav" />
-    <Content Include="Sound\PlayerDamage.mp3" />
-    <Content Include="Sound\Player_damage.wav" />
-    <Content Include="Sound\Select.wav" />
-    <Content Include="Sound\Woolem.mp3" />
+    <Content Include="SE\Alarm.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\ArmShot.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\EnemySound.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\Enemy_damage.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\Gimmick.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\PlayerDamage.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SE\Woolem.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,7 +15,7 @@ namespace ActionGame
 
         public TitleScene()
         {
-            //DX.PlayMusic("", DX.DX_PLAYTYPE_LOOP);
+            DX.PlayMusic("BGM/Title.mp3", DX.DX_PLAYTYPE_LOOP);
         }
         public override void Update()
         {

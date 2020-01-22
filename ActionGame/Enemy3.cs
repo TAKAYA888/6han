@@ -160,6 +160,7 @@ namespace ActionGame
         {
             if (playerObject is Hand)
             {
+                SE.Play(SE.EnemyDamageSE);
                 HP -= 1;
                 if (HP <= 0)
                 {
@@ -170,6 +171,7 @@ namespace ActionGame
 
         public override void OnCollisionH(Hand hund)
         {
+            SE.Play(SE.EnemyDamageSE);
             HP -= 1;
             if (HP <= 0)
             {

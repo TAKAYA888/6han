@@ -16,26 +16,30 @@ namespace ActionGame
 
         //ザコ敵のリソースSE
         public static int EnemySE;　//敵のSE
+        public static int EnemyDamageSE;//敵のダメージSE
 
         //アイテムのリソースSE
         public static int WoolemSE;　//毛糸のSE
 
         //その他のリソースSE
+        public static int keySE;//鍵のSE
 
         public static void Load()
         {
             //プレイヤーのリソースSE
-            ArmShotSE = DX.LoadSoundMem("SE/ArmShot.mp3");
-            AlarmSE = DX.LoadSoundMem("SE/Alarm.mp3");
-            PlayerDamageSE = DX.LoadSoundMem("SE/ PlayerDamage.mp3");
+            ArmShotSE = DX.LoadSoundMem("SE/ArmShot.wav");
+            AlarmSE = DX.LoadSoundMem("SE/Alarm.wav");
+            PlayerDamageSE = DX.LoadSoundMem("SE/PlayerDamage.wav");
 
             //ザコ敵のリソースSE
-            EnemySE = DX.LoadSoundMem("SE/ EnemySound.mp3");
+            EnemySE = DX.LoadSoundMem("SE/EnemySound.wav");
+            EnemyDamageSE = DX.LoadSoundMem("SE/Enemy_damage.wav");
 
             //アイテムのリソースSE
-            WoolemSE = DX.LoadSoundMem("SE/ Woolem.mp3");
+            WoolemSE = DX.LoadSoundMem("SE/Woolem.wav");
 
             //その他のリソースSE
+            keySE = DX.LoadSoundMem("SE/Gimmick.wav");
 
         }
         public static void Play(int handle)
