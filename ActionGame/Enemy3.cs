@@ -67,7 +67,10 @@ namespace ActionGame
             }
             if (state == State.Move)
             {
-                //playScene.enemyBullets.Add(new EnemyBullet(x, y, 180f * MyMath.Deg2Rad, 8f));
+                if (counter % 50 == 0)
+                {
+                    playScene.enemyBullets.Add(new EnemyBullet(x, y, 180f * MyMath.Deg2Rad, 8f));
+                }
             }
 
             vy += Gravity;
