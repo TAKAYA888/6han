@@ -38,6 +38,7 @@ namespace ActionGame
             {
                 Game.ChangeScene(new PlayScene());
             }
+            //Game.particleManager.FireWork(MyRandom.Range(0, 1920), 1080);
         }
         public override void Draw()
         {
@@ -60,27 +61,27 @@ namespace ActionGame
                 DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
             }
             DX.SetFontSize(60);
-            DX.DrawString(1150, 385, Player.ScorePoint.ToString(), DX.GetColor(255, 0, 0));//スコア
+            DX.DrawString(1150, 385, "SCORE : "+Player.ScorePoint.ToString(), DX.GetColor(255, 0, 0));//スコア
 
             if (Player.ScorePoint < 1500)
             {
-                DX.SetFontSize(240);
-                DX.DrawString(900, 510, "C", DX.GetColor(0, 0, 255)); //スコアC評価
+                //DX.SetFontSize(240);
+                DX.DrawRotaGraph(1920/2, 1080/2,1,0, Image.ScoreC);
             }
             else if (Player.ScorePoint < 3000)
             {
-                DX.SetFontSize(240);
-                DX.DrawString(900, 510, "B", DX.GetColor(0, 255, 0)); //スコアB評価
+                //DX.SetFontSize(240);
+                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreB);
             }
             else if (Player.ScorePoint < 4500)
             {
-                DX.SetFontSize(240);
-                DX.DrawString(900, 510, "A", DX.GetColor(255, 0, 0)); //スコアA評価
+                //DX.SetFontSize(240);
+                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreA);
             }
             else 
             {
-                DX.SetFontSize(240);
-                DX.DrawString(900, 510, "S", DX.GetColor(255, 0, 0)); //スコアS評価
+                //DX.SetFontSize(240);
+                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreS);
             }
         }
     }

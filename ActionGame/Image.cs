@@ -39,6 +39,7 @@ namespace ActionGame
         public static int SpeedUpItem;
         public static int GameClearImage;               //ゲームクリア画像
         public static int GameOverImage;                //ゲームオーバー画像
+        public static int GameOverImage01;                //ゲームオーバー画像
         public static int IconIto;                      //糸のアイコン画像
         public static int IconMap;                      //マップのアイコン画像
         public static int MapImage;                     //マップ画像
@@ -49,6 +50,7 @@ namespace ActionGame
         public static int TogeWani02;　                 //ワニのトゲ画像０２
         public static int TogeWani03;　                 //ワニのトゲ画像０２
         public static int MoveFloor;                    //動く床の画像
+        public static int Goal;        
         public static int[] KeyImage = new int[2];      //鍵の見た目        
 
         public static int Ito;                          //糸の画像
@@ -117,7 +119,8 @@ namespace ActionGame
             Block01 = DX.LoadGraph("Image/Block01.png");
             Floor01 = DX.LoadGraph("Image/Floor01.png");
             GameClearImage = DX.LoadGraph("Image/GameClear.jpg");
-            GameOverImage = DX.LoadGraph("Image/GameOver.jpg");
+            GameOverImage = DX.LoadGraph("Image/GameOver02.jpg");
+            //GameOverImage01=DX.LoadGraph("")
             IconIto = DX.LoadGraph("Image/IconIto.png");
             IconMap = DX.LoadGraph("Image/IconMap.png");
             MapImage = DX.LoadGraph("Image/Map.png");
@@ -128,6 +131,7 @@ namespace ActionGame
             TogeWani02 = DX.LoadGraph("Image/TogeWani02.png");
             TogeWani03 = DX.LoadGraph("Image/TogeWani03.png");
             MoveFloor = DX.LoadGraph("Image/MoveFloor.png");
+            Goal = DX.LoadGraph("Image/Friend01.png");
 
             DX.LoadDivGraph("Image/Switch.png", KeyImage.Length, 2, 1, 40, 60, KeyImage);
 

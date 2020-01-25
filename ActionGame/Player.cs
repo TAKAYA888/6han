@@ -85,9 +85,10 @@ namespace ActionGame
             Position.y = y;　　　　　　　　　　　　　　　　　　　　　//上と同じ
             HundFrag = false;　　　　　　　　　　　　　　　　　　　　//最初のハンドフラグの設定
             playerArraw = new PlayerArraw(this, Position);  　　　　 //矢印の生成
-
+            state = State.Normal;
             PlayerStateNumber = 0;
             HP = MaxHP;
+            ScorePoint = 0;
             //サイズ関係-------------------------------------------------------------------------
             ImageWidth = 110;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
             ImageHeight = 180;   　　　　　　　　　　　　　　　　　　 //画像の縦ピクセル数
@@ -207,11 +208,11 @@ namespace ActionGame
                             hand.Distance = 100;
                         }
 
-                        if (angle % 90 != 0)
-                        {
-                            //振り子の減衰についてのプログラミング
-                            PendulumDecay();
-                        }
+                        //if (angle % 90 != 0)
+                        //{
+                        //    //振り子の減衰についてのプログラミング
+                        //    PendulumDecay();
+                        //}
 
                         //角度の変更
                         angle += angleSpeed;
@@ -232,6 +233,9 @@ namespace ActionGame
                         {
                             DistanceSpeed = 10;
                         }
+
+                        //if(Input.GetButton(DX.PAD_INPUT_LEft
+                                            //))
 
                         //手を消す
                         if (Input.GetButtonDown(DX.PAD_INPUT_2))

@@ -111,7 +111,7 @@ namespace ActionGame
         }
         void MoveY()
         {
-            y += vy;
+            //y += vy;
 
             bool grounded = false;
 

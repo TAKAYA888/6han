@@ -73,72 +73,72 @@ namespace ActionGame
 
             DX.DrawGraph(0, 0, Image.miniMapBackBround);
 
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    int id = terrain[x, y];
+            //for (int y = 0; y < Height; y++)
+            //{
+            //    for (int x = 0; x < Width; x++)
+            //    {
+            //        int id = terrain[x, y];
 
-                    if (id == None) continue; // 描画しない 
+            //        if (id == None) continue; // 描画しない 
 
-                    DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Floor01);
-                }
-            }
+            //        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Floor01);
+            //    }
+            //}
 
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    int id = _object[x, y];
+            //for (int y = 0; y < Height; y++)
+            //{
+            //    for (int x = 0; x < Width; x++)
+            //    {
+            //        int id = _object[x, y];
 
-                    if (id == None) continue; // 描画しない 
+            //        if (id == None) continue; // 描画しない 
 
-                    else if (id == 0)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.PlayerImage01[1]);
-                    }
-                    else if (id == 1)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.PlayerImage01[1]);
-                    }
-                    else if (id == 2)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Ito);
-                    }
-                    else if (id == 3)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.IconIto);
-                    }
-                    else if (id == 4)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage01);
-                    }
-                    else if (id == 5)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage02);
-                    }
-                    else if (id == 6)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage03);
-                    }
-                    else if (id == 7)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 214, 0.45, 0, Image.TogeWani02);
-                    }
-                    else if (id == 8)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.MoveFloor);
-                    }
-                    else if (id == 9)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.KeyImage[0]);
-                    }
-                    else if(id==10)
-                    {
-                        DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Gimmick1[0]);
-                    }
-                }
-            }
+            //        else if (id == 0)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.PlayerImage01[1]);
+            //        }
+            //        else if (id == 1)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.PlayerImage01[1]);
+            //        }
+            //        else if (id == 2)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Ito);
+            //        }
+            //        else if (id == 3)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.IconIto);
+            //        }
+            //        else if (id == 4)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage01);
+            //        }
+            //        else if (id == 5)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage02);
+            //        }
+            //        else if (id == 6)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.EnemyImage03);
+            //        }
+            //        else if (id == 7)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 214, 0.45, 0, Image.TogeWani02);
+            //        }
+            //        else if (id == 8)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.MoveFloor);
+            //        }
+            //        else if (id == 9)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.KeyImage[0]);
+            //        }
+            //        else if(id==10)
+            //        {
+            //            DX.DrawRotaGraph(x * CellSizeX + 100, y * CellSizeY + 200, 0.45, 0, Image.Gimmick1[0]);
+            //        }
+            //    }
+            //}
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ActionGame
 {
     public class key : GimmickObject
     {
-        public int KeyNunber;        
+        public int KeyNunber;
 
         public key(PlayScene playScene, float x, float y) : base(playScene)
         {
@@ -30,7 +30,7 @@ namespace ActionGame
 
         public override void Draw()
         {
-            if(openFrag)
+            if (openFrag)
             {
                 Camera.DrawGraph(x, y, Image.KeyImage[1]);
             }
@@ -42,7 +42,7 @@ namespace ActionGame
 
         public override void OnCollision(playerObject playerObject)
         {
-            if(playerObject is Hand)
+            if (playerObject is Hand && !openFrag)
             {
                 SE.Play(SE.keySE);
                 openFrag = true;

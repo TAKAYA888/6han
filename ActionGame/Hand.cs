@@ -68,12 +68,12 @@ namespace ActionGame
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * Velocity;
             playerPosY = player.Position.y;
 
-            
+
         }
 
         public override void Update()
         {
-            if(player.PlayerStateNumber==0)
+            if (player.PlayerStateNumber == 0)
             {
                 DistanceLimit = 960.0f / 2.0f;
             }
@@ -85,10 +85,10 @@ namespace ActionGame
             if (hit == Hit.NotHit)
             {
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
 
                 if (Distance > DistanceLimit || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
@@ -138,10 +138,10 @@ namespace ActionGame
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
 
             }
             //右端が壁にめりこんでいるか？
@@ -156,10 +156,10 @@ namespace ActionGame
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
             }
         }
 
@@ -191,10 +191,10 @@ namespace ActionGame
                 if (player.playerArraw.ArrawAngle != 90 * 3)
                 {
                     Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
                 }
                 else
                 {
@@ -215,10 +215,10 @@ namespace ActionGame
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
             }
         }
 
@@ -245,17 +245,17 @@ namespace ActionGame
 
         public override void OnCollisionI(ItemObject itemObject)
         {
-            if(itemObject is Grounds)
+            if (itemObject is Grounds)
             {
                 hit = Hit.Retrun;
-                
+
             }
-            else if(itemObject is WoolenYarn)
+            else if (itemObject is WoolenYarn)
             {
                 player.haveWoolenYarn++;
                 Player.ScorePoint += 1000;
-            }  
-            else if(itemObject is SpeedUp)
+            }
+            else if (itemObject is SpeedUp)
             {
                 player.PlayerStateNumber = 1;
                 Player.ScorePoint += 1000;
@@ -274,10 +274,10 @@ namespace ActionGame
                 hit = Hit.Hit;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y));
+                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
+                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
+                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
             }
         }
     }

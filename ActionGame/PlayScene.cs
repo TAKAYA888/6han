@@ -269,13 +269,13 @@ namespace ActionGame
             foreach (ItemObject go in itemObjects)
             {
                 go.Draw();
-                go.DrawHitBox();
+                //go.DrawHitBox();
             }
 
             foreach (playerObject playerObject in playerObjects)
             {
                 playerObject.Draw();
-                playerObject.DrawHitBox();
+                //playerObject.DrawHitBox();
             }
 
             map.DrawTerrain();
@@ -283,7 +283,7 @@ namespace ActionGame
             foreach (EnemyObject enemy in enemyObjects)
             {
                 enemy.Draw();
-                enemy.DrawHitBox();
+                //enemy.DrawHitBox();
             }
 
             // 敵弾の描画
@@ -295,7 +295,7 @@ namespace ActionGame
             foreach (GimmickObject gimmick in gimmickObjects)
             {
                 gimmick.Draw();
-                gimmick.DrawHitBox();
+                //gimmick.DrawHitBox();
             }
 
             ////針の描画

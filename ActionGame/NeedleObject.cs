@@ -42,11 +42,18 @@ namespace ActionGame
                     break;
                 case 3:
                     Draw = Image.TogeWani03;
-                    break;
+                    break;                    
             }
 
 
-            Camera.DrawGraph(x, y, Draw);
+            if(Draw!=0)
+            {
+                Camera.DrawGraph(x, y, Draw);
+            }
+            else
+            {
+                Camera.DrawGraph(x, y, Image.TogeWani02);
+            }
         }
 
         public override void OnCollision(playerObject playerObject)
