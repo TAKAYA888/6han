@@ -773,6 +773,20 @@ namespace ActionGame
             }
         }
 
+        public override void OnCollisionEB(EnemyBullet enemyBullet)
+        {
+            if (mutekiTimer <= 0)
+            {
+                HP -= 1;
+                mutekiTimer = mutekitime;
+                if (HP == 0)
+                {
+                    HundFrag = false;
+                    Game.particleManager.Slash(Position.x, Position.y, MathHelper.toRadians(45.0f));
+                }
+            }
+        }
+
         public void DrawHitPoint()
         {
             Camera.DrawHitBoxPoint((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 255, 255));

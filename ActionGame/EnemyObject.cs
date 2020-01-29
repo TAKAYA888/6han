@@ -98,6 +98,11 @@ namespace ActionGame
 
         public abstract void OnCollisionH(Hand hund);
 
+        public virtual void OncollisionG(GimmickObject gimmickObject)
+        {
+
+        }
+
         //画面内に映っているか？
         //public virtual bool IsVisible()
         //{

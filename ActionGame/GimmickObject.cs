@@ -149,6 +149,11 @@ namespace ActionGame
         //他のオブジェクトと衝突したときに呼ばれる
         public abstract void OnCollision(playerObject playerObject);
 
+        public virtual void OnCollisionE(EnemyObject enemyObject)
+        {
+            
+        }
+
         //画面内に映っているか？
         //public virtual bool IsVisible()
         //{

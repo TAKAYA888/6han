@@ -192,5 +192,12 @@ namespace ActionGame
         {
             DX.DrawRotaGraphF(x / 1.5f, y / 2 + 200, 0.2, 0, Image.EnemyImage01);
         }
+        public override void OncollisionG(GimmickObject gimmickObject)
+        {
+            if(gimmickObject is NeedleObject)
+            {
+                isDead = true;
+            }
+        }
     }
 }

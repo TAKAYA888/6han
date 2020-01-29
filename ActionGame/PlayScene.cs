@@ -114,6 +114,28 @@ namespace ActionGame
                 }
             }
 
+            //GimmickObjectとEnemyObjectの衝突処理
+            for(int i = 0; i < enemyObjects.Count; i++)
+            {
+                for(int j = 0; j < gimmickObjects.Count;j++)
+                {
+                    GimmickObject gimmick = gimmickObjects[j];
+
+                    if (gimmick.isDead) break;
+
+                    EnemyObject enemy = enemyObjects[i];
+
+                    if (enemy.isDead) break;
+
+                    if(MyMath.RectRectIntersect(gimmick.GetLeft(), gimmick.GetTop(),gimmick.GetRight(),gimmick.GetBottom(),
+                         enemy.GetLeft(), enemy.GetTop(), enemy.GetRight(), enemy.GetBottom()))
+                    {
+                        gimmick.OnCollisionE(enemy);
+                        enemy.OncollisionG(gimmick);
+                    }
+                }
+            }
+
             ////手とEnemyobjectの衝突処理
             //if (hand != null)
             //{
@@ -179,7 +201,7 @@ namespace ActionGame
             {
                 playerObject playerObject = playerObjects[i];
 
-                if (playerObject.isDead == true) continue;
+                if (playerObject.isDead) continue;
 
                 for (int j = 0; j < gimmickObjects.Count(); j++)
                 {
@@ -194,6 +216,28 @@ namespace ActionGame
                     {
                         playerObject.OnCollisionG(gimmickObject);
                         gimmickObject.OnCollision(playerObject);
+                    }
+                }
+            }
+
+            //EnemyBulletとPlayerObjectの当たり判定
+            for(int i = 0; i < playerObjects.Count; i++)
+            {
+                for(int j = 0; j < enemyBullets.Count; j++)
+                {
+                    playerObject playerObject = playerObjects[i];
+
+                    if (playerObject.isDead) break;
+
+                    EnemyBullet enemyBullet = enemyBullets[j];
+
+                    if (enemyBullet.isDead) break;
+
+                    if (MyMath.RectRectIntersect(playerObject.GetLeft(), playerObject.GetTop(), playerObject.GetRight(), playerObject.GetBottom(),
+                            enemyBullet.GetLeft(),enemyBullet.GetTop(),enemyBullet.GetRight(),enemyBullet.GetBottom()))
+                    {
+                        playerObject.OnCollisionEB(enemyBullet);
+                        enemyBullet.OnCollisionP(playerObject);
                     }
                 }
             }

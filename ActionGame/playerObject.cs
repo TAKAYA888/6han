@@ -153,5 +153,9 @@ namespace ActionGame
 
         public abstract void OnCollisionP(playerObject player);
 
+        public virtual void OnCollisionEB(EnemyBullet enemyBullet)
+        {
+        }
+
     }
 }
