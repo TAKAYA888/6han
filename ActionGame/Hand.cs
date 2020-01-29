@@ -274,7 +274,7 @@ namespace ActionGame
                     + (player.Position.y - Position.y)
                     * (player.Position.y - Position.y));
             }
-            else if(gimmickObject is KeyDoor && !HundHitFrag)
+            else if(gimmickObject is KeyDoor && !HundHitFrag && !gimmickObject.openFrag)
             {
                 HundHitFrag = true;
                 hit = Hit.Hit;
