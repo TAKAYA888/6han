@@ -208,11 +208,11 @@ namespace ActionGame
                             hand.Distance = 100;
                         }
 
-                        //if (angle % 90 != 0)
-                        //{
-                        //    //振り子の減衰についてのプログラミング
-                        //    PendulumDecay();
-                        //}
+                        if (angle % 90 != 0)
+                        {
+                            //振り子の減衰についてのプログラミング
+                            PendulumDecay();
+                        }
 
                         //角度の変更
                         angle += angleSpeed;

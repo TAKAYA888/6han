@@ -57,6 +57,7 @@ namespace ActionGame
             {
                 Velocity = 20;
             }
+            DistanceLimit = 960.0f;
 
             ImageWidth = 120;             //画像の横ピクセル数
             ImageHeight = 60;             //画像の縦ピクセル数
@@ -67,20 +68,11 @@ namespace ActionGame
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * Velocity;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * Velocity;
             playerPosY = player.Position.y;
-
-
         }
 
         public override void Update()
         {
-            if (player.PlayerStateNumber == 0)
-            {
-                DistanceLimit = 960.0f / 2.0f;
-            }
-            else
-            {
-                DistanceLimit = 960.0f;
-            }
+            
             BeforHundHitFrag = HundHitFrag;
             if (hit == Hit.NotHit)
             {
