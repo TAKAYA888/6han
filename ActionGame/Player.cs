@@ -35,7 +35,7 @@ namespace ActionGame
         public bool BeforHundFrag = false;　　　      　//一個前の手がくっついたかのフラグ
         public bool FrastHandAngleFrag = false;　　　 　//手のくっついた時の角度が90度以上かそうでないかの判断を行うためのフラグ
         //float Distance;　　　　　　　　　　　　　       //手とこいつの距離
-        float angle = MathHelper.toRadians(315);     　 //手との角度
+        public float angle = MathHelper.toRadians(315);     　 //手との角度
         float FirstAngle;                               //角度を制限するための変数
         float LastAngle;　　　　　　　　　　　　     　 //角度を制限するための変数
         float angleSpeed;　　　　　　　　            　 //角度を変えるスピード
@@ -297,6 +297,7 @@ namespace ActionGame
 
                 //手を縮めるスピード
                 DistanceSpeed = 10;
+
 
                 gennsokuFrag = true;
 

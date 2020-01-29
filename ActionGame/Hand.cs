@@ -77,21 +77,15 @@ namespace ActionGame
             if (hit == Hit.NotHit)
             {
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
 
                 if (Distance > DistanceLimit || Input.GetButtonDown(DX.PAD_INPUT_2))
                 {
                     hit = Hit.Retrun;
-                }
-
-                if (Distance <= 1)
-                {
-                    isDead = true;
-                    player.HundFrag = false;
-                }
+                }                
             }
             else if (hit == Hit.Hit)
             {
@@ -129,11 +123,13 @@ namespace ActionGame
                 SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
 
             }
             //右端が壁にめりこんでいるか？
@@ -147,11 +143,13 @@ namespace ActionGame
                 SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
             }
         }
 
@@ -180,13 +178,16 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
+
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 if (player.playerArraw.ArrawAngle != 90 * 3)
                 {
                     Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
                 }
                 else
                 {
@@ -206,11 +207,13 @@ namespace ActionGame
                 hit = Hit.Hit;
                 HundHitFrag = true;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
             }
         }
 
@@ -266,10 +269,21 @@ namespace ActionGame
                 hit = Hit.Hit;
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
-                    (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    * (player.Position.x + (player.ImageWidth / 2) - Position.x + ImageWidth / 2)
-                    + (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2)
-                    * (player.Position.y + (player.ImageHeight / 2) - Position.y + ImageHeight / 2));
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
+            }
+            else if(gimmickObject is KeyDoor && !HundHitFrag)
+            {
+                HundHitFrag = true;
+                hit = Hit.Hit;
+                player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
+                Distance = (float)Math.Sqrt(
+                    (player.Position.x - Position.x)
+                    * (player.Position.x - Position.x)
+                    + (player.Position.y - Position.y)
+                    * (player.Position.y - Position.y));
             }
         }
     }
