@@ -9,6 +9,8 @@ namespace ActionGame
 {
     public class Goal : ItemObject
     {
+        public bool Clear = false;
+        int timer = 0;
         public Goal(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
@@ -23,25 +25,59 @@ namespace ActionGame
         }
         public override void Update()
         {
-            
+            //if (Clear == true)
+            //{
+            //    timer++;
+            //    if (timer >= 100)
+            //    {
+            //        Game.ChangeScene(new GameClearScene());
+            //        timer = 0;
+            //    }
+            //}
         }
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.Goal[1]);
+            //Camera.DrawGraph(x, y, Image.Goal[1]);
+            //アニメーション処理
+            if (Clear == true)
+            {
+                timer++;
+
+                if (timer > 5)
+                {
+                    Camera.DrawGraph(x, y, Image.Goal[0]);
+                }
+
+                if (timer > 60)
+                {
+                    Camera.DrawGraph(x, y, Image.Goal[4]);
+                }
+
+                if (timer >120)
+                {
+                    Game.ChangeScene(new GameClearScene());
+                    timer = 0;
+                }
+
+            }
+            else
+            {
+                Camera.DrawGraph(x, y, Image.Goal[1]);
+            }
         }
 
         public override void OnCollision(playerObject playerObject)
         {
             if (playScene.player.haveWoolenYarn >= 1)
             {
-               Game.ChangeScene(new GameClearScene());
+                Clear = true;
             }
-            else 
+            else
             {
 
             }
-           
+
         }
     }
 }
