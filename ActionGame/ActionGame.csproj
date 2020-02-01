@@ -109,6 +109,7 @@
     <Compile Include="SpeedUp.cs" />
     <Compile Include="TestScene.cs" />
     <Compile Include="TitleScene.cs" />
+    <Compile Include="TutorialScene.cs" />
     <Compile Include="WoolenYarn.cs" />
   </ItemGroup>
   <ItemGroup>
