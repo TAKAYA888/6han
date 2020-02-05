@@ -173,7 +173,7 @@ namespace ActionGame
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
-                SetTop(wallBottom); // プレイヤーの頭を天井に沿わす 
+                SetTop(wallBottom+0.1f); // プレイヤーの頭を天井に沿わす 
                 VelocityY = 0; // 縦の移動速度を0に 
                 hit = Hit.Hit;
                 HundHitFrag = true;
@@ -202,7 +202,7 @@ namespace ActionGame
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
                 float wallTop = bottom - bottom % Map.CellSize; // 床のy座標 
-                SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
+                SetBottom(wallTop-0.1f); // プレイヤーの足元を床の高さに沿わす 
                 VelocityY = 0; // 縦の移動速度を0に 
                 hit = Hit.Hit;
                 HundHitFrag = true;
@@ -232,8 +232,7 @@ namespace ActionGame
         }
 
         public override void OnCollision(EnemyObject enemyObject)
-        {
-            player.HundFrag = false;
+        {            
             isDead = true;
             Player.ScorePoint += 1000;
         }

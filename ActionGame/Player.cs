@@ -47,7 +47,7 @@ namespace ActionGame
         int EndTimer;
         public static int ScorePoint = 0;               //スコアポイントの変数
 
-
+        float beforAngle;
         public int haveWoolenYarn = 0;                  //持っている毛糸の数
 
         //-----------------------------------------------------------------------------------
@@ -75,6 +75,7 @@ namespace ActionGame
         //public PlayScene playScene;       　//playSceneの宣言
         public PlayerArraw playerArraw;     //矢印の宣言
         public Hand hand;
+        public Hand hand2;
         GimmickObject groundObject = null; // 乗っている床オブジェクト 
 
         //コンストラクタ
@@ -92,25 +93,46 @@ namespace ActionGame
             //サイズ関係-------------------------------------------------------------------------
             ImageWidth = 110;    　　　　　　　　　　　　　　 　　　　//画像の横ピクセル数
             ImageHeight = 180;   　　　　　　　　　　　　　　　　　　 //画像の縦ピクセル数
-            hitboxOffsetLeft = -ImageWidth / 2+20 ; 　　　　　　　        //当たり判定のオフセット
-            hitboxOffsetRight = ImageWidth / 2+20;                       //当たり判定のオフセット
-            hitboxOffsetTop = -ImageHeight / 2 +25;                       //当たり判定のオフセット
+            hitboxOffsetLeft = -ImageWidth / 2 + 20; 　　　　　　　        //当たり判定のオフセット
+            hitboxOffsetRight = ImageWidth / 2 + 20;                       //当たり判定のオフセット
+            hitboxOffsetTop = -ImageHeight / 2 + 25;                       //当たり判定のオフセット
             hitboxOffsetBottom = ImageHeight / 2;                     //当たり判定のオフセット
         }
 
         //毎フレームの更新処理
         public override void Update()
         {
+            beforAngle = angle;
             if (HP < 0)
             {
                 HP = 0;
-
             }
 
             if (HP != 0)
             {
+                if(hand2 != null)
+                {
+                    if (hand2.isDead)
+                    {
+                        hand2 = null;
+                    }
 
-                if(PlayerStateNumber==1)
+                    if (hand2 != null &&  hand2.HundHitFrag)
+                    {                        
+                        playScene.playerObjects.Remove(hand);
+                        hand = hand2;
+                        hand2 = null;
+                    }                   
+                }
+
+                if(hand != null && hand.isDead)
+                {
+                    hand = null;
+                    HundFrag = false;
+                }
+               
+
+                if (PlayerStateNumber == 1)
                 {
                     state = State.Speed;
                 }
@@ -192,62 +214,88 @@ namespace ActionGame
                 }
                 else
                 {
-                    //腕が壁とくっついたら
-                    //かつ角度が90以上なら　：　90だとradが0になるから
+                    //腕が壁とくっついたら                    
                     if (hand.HundHitFrag)
                     {
-                        //手とPlayerの距離を縮めています
-                        if (hand.Distance > 100)
+                        if(hand2 != null)
                         {
-                            //手とPlayerの距離を縮めています
-                            hand.Distance -= DistanceSpeed;
+                            if(!hand2.HundHitFrag)
+                            {
+
+                            }
                         }
                         else
                         {
-                            //これ以上短くしない
-                            hand.Distance = 100;
+                            //手とPlayerの距離を縮めています
+                            if (hand.Distance > 100)
+                            {
+                                //手とPlayerの距離を縮めています
+                                hand.Distance -= DistanceSpeed;
+                            }
+                            else
+                            {
+                                //これ以上短くしない
+                                hand.Distance = 100;
+                            }
+
+                            //if (angle % 90 != 0)
+                            //{
+                            //    //振り子の減衰についてのプログラミング
+                            //    PendulumDecay();
+                            //}
+
+                            if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                            {
+                                angleSpeed = 2.0f;
+                            }
+                            else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                            {
+                                angleSpeed = -2.0f;
+                            }
+                            else
+                            {
+                                angleSpeed = 0;
+                            }
+
+                            //角度の変更
+                            angle += angleSpeed;
+
+                            //回転時の移動処理
+                            Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(hand.Distance, 0))
+                                * Matrix3.createRotation(angle)
+                                * Matrix3.createTranslation(hand.Position);
+
+                            //座標の設定
+                            Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
+
+                            //移動量に足す
+                            VelocityX = NextPosition.x - Position.x;
+                            VelocityY = NextPosition.y - Position.y;
+
+                            if (Input.GetButtonDown(DX.PAD_INPUT_3))
+                            {
+                                DistanceSpeed = 10;
+                            }
                         }
 
-                        if (angle % 90 != 0)
-                        {
-                            //振り子の減衰についてのプログラミング
-                            PendulumDecay();
-                        }
-
-                        //角度の変更
-                        angle += angleSpeed;
-
-                        //回転時の移動処理
-                        Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(hand.Distance, 0))
-                            * Matrix3.createRotation(angle)
-                            * Matrix3.createTranslation(hand.Position);
-
-                        //座標の設定
-                        Vector2 NextPosition = new Vector2(0) * NextPlayerPos;
-
-                        //移動量に足す
-                        VelocityX = NextPosition.x - Position.x;
-                        VelocityY = NextPosition.y - Position.y;
-
-                        if (Input.GetButtonDown(DX.PAD_INPUT_3))
-                        {
-                            DistanceSpeed = 10;
-                        }
-
-                        //if(Input.GetButton(DX.PAD_INPUT_LEft
-                                            //))
 
                         //手を消す
                         if (Input.GetButtonDown(DX.PAD_INPUT_2))
                         {
                             HundFrag = false;
-                            hand.HundHitFrag = false;
-                            hand.isDead = true;
+                            playScene.playerObjects.Remove(hand);
+                            playScene.playerObjects.Remove(hand2);
+                            hand = null;
+                            hand2 = null;
                         }
-                    }
+                    }   
+                    //else
+                    //{
+                    //    // 重力による落下 
+                    //    VelocityY += Gravity / 10;
+                    //}
 
-                    // 重力による落下 
-                    VelocityY += Gravity / 10;
+                    
                 }
                 if (VelocityY >= MaxFallSpeed)
                 {
@@ -285,7 +333,7 @@ namespace ActionGame
         void HundleInput()
         {
             //手の射出
-            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && !HundFrag)
+            if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand == null)
             {
                 Hand hand_A = new Hand(playScene, Position.x, Position.y);
 
@@ -298,12 +346,68 @@ namespace ActionGame
                 //手を縮めるスピード
                 DistanceSpeed = 10;
 
-
                 gennsokuFrag = true;
+
+                angle = (float)Math.Atan2(hand.Position.y - Position.y, hand.Position.x - Position.x);
 
                 //回転時の移動処理
                 Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(50, 0))
-                    * Matrix3.createRotation(playerArraw.ArrawAngle)
+                    * Matrix3.createRotation(angle)
+                    * Matrix3.createTranslation(Position);
+
+                Vector2 effectpos = new Vector2(0) * NextPlayerPos;
+
+                Game.particleManager.ShockWave(effectpos.x, effectpos.y, MathHelper.toRadians(playerArraw.ArrawAngle));
+
+                SE.Play(SE.ArmShotSE);
+
+                //初期角度
+                angle = playerArraw.ArrawAngle + 180.0f;
+                //ハンドフラグをTrueに
+                HundFrag = true;
+                //角度を360度以上にならないように制限
+                angle = angle % 360;
+                //flyVelocityX = 0;
+
+                //角度の初期設定
+                if (angle < 90)
+                {
+                    FrastHandAngleFrag = true;
+                    FirstAngle = angle % 360;
+                    LastAngle = (FirstAngle + (90 - FirstAngle % 90) * 2) % 360;
+                    angleSpeed = 0.1f;
+                }
+                else if (angle % 90 == 0)
+                {
+                    angleSpeed = 0;
+                }
+                else
+                {
+                    FrastHandAngleFrag = false;
+                    FirstAngle = (playerArraw.ArrawAngle + 180.0f) % 360;
+                    LastAngle = (FirstAngle - (FirstAngle % 90) * 2) % 360;
+                    angleSpeed = -0.1f;
+                }
+            }
+            else if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand != null && hand2 == null)
+            {
+                Hand hand_A = new Hand(playScene, Position.x, Position.y);
+
+                hand2 = hand_A;
+
+                playScene.playerObjects.Add(hand_A);
+
+                HandDestroyTimer = HandDestroyTime;
+
+                //手を縮めるスピード
+                DistanceSpeed = 10;
+
+                gennsokuFrag = true;
+               
+
+                //回転時の移動処理
+                Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(50, 0))
+                    * Matrix3.createRotation(angle)
                     * Matrix3.createTranslation(Position);
 
                 Vector2 effectpos = new Vector2(0) * NextPlayerPos;
@@ -342,6 +446,63 @@ namespace ActionGame
             }
         }
 
+        //void SeveAngle()
+        //{
+        //    //当たり判定の四隅の座標を取得
+        //    float left = GetLeft() + 0.01f;
+        //    float right = GetRight() - 0.01f;
+        //    float top = GetTop();
+        //    float middle1 = top + 30;
+        //    float middle2 = top + 30 * 2;
+        //    float middle3 = top + 30 * 3;
+        //    float bottom = GetBottom() - 0.01f;
+        //    // 当たり判定の四隅の座標を取得             
+        //    float Center1 = left + 30.0f;
+        //    float Center2 = left + 30.0f * 2.0f;
+
+        //    bool hitFrag = false;
+
+        //    //左端が壁にめり込んでいるか？
+        //    if (playScene.map.IsWall(left, top) || //左上が壁か？
+        //        playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
+        //        playScene.map.IsWall(left, middle2) ||
+        //        playScene.map.IsWall(left, middle3) ||
+        //        playScene.map.IsWall(left, bottom))   //左下が壁か？
+        //    {
+        //        hitFrag = true;
+        //    }
+        //    else if (
+        //        playScene.map.IsWall(right, top) ||　　　//左上が壁か？
+        //        playScene.map.IsWall(right, middle1) ||
+        //        playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
+        //        playScene.map.IsWall(right, middle3) ||
+        //        playScene.map.IsWall(right, bottom))     //左下が壁か？
+        //    {
+        //        hitFrag = true;
+        //    }
+        //    // 上端が壁にめりこんでいるか？ 
+        //    if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
+        //        playScene.map.IsWall(Center1, top) ||
+        //        playScene.map.IsWall(Center2, top) ||
+        //        playScene.map.IsWall(right, top))   // 右上が壁か？ 
+        //    {
+        //        hitFrag = true;
+        //    }
+        //    else if (
+        //        playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
+        //        playScene.map.IsWall(Center1, bottom) ||
+        //        playScene.map.IsWall(Center2, bottom) ||
+        //        playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
+        //    {
+        //        hitFrag = true;
+        //    }
+
+        //    if(hitFrag)
+        //    {
+        //        angleSpeed = 0;
+        //    }
+        //}
+
         void MoveX()
         {
             //当たってない状態にもどす
@@ -377,6 +538,12 @@ namespace ActionGame
                     float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
                     SetLeft(_wallRight);//プレイヤーの左端を右の壁に沿わす
                 }
+
+                if (HundFrag)
+                {
+                    SetLeft(GetPrevLeft());
+                }
+
                 //フラグをオンにする
                 LeftAndRightHit = true;
             }
@@ -393,6 +560,11 @@ namespace ActionGame
                     float wallLeft = right - right % Map.CellSize;//壁の左端
                     SetRight(wallLeft);//プレイヤーの左端を壁の右端に沿わす
                 }
+
+                if (HundFrag)
+                {
+                    SetRight(GetPrevRight());
+                }
                 //フラグをオンにする
                 LeftAndRightHit = true;
             }
@@ -401,9 +573,9 @@ namespace ActionGame
             if (LeftAndRightHit)
             {
                 VelocityX = 0;
-                angleSpeed = -angleSpeed;
-                gennsokuFrag = !gennsokuFrag;
-
+                //angleSpeed = -angleSpeed;
+                //gennsokuFrag = !gennsokuFrag;
+                angle = beforAngle;
                 if (angle > 135.0f && angle < 45.0f)
                 {
                     //これ以上距離を縮めないようにする
@@ -441,8 +613,14 @@ namespace ActionGame
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
-                SetTop(wallBottom); // プレイヤーの頭を天井に沿わす 
+                SetTop(wallBottom); // プレイヤーの頭を天井に沿わす
+
+                if (HundFrag)
+                {
+                    SetTop(GetPrevTop());
+                }
                 VelocityY = 0; // 縦の移動速度を0に  
+                angle = beforAngle;
                 DistanceSpeed = 0;
             }
             // 下端が壁にめりこんでいるか？ 
@@ -459,7 +637,12 @@ namespace ActionGame
             {
                 float wallTop = bottom - bottom % Map.CellSize - 0.1f; // 床のy座標 
                 SetBottom(wallTop); // プレイヤーの足元を床の高さに沿わす 
-                VelocityY = 0; // 縦の移動速度を0に                 
+                VelocityY = 0; // 縦の移動速度を0に 
+                angle = beforAngle;
+                if (HundFrag)
+                {
+                    SetBottom(GetPrevBottom());
+                }
                 //flyVelocityX = 0;
                 if (hand != null && hand.HundHitFrag && AngleSpeedStopTimer <= 0)
                 {
@@ -469,129 +652,129 @@ namespace ActionGame
         }
 
 
-        void PendulumDecay()
-        {
-            if (FrastHandAngleFrag)
-            {
-                //角速度変更の変更
-                if (LastAngle < angle || FirstAngle > angle)
-                {
-                    angleSpeed = -angleSpeed;
-                    gennsokuFrag = !gennsokuFrag;
-                }
+        //void PendulumDecay()
+        //{
+        //    if (FrastHandAngleFrag)
+        //    {
+        //        //角速度変更の変更
+        //        if (LastAngle < angle || FirstAngle > angle)
+        //        {
+        //            angleSpeed = -angleSpeed;
+        //            gennsokuFrag = !gennsokuFrag;
+        //        }
 
-                //角度で減速する
-                //稼働域の半分　中間の角度を求める
-                float rad = (LastAngle - FirstAngle) / 2;
+        //        //角度で減速する
+        //        //稼働域の半分　中間の角度を求める
+        //        float rad = (LastAngle - FirstAngle) / 2;
 
-                //左方向に進むとき
-                if (!gennsokuFrag)
-                {
-                    if (LastAngle - rad >= angle)
-                    {
-                        angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
-                    }
-                    if (FirstAngle + rad < angle)
-                    {
-                        angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
-                    }
-                }
-                else
-                {
-                    if (LastAngle - rad >= angle)
-                    {
-                        angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
-                    }
-                    if (FirstAngle + rad < angle)
-                    {
-                        angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
-                    }
-                }
+        //        //左方向に進むとき
+        //        if (!gennsokuFrag)
+        //        {
+        //            if (LastAngle - rad >= angle)
+        //            {
+        //                angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
+        //            }
+        //            if (FirstAngle + rad < angle)
+        //            {
+        //                angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (LastAngle - rad >= angle)
+        //            {
+        //                angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
+        //            }
+        //            if (FirstAngle + rad < angle)
+        //            {
+        //                angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
+        //            }
+        //        }
 
-                //if (Input.GetButton(DX.PAD_INPUT_LEFT))
-                //{
-                //    angleSpeed -= 0.01f;
-                //}
-                //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
-                //{
-                //    angleSpeed += 0.01f;
-                //}
+        //        //if (Input.GetButton(DX.PAD_INPUT_LEFT))
+        //        //{
+        //        //    angleSpeed -= 0.01f;
+        //        //}
+        //        //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+        //        //{
+        //        //    angleSpeed += 0.01f;
+        //        //}
 
-                if (angleSpeed > -0.1f && angleSpeed < 0.1f)
-                {
-                    if (FirstAngle + rad < angle && gennsokuFrag)
-                    {
-                        angleSpeed = -angleSpeed;
-                        gennsokuFrag = !gennsokuFrag;
-                    }
-                    else if (LastAngle - rad >= angle && !gennsokuFrag)
-                    {
-                        angleSpeed = -angleSpeed;
-                        gennsokuFrag = !gennsokuFrag;
-                    }
-                }
-            }
-            else
-            {
-                //上と同じ
-                if (LastAngle > angle || FirstAngle < angle)
-                {
-                    angleSpeed = -angleSpeed;
-                    gennsokuFrag = !gennsokuFrag;
-                }
+        //        if (angleSpeed > -0.1f && angleSpeed < 0.1f)
+        //        {
+        //            if (FirstAngle + rad < angle && gennsokuFrag)
+        //            {
+        //                angleSpeed = -angleSpeed;
+        //                gennsokuFrag = !gennsokuFrag;
+        //            }
+        //            else if (LastAngle - rad >= angle && !gennsokuFrag)
+        //            {
+        //                angleSpeed = -angleSpeed;
+        //                gennsokuFrag = !gennsokuFrag;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //上と同じ
+        //        if (LastAngle > angle || FirstAngle < angle)
+        //        {
+        //            angleSpeed = -angleSpeed;
+        //            gennsokuFrag = !gennsokuFrag;
+        //        }
 
-                //角度で減速する
-                //稼働域の半分　中間の角度を求める
-                float rad = (FirstAngle - LastAngle) / 2;
+        //        //角度で減速する
+        //        //稼働域の半分　中間の角度を求める
+        //        float rad = (FirstAngle - LastAngle) / 2;
 
-                //右方向に進むとき
-                if (gennsokuFrag)
-                {
-                    if (LastAngle + rad >= angle)
-                    {
-                        angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
-                    }
-                    if (FirstAngle - rad < angle)
-                    {
-                        angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
-                    }
-                }
-                else
-                {
-                    if (LastAngle + rad >= angle)
-                    {
-                        angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
-                    }
-                    if (FirstAngle - rad < angle)
-                    {
-                        angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
-                    }
-                }
+        //        //右方向に進むとき
+        //        if (gennsokuFrag)
+        //        {
+        //            if (LastAngle + rad >= angle)
+        //            {
+        //                angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
+        //            }
+        //            if (FirstAngle - rad < angle)
+        //            {
+        //                angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (LastAngle + rad >= angle)
+        //            {
+        //                angleSpeed = angleSpeed + (angleSpeed * 2 / rad);
+        //            }
+        //            if (FirstAngle - rad < angle)
+        //            {
+        //                angleSpeed = angleSpeed - (angleSpeed * 2 / rad);
+        //            }
+        //        }
 
-                if (angleSpeed > -0.1f && angleSpeed < 0.1f)
-                {
-                    if (FirstAngle - rad < angle && !gennsokuFrag)
-                    {
-                        angleSpeed = -angleSpeed;
-                        gennsokuFrag = !gennsokuFrag;
-                    }
-                    else if (LastAngle + rad >= angle && gennsokuFrag)
-                    {
-                        angleSpeed = -angleSpeed;
-                        gennsokuFrag = !gennsokuFrag;
-                    }
-                }
+        //        if (angleSpeed > -0.1f && angleSpeed < 0.1f)
+        //        {
+        //            if (FirstAngle - rad < angle && !gennsokuFrag)
+        //            {
+        //                angleSpeed = -angleSpeed;
+        //                gennsokuFrag = !gennsokuFrag;
+        //            }
+        //            else if (LastAngle + rad >= angle && gennsokuFrag)
+        //            {
+        //                angleSpeed = -angleSpeed;
+        //                gennsokuFrag = !gennsokuFrag;
+        //            }
+        //        }
 
-                //if (Input.GetButton(DX.PAD_INPUT_LEFT))
-                //{
-                //    angleSpeed += 0.01f;
-                //}
-                //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
-                //{
-                //    angleSpeed -= 0.01f;
-                //}
-            }
-        }
+        //        //if (Input.GetButton(DX.PAD_INPUT_LEFT))
+        //        //{
+        //        //    angleSpeed += 0.01f;
+        //        //}
+        //        //else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+        //        //{
+        //        //    angleSpeed -= 0.01f;
+        //        //}
+        //    }
+        //}
 
         //描画処理
         public override void Draw()
@@ -698,7 +881,7 @@ namespace ActionGame
                     Game.particleManager.Slash(Position.x, Position.y, MathHelper.toRadians(45.0f));
                 }
             }
-            
+
         }
 
         public override void OnCollisionI(ItemObject item)//あたり判定の対象)
@@ -714,7 +897,7 @@ namespace ActionGame
                 PlayerStateNumber = 1;
                 ScorePoint += 1000; //スコア
             }
-           
+
         }
 
         public override void OnCollisionG(GimmickObject needle)
@@ -767,8 +950,17 @@ namespace ActionGame
             {
                 if (HandDestroyTimer <= 0)
                 {
-                    HundFrag = false;
-                    hand.isDead = true;
+                    if (playerObject == hand)
+                    {
+                        playScene.playerObjects.Remove(hand);
+                        hand = null;
+                        HundFrag = false;                        
+                    }
+                    else if (playerObject == hand2)
+                    {                        
+                        playScene.playerObjects.Remove(hand2);
+                        hand2 = null;
+                    }
                 }
             }
         }
@@ -781,7 +973,6 @@ namespace ActionGame
                 mutekiTimer = mutekitime;
                 if (HP == 0)
                 {
-                    HundFrag = false;
                     Game.particleManager.Slash(Position.x, Position.y, MathHelper.toRadians(45.0f));
                 }
             }
