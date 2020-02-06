@@ -212,6 +212,10 @@ namespace ActionGame
 
                     // 重力による落下 
                     VelocityY += Gravity;
+                    if(VelocityY > MaxFallSpeed)
+                    {
+                        VelocityY = MaxFallSpeed;
+                    }
                 }
                 else
                 {
@@ -236,7 +240,7 @@ namespace ActionGame
                             else
                             {
                                 //これ以上短くしない
-                                hand.Distance = 100;
+                                hand.Distance = 100;                                
                             }
 
                             //if (angle % 90 != 0)
@@ -289,19 +293,17 @@ namespace ActionGame
                             hand = null;
                             hand2 = null;
                         }
-                    }   
-                    //else
-                    //{
-                    //    // 重力による落下 
-                    //    VelocityY += Gravity / 10;
-                    //}
-
-                    
-                }
-                if (VelocityY >= MaxFallSpeed)
-                {
-                    VelocityY = MaxFallSpeed;
-                }
+                    }
+                    else
+                    {
+                        // 重力による落下 
+                        VelocityY += Gravity / 10;
+                        if(VelocityY > MaxFallSpeed/10)
+                        {
+                            VelocityY = MaxFallSpeed / 10;
+                        }
+                    }
+                }                
 
                 //入力処理
                 HundleInput();
@@ -606,8 +608,8 @@ namespace ActionGame
             float right = GetRight() - 0.01f;
             float Center1 = left + 30.0f;
             float Center2 = left + 30.0f * 2.0f;
-            float top = GetTop();
-            float bottom = GetBottom() - 0.01f;
+            float top = GetTop()-0.1f;
+            float bottom = GetBottom();
 
             // 上端が壁にめりこんでいるか？ 
             if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
@@ -615,12 +617,12 @@ namespace ActionGame
                 playScene.map.IsWall(Center2, top) ||
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
-                float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
+                float wallBottom = top - top % Map.CellSize + Map.CellSize + 1f; // 天井のy座標 
                 SetTop(wallBottom); // プレイヤーの頭を天井に沿わす
 
                 if (HundFrag)
-                {
-                    SetTop(GetPrevTop());
+                {                    
+                    SetTop(wallBottom);
                 }
                 VelocityY = 0; // 縦の移動速度を0に  
                 angle = beforAngle;

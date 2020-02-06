@@ -59,12 +59,12 @@ namespace ActionGame
             }
             DistanceLimit = 960.0f;
 
-            ImageWidth = 120;             //画像の横ピクセル数
-            ImageHeight = 60;             //画像の縦ピクセル数
-            hitboxOffsetLeft = -5;　   　//当たり判定のオフセット
-            hitboxOffsetRight = 90;       //当たり判定のオフセット
-            hitboxOffsetTop = -40;        //当たり判定のオフセット
-            hitboxOffsetBottom = 70;      //当たり判定のオフセット
+            ImageWidth = 5;             //画像の横ピクセル数
+            ImageHeight = 5;             //画像の縦ピクセル数
+            hitboxOffsetLeft = 0;　   　//当たり判定のオフセット
+            hitboxOffsetRight = 0;       //当たり判定のオフセット
+            hitboxOffsetTop = 0;        //当たり判定のオフセット
+            hitboxOffsetBottom = 0;      //当たり判定のオフセット
             VelocityX = MathHelper.cos(player.playerArraw.ArrawAngle) * Velocity;
             VelocityY = MathHelper.sin(player.playerArraw.ArrawAngle) * Velocity;
             playerPosY = player.Position.y;
