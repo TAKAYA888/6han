@@ -103,6 +103,7 @@ namespace ActionGame
         public override void Update()
         {
             beforAngle = angle;
+            angleSpeed = 0;
             if (HP < 0)
             {
                 HP = 0;
@@ -416,33 +417,33 @@ namespace ActionGame
 
                 SE.Play(SE.ArmShotSE);
 
-                //初期角度
-                angle = playerArraw.ArrawAngle + 180.0f;
-                //ハンドフラグをTrueに
-                HundFrag = true;
-                //角度を360度以上にならないように制限
-                angle = angle % 360;
-                //flyVelocityX = 0;
+                ////初期角度
+                //angle = playerArraw.ArrawAngle + 180.0f;
+                ////ハンドフラグをTrueに
+                //HundFrag = true;
+                ////角度を360度以上にならないように制限
+                //angle = angle % 360;
+                ////flyVelocityX = 0;
 
-                //角度の初期設定
-                if (angle < 90)
-                {
-                    FrastHandAngleFrag = true;
-                    FirstAngle = angle % 360;
-                    LastAngle = (FirstAngle + (90 - FirstAngle % 90) * 2) % 360;
-                    angleSpeed = 0.1f;
-                }
-                else if (angle % 90 == 0)
-                {
-                    angleSpeed = 0;
-                }
-                else
-                {
-                    FrastHandAngleFrag = false;
-                    FirstAngle = (playerArraw.ArrawAngle + 180.0f) % 360;
-                    LastAngle = (FirstAngle - (FirstAngle % 90) * 2) % 360;
-                    angleSpeed = -0.1f;
-                }
+                ////角度の初期設定
+                //if (angle < 90)
+                //{
+                //    FrastHandAngleFrag = true;
+                //    FirstAngle = angle % 360;
+                //    LastAngle = (FirstAngle + (90 - FirstAngle % 90) * 2) % 360;
+                //    angleSpeed = 0.1f;
+                //}
+                //else if (angle % 90 == 0)
+                //{
+                //    angleSpeed = 0;
+                //}
+                //else
+                //{
+                //    FrastHandAngleFrag = false;
+                //    FirstAngle = (playerArraw.ArrawAngle + 180.0f) % 360;
+                //    LastAngle = (FirstAngle - (FirstAngle % 90) * 2) % 360;
+                //    angleSpeed = -0.1f;
+                //}
             }
         }
 
@@ -521,16 +522,16 @@ namespace ActionGame
             float left = GetLeft() + 0.01f;
             float right = GetRight() - 0.01f;
             float top = GetTop();
-            float middle1 = top + 30;
-            float middle2 = top + 30 * 2;
-            float middle3 = top + 30 * 3;
+            //float middle1 = top + 30;
+            //float middle2 = top + 30 * 2;
+            //float middle3 = top + 30 * 3;
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
             if (playScene.map.IsWall(left, top) || //左上が壁か？
-                playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
-                playScene.map.IsWall(left, middle2) ||
-                playScene.map.IsWall(left, middle3) ||
+                //playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
+                //playScene.map.IsWall(left, middle2) ||
+                //playScene.map.IsWall(left, middle3) ||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
@@ -550,9 +551,9 @@ namespace ActionGame
             //右端が壁にめりこんでいるか？
             else if (
                 playScene.map.IsWall(right, top) ||　　　//左上が壁か？
-                playScene.map.IsWall(right, middle1) ||
-                playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
-                playScene.map.IsWall(right, middle3) ||
+                //playScene.map.IsWall(right, middle1) ||
+                //playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
+                //playScene.map.IsWall(right, middle3) ||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
