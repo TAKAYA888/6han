@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
+using MyMath_KNMR;
 
 namespace ActionGame
 {
@@ -45,8 +46,9 @@ namespace ActionGame
                 timer++;
 
                 if (timer > 5)
-                {
+                {                    
                     Camera.DrawGraph(x, y, Image.Goal[0]);
+                    
                 }
 
                 if (timer > 60)
@@ -56,6 +58,7 @@ namespace ActionGame
 
                 if (timer >120)
                 {
+                    Game.particleManager.Stars(x, y);
                     Game.ChangeScene(new GameClearScene());
                     timer = 0;
                 }
