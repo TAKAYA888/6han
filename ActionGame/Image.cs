@@ -44,6 +44,9 @@ namespace ActionGame
         public static int IconMap;                      //マップのアイコン画像
         public static int MapImage;                     //マップ画像
         public static int miniMapBackBround;            //ミニマップの背景画像
+        public static int Tutorial01;                   //チュートリアル０１
+        public static int Tutorial02;                   //チュートリアル０２
+        public static int Tutorial03;                   //チュートリアル０３
         public static int Stage01;                      //ステージのイメージ画像０１
         public static int TitleImage;                 　//タイトル画面の画像
         public static int TogeWani01;                   //ワニのトゲ画像０１
@@ -125,6 +128,9 @@ namespace ActionGame
             IconMap = DX.LoadGraph("Image/IconMap.png");
             MapImage = DX.LoadGraph("Image/Map.png");
             miniMapBackBround = DX.LoadGraph("Image/Map.png");
+            Tutorial01 = DX.LoadGraph("Image/01.png");
+            Tutorial02 = DX.LoadGraph("Image/02.png");
+            Tutorial03 = DX.LoadGraph("Image/03.png");
             Stage01 = DX.LoadGraph("Image/Stage.png");
             TitleImage = DX.LoadGraph("Image/Title01.jpg");
             TogeWani01 = DX.LoadGraph("Image/TogeWani01.png");

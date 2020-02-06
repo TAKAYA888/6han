@@ -17,16 +17,18 @@ namespace ActionGame
         public readonly int ProtrusionBlock = 1;    //見た目は突起があるブロック、刺さる壁
         public readonly int NormalBlock = 2;        //見た目は突起がないブロック、刺さる壁
 
-        public const int Width = 64;                //
-        public const int Height = 27;               //
+        public int Width = 64;                      //
+        public int Height = 27;                     //
         public const int CellSize = 60;             //
 
         PlayScene playScene;
         int[,] terrain;
 
-        public Map(PlayScene playScene, string stageName)
+        public Map(PlayScene playScene, string stageName,int width, int height)
         {
             this.playScene = playScene;
+            this.Width = width;
+            this.Height = height;
 
             LoadTerrain("Map/" + stageName + "_terrain.csv");
             LoadObjects("Map/" + stageName + "_object.csv", "Map/" + stageName + "_number.csv");

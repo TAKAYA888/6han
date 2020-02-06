@@ -54,7 +54,9 @@ namespace ActionGame
             //itemObjects.Add(new WoolenYarn(this, 300, 500));
             //needle = new NeedleObject(this, 840, 1440);
             //moveFloor = new MoveFloorObject(this, 1500, 1400);
-            map = new Map(this, "stage1");
+
+            //map = new Map(this, "01", 32, 18);
+            map = new Map(this, "stage1", 64, 27);
             miniMap = new MiniMap(this, "stage1");
             DX.PlayMusic("BGM/Play_scene.mp3", DX.DX_PLAYTYPE_LOOP);
         }
@@ -308,7 +310,9 @@ namespace ActionGame
         public override void Draw()
         {
             Console.WriteLine(timer);
+            //Camera.DrawGraph(0, 0, Image.Tutorial01);
             Camera.DrawGraph(0, 0, Image.Stage01);
+
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
             {
