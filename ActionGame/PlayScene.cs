@@ -56,6 +56,8 @@ namespace ActionGame
             //moveFloor = new MoveFloorObject(this, 1500, 1400);
 
             //map = new Map(this, "01", 32, 18);
+            //map = new Map(this, "02", 32, 18);
+            //map = new Map(this, "03", 32, 18);
             map = new Map(this, "stage1", 64, 27);
             miniMap = new MiniMap(this, "stage1");
             DX.PlayMusic("BGM/Play_scene.mp3", DX.DX_PLAYTYPE_LOOP);
@@ -311,6 +313,8 @@ namespace ActionGame
         {
             Console.WriteLine(timer);
             //Camera.DrawGraph(0, 0, Image.Tutorial01);
+            //Camera.DrawGraph(0, 0, Image.Tutorial02);
+            //Camera.DrawGraph(0, 0, Image.Tutorial03);
             Camera.DrawGraph(0, 0, Image.Stage01);
 
             //アイテムの描画処理
