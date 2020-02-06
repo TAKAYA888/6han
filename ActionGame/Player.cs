@@ -390,7 +390,7 @@ namespace ActionGame
                     angleSpeed = -0.1f;
                 }
             }
-            else if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand != null && hand2 == null)
+            else if (Input.GetButtonDown(DX.PAD_INPUT_10) || Input.GetButtonDown(DX.PAD_INPUT_1) && hand != null && hand.HundHitFrag && hand2 == null)
             {
                 Hand hand_A = new Hand(playScene, Position.x, Position.y);
 
@@ -404,7 +404,10 @@ namespace ActionGame
                 DistanceSpeed = 10;
 
                 gennsokuFrag = true;
-               
+
+
+                VelocityX = 0;
+                VelocityY = 0;
 
                 //回転時の移動処理
                 Matrix3 NextPlayerPos = Matrix3.createTranslation(new Vector2(50, 0))
@@ -449,6 +452,7 @@ namespace ActionGame
 
         //void SeveAngle()
         //{
+
         //    //当たり判定の四隅の座標を取得
         //    float left = GetLeft() + 0.01f;
         //    float right = GetRight() - 0.01f;
@@ -522,16 +526,16 @@ namespace ActionGame
             float left = GetLeft() + 0.01f;
             float right = GetRight() - 0.01f;
             float top = GetTop();
-            //float middle1 = top + 30;
-            //float middle2 = top + 30 * 2;
-            //float middle3 = top + 30 * 3;
+            float middle1 = top + 30;
+            float middle2 = top + 30 * 2;
+            float middle3 = top + 30 * 3;
             float bottom = GetBottom() - 0.01f;
 
             //左端が壁にめり込んでいるか？
             if (playScene.map.IsWall(left, top) || //左上が壁か？
-                //playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
-                //playScene.map.IsWall(left, middle2) ||
-                //playScene.map.IsWall(left, middle3) ||
+                playScene.map.IsWall(left, middle1) ||//左真ん中は壁か？
+                playScene.map.IsWall(left, middle2) ||
+                playScene.map.IsWall(left, middle3) ||
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
@@ -551,9 +555,9 @@ namespace ActionGame
             //右端が壁にめりこんでいるか？
             else if (
                 playScene.map.IsWall(right, top) ||　　　//左上が壁か？
-                //playScene.map.IsWall(right, middle1) ||
-                //playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
-                //playScene.map.IsWall(right, middle3) ||
+                playScene.map.IsWall(right, middle1) ||
+                playScene.map.IsWall(right, middle2) ||  //左真ん中は壁か？
+                playScene.map.IsWall(right, middle3) ||
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 if (HandDestroyTimer <= 0)
@@ -573,15 +577,13 @@ namespace ActionGame
             //左右が壁にあたっているか？
             if (LeftAndRightHit)
             {
+
+                angle = beforAngle;
                 VelocityX = 0;
                 //angleSpeed = -angleSpeed;
                 //gennsokuFrag = !gennsokuFrag;
-                angle = beforAngle;
-                if (angle > 135.0f && angle < 45.0f)
-                {
-                    //これ以上距離を縮めないようにする
-                    DistanceSpeed = 0;
-                }
+                DistanceSpeed = 0;
+                angleSpeed = 0;
             }
         }
 
@@ -643,12 +645,7 @@ namespace ActionGame
                 if (HundFrag)
                 {
                     SetBottom(GetPrevBottom());
-                }
-                //flyVelocityX = 0;
-                if (hand != null && hand.HundHitFrag && AngleSpeedStopTimer <= 0)
-                {
-                    angleSpeed = 0;
-                }
+                }                
             }
         }
 

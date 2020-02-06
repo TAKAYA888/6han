@@ -266,6 +266,8 @@ namespace ActionGame
             {
                 HundHitFrag = true;
                 hit = Hit.Hit;
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x - Position.x)
@@ -277,6 +279,8 @@ namespace ActionGame
             {
                 HundHitFrag = true;
                 hit = Hit.Hit;
+                player.angle = (float)Math.Atan2(player.Position.y - Position.y, player.Position.x - Position.x);
+                player.angle = MathHelper.toDegrees(player.angle);
                 player.AngleSpeedStopTimer = player.AngleSpeedStopTime;
                 Distance = (float)Math.Sqrt(
                     (player.Position.x - Position.x)
