@@ -43,14 +43,50 @@ namespace ActionGame
 
         public override void Draw()
         {
-            if (openFrag)
+            switch (DoorNunber)
             {
+                case 0:
+                    if (openFrag)
+                    {
+                        //Camera.DrawGraph(x, y, Image.Gimmick4[0]);
+                    }
+                    else
+                    {
+                        Camera.DrawGraph(x, y, Image.Gimmick4[2]);
+                    }
+                    break;
+                case 1:
+                    if (openFrag)
+                    {
+                        //Camera.DrawGraph(x, y, Image.Gimmick1[2]);
+                    }
+                    else
+                    {
+                        Camera.DrawGraph(x, y, Image.Gimmick1[0]);
+                    }
+                    break;
+                case 2:
+                    if (openFrag)
+                    {
+                        //Camera.DrawGraph(x, y, Image.Gimmick2[0]);
+                    }
+                    else
+                    {
+                        Camera.DrawGraph(x, y, Image.Gimmick2[2]);
+                    }
+                    break;
+                case 3:
+                    if (openFrag)
+                    {
+                        //Camera.DrawGraph(x, y, Image.Gimmick3[0]);
+                    }
+                    else
+                    {
+                        Camera.DrawGraph(x, y, Image.Gimmick3[2]);
+                    }
+                    break;
+            }
 
-            }
-            else
-            {
-                Camera.DrawGraph(x, y, Image.Gimmick1[0]);
-            }
         }
 
         public override void OnCollision(playerObject playerObject)

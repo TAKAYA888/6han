@@ -89,7 +89,7 @@ namespace ActionGame
             if (objectID == 0)//Player
             {
                 Player player = new Player(playScene, spawnX, spawnY);
-
+                
                 playScene.playerObjects.Add(player);
 
                 playScene.player = player;

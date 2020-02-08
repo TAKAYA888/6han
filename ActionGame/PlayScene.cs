@@ -43,7 +43,7 @@ namespace ActionGame
         int timeToGameOver = 120;
         bool isPausing = false;
 
-        public int stageLevel = 3;//ステージレベル
+        public int stageLevel = 0;//ステージレベル
 
 
         public PlayScene()
