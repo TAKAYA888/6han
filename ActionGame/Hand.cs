@@ -59,8 +59,8 @@ namespace ActionGame
             }
             DistanceLimit = 960.0f;
 
-            ImageWidth = 5;             //画像の横ピクセル数
-            ImageHeight = 5;             //画像の縦ピクセル数
+            ImageWidth = 20;             //画像の横ピクセル数
+            ImageHeight = 20;             //画像の縦ピクセル数
             hitboxOffsetLeft = 0;　   　//当たり判定のオフセット
             hitboxOffsetRight = 0;       //当たり判定のオフセット
             hitboxOffsetTop = 0;        //当たり判定のオフセット
@@ -227,6 +227,7 @@ namespace ActionGame
             {
                 Camera.DrawRotaGraph(Position.x, Position.y, 1.0f, 180, Image.PlayerHand2, 1);
             }
+            Camera.DrawLine(Position, player.Position);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
             Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }

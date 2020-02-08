@@ -232,7 +232,7 @@ namespace ActionGame
                         else
                         {
                             //手とPlayerの距離を縮めています
-                            if (hand.Distance > 100)
+                            if (hand.Distance > 150)
                             {
                                 //手とPlayerの距離を縮めています
                                 hand.Distance -= DistanceSpeed;
@@ -240,7 +240,8 @@ namespace ActionGame
                             else
                             {
                                 //これ以上短くしない
-                                hand.Distance = 100;                                
+                                hand.Distance = 150;
+                                DistanceSpeed = 0;
                             }
 
                             //if (angle % 90 != 0)
@@ -249,11 +250,11 @@ namespace ActionGame
                             //    PendulumDecay();
                             //}
 
-                            if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                            if (Input.GetButton(DX.PAD_INPUT_LEFT) && DistanceSpeed == 0)
                             {
                                 angleSpeed = 2.0f;
                             }
-                            else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                            else if (Input.GetButton(DX.PAD_INPUT_RIGHT) && DistanceSpeed == 0)
                             {
                                 angleSpeed = -2.0f;
                             }
@@ -617,7 +618,7 @@ namespace ActionGame
                 playScene.map.IsWall(Center2, top) ||
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
-                float wallBottom = top - top % Map.CellSize + Map.CellSize + 1f; // 天井のy座標 
+                float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
                 SetTop(wallBottom); // プレイヤーの頭を天井に沿わす
 
                 if (HundFrag)
@@ -856,13 +857,7 @@ namespace ActionGame
                 {
                     Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage03[PlayerImageNumber], FacingRightNow);
                 }
-            }
-
-            if (hand != null && !hand.isDead)
-            {
-                Camera.DrawLine(Position, hand.Position);
-                hand.Draw();
-            }
+            }            
 
             //矢印の描画
             playerArraw.Draw();
