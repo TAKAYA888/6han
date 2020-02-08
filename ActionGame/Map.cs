@@ -152,6 +152,10 @@ namespace ActionGame
             {
                 playScene.itemObjects.Add(new Grounds(playScene, spawnX, spawnY));
             }
+            else if (objectID == 12)
+            {
+                playScene.itemObjects.Add(new TutorialScene(playScene, spawnX, spawnY));
+            }
         }
 
         public void DrawTerrain()

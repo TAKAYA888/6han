@@ -43,6 +43,9 @@ namespace ActionGame
         int timeToGameOver = 120;
         bool isPausing = false;
 
+        public int stageLevel = 3;//ステージレベル
+
+
         public PlayScene()
         {
             DX.SetFontSize(64);
@@ -55,10 +58,23 @@ namespace ActionGame
             //needle = new NeedleObject(this, 840, 1440);
             //moveFloor = new MoveFloorObject(this, 1500, 1400);
 
-            //map = new Map(this, "01", 32, 18);
-            //map = new Map(this, "02", 32, 18);
-            //map = new Map(this, "03", 32, 18);
-            map = new Map(this, "stage1", 64, 27);
+            if (stageLevel == 0)
+            {
+                map = new Map(this, "01", 32, 18);
+            }
+            else if (stageLevel == 1)
+            {
+                map = new Map(this, "02", 32, 18);
+            }
+            else if (stageLevel == 2)
+            {
+                map = new Map(this, "03", 32, 18);
+            }
+            else if (stageLevel == 3)
+            {
+                map = new Map(this, "stage1", 64, 27);
+            }
+
             miniMap = new MiniMap(this, "stage1");
             DX.PlayMusic("BGM/Play_scene.mp3", DX.DX_PLAYTYPE_LOOP);
         }
@@ -312,10 +328,23 @@ namespace ActionGame
         public override void Draw()
         {
             Console.WriteLine(timer);
-            //Camera.DrawGraph(0, 0, Image.Tutorial01);
-            //Camera.DrawGraph(0, 0, Image.Tutorial02);
-            //Camera.DrawGraph(0, 0, Image.Tutorial03);
-            Camera.DrawGraph(0, 0, Image.Stage01);
+
+            if (stageLevel == 0)
+            {
+                Camera.DrawGraph(0, 0, Image.Tutorial01);
+            }
+            else if (stageLevel == 1)
+            {
+                Camera.DrawGraph(0, 0, Image.Tutorial02);
+            }
+            else if (stageLevel == 2)
+            {
+                Camera.DrawGraph(0, 0, Image.Tutorial03);
+            }
+            else if (stageLevel == 3)
+            {
+                Camera.DrawGraph(0, 0, Image.Stage01);
+            }
 
             //アイテムの描画処理
             foreach (ItemObject go in itemObjects)
