@@ -359,7 +359,7 @@ namespace ActionGame
                 //playerObject.DrawHitBox();
             }
 
-            map.DrawTerrain();
+            
 
             foreach (EnemyObject enemy in enemyObjects)
             {
@@ -378,7 +378,7 @@ namespace ActionGame
                 gimmick.Draw();
                 //gimmick.DrawHitBox();
             }
-
+            map.DrawTerrain();
             ////針の描画
             //needle.Draw();
             //needle.DrawHitBox();

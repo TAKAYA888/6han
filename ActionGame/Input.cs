@@ -44,5 +44,16 @@ namespace MyLib
             // 1フレーム前は押されていて、かつ今は押されている場合はtrueを返却
             return ((prevState & buttonId) & ~(currentState & buttonId)) != 0;
         }
+
+        //public static float AnalogInput()
+        //{
+        //    int Xdate = 0;
+        //    int Ydate = 0;
+        //    int inputDeta = DX.GetJoypadAnalogInput(out Xdate,out Ydate, DX.DX_INPUT_PAD1);
+
+
+
+        //    return
+        //}
     }
 }

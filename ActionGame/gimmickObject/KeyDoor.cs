@@ -85,6 +85,16 @@ namespace ActionGame
                         Camera.DrawGraph(x, y, Image.Gimmick3[2]);
                     }
                     break;
+                case 4:
+                    if (openFrag)
+                    {
+                        //Camera.DrawGraph(x, y, Image.Gimmick3[0]);
+                    }
+                    else
+                    {
+                        Camera.DrawGraph(x, y, Image.Gimmick3[0]);
+                    }
+                    break;
             }
 
         }

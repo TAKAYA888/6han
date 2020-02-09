@@ -247,7 +247,7 @@ namespace ActionGame
                             //if (angle % 90 != 0)
                             //{
                             //    //振り子の減衰についてのプログラミング
-                            //    PendulumDecay();
+                            //    PendulumDecay();z
                             //}
 
                             if (Input.GetButton(DX.PAD_INPUT_LEFT) && DistanceSpeed == 0)
