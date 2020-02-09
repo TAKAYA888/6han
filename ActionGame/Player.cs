@@ -320,10 +320,10 @@ namespace ActionGame
                 // 乗っている床の情報を破棄 
                 groundObject = null;
 
-                if (playScene.stageLevel == 3)
-                {
+                //if (playScene.stageLevel == 3)
+                //{
                     Camera.LookAt(Position);
-                }
+                //}
 
             }
             else
