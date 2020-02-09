@@ -111,27 +111,27 @@ namespace ActionGame
 
             if (HP != 0)
             {
-                if(hand2 != null)
+                if (hand2 != null)
                 {
                     if (hand2.isDead)
                     {
                         hand2 = null;
                     }
 
-                    if (hand2 != null &&  hand2.HundHitFrag)
-                    {                        
+                    if (hand2 != null && hand2.HundHitFrag)
+                    {
                         playScene.playerObjects.Remove(hand);
                         hand = hand2;
                         hand2 = null;
-                    }                   
+                    }
                 }
 
-                if(hand != null && hand.isDead)
+                if (hand != null && hand.isDead)
                 {
                     hand = null;
                     HundFrag = false;
                 }
-               
+
 
                 if (PlayerStateNumber == 1)
                 {
@@ -212,7 +212,7 @@ namespace ActionGame
 
                     // 重力による落下 
                     VelocityY += Gravity;
-                    if(VelocityY > MaxFallSpeed)
+                    if (VelocityY > MaxFallSpeed)
                     {
                         VelocityY = MaxFallSpeed;
                     }
@@ -222,9 +222,9 @@ namespace ActionGame
                     //腕が壁とくっついたら                    
                     if (hand.HundHitFrag)
                     {
-                        if(hand2 != null)
+                        if (hand2 != null)
                         {
-                            if(!hand2.HundHitFrag)
+                            if (!hand2.HundHitFrag)
                             {
 
                             }
@@ -299,12 +299,12 @@ namespace ActionGame
                     {
                         // 重力による落下 
                         VelocityY += Gravity / 10;
-                        if(VelocityY > MaxFallSpeed/10)
+                        if (VelocityY > MaxFallSpeed / 10)
                         {
                             VelocityY = MaxFallSpeed / 10;
                         }
                     }
-                }                
+                }
 
                 //入力処理
                 HundleInput();
@@ -320,7 +320,11 @@ namespace ActionGame
                 // 乗っている床の情報を破棄 
                 groundObject = null;
 
-                Camera.LookAt(Position);
+                if (playScene.stageLevel == 3)
+                {
+                    Camera.LookAt(Position);
+                }
+
             }
             else
             {
@@ -609,7 +613,7 @@ namespace ActionGame
             float right = GetRight() - 0.01f;
             float Center1 = left + 30.0f;
             float Center2 = left + 30.0f * 2.0f;
-            float top = GetTop()-0.1f;
+            float top = GetTop() - 0.1f;
             float bottom = GetBottom();
 
             // 上端が壁にめりこんでいるか？ 
@@ -622,7 +626,7 @@ namespace ActionGame
                 SetTop(wallBottom); // プレイヤーの頭を天井に沿わす
 
                 if (HundFrag)
-                {                    
+                {
                     SetTop(wallBottom);
                 }
                 VelocityY = 0; // 縦の移動速度を0に  
@@ -648,7 +652,7 @@ namespace ActionGame
                 if (HundFrag)
                 {
                     SetBottom(GetPrevBottom());
-                }                
+                }
             }
         }
 
@@ -857,7 +861,7 @@ namespace ActionGame
                 {
                     Camera.DrawRotaGraph(Position.x, Position.y, 1, 0, Image.PlayerImage03[PlayerImageNumber], FacingRightNow);
                 }
-            }            
+            }
 
             //矢印の描画
             playerArraw.Draw();
@@ -949,10 +953,10 @@ namespace ActionGame
                     {
                         playScene.playerObjects.Remove(hand);
                         hand = null;
-                        HundFrag = false;                        
+                        HundFrag = false;
                     }
                     else if (playerObject == hand2)
-                    {                        
+                    {
                         playScene.playerObjects.Remove(hand2);
                         hand2 = null;
                     }

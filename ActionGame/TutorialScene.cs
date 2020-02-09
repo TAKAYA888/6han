@@ -43,21 +43,25 @@ namespace ActionGame
             if (playScene.stageLevel == 0)
             {
                 playScene.playerObjects.Clear();
+                playScene.gimmickObjects.Clear();
                 playScene.map = new Map(playScene, "01", 32, 18);
             }
             else if (playScene.stageLevel == 1)
             {
                 playScene.playerObjects.Clear();
+                playScene.gimmickObjects.Clear();
                 playScene.map = new Map(playScene, "02", 32, 18);
             }
             else if (playScene.stageLevel == 2)
             {
                 playScene.playerObjects.Clear();
+                playScene.gimmickObjects.Clear();
                 playScene.map = new Map(playScene, "03", 32, 18);
             }
             else if (playScene.stageLevel == 3)
             {
                 playScene.playerObjects.Clear();
+                playScene.gimmickObjects.Clear();
                 playScene.map = new Map(playScene, "stage1", 64, 27);
             }
         }
