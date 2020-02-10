@@ -44,25 +44,35 @@ namespace ActionGame
             if (Clear == true)
             {
                 timer++;
-
-                if (timer > 5)
-                {                    
-                    Camera.DrawGraph(x, y, Image.Goal[0]);
-                    
+               
+                if (timer == 3)
+                {
+                    Game.particleManager.Heal(x+imageWidth/2, y+imageHeight/2);
                 }
 
-                if (timer > 60)
+                if (timer >= 5&&timer<=60)
                 {
-                    Camera.DrawGraph(x, y, Image.Goal[4]);
+
+                    Camera.DrawGraph(x, y, Image.Goal[5]);
+
                 }
 
-                if (timer >120)
+                if (timer >= 60&&timer<=100)
                 {
-                    Game.particleManager.Stars(x, y);
+                    Camera.DrawGraph(x, y, Image.Goal[6]);
+                }
+
+                if (timer >= 100)
+                {
+                    Camera.DrawGraph(x, y, Image.Goal[7]);
+                }
+
+                if (timer >= 140)
+                {
+                    Game.particleManager.Stars(x, y); 　//パーティクルです。
                     Game.ChangeScene(new GameClearScene());
                     timer = 0;
-                }
-
+                }              
             }
             else
             {

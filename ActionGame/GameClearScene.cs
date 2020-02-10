@@ -12,7 +12,7 @@ namespace ActionGame
     {
         int Selecct = 1;
         int timer = 0;
-       
+        bool star = false;
 
         public GameClearScene()
         {
@@ -42,7 +42,7 @@ namespace ActionGame
         }
         public override void Draw()
         {
-            
+
             DX.DrawGraph(0, 0, Image.GameClearImage);
             if (Selecct == 1)
             {
@@ -61,27 +61,27 @@ namespace ActionGame
                 DX.DrawRotaGraph(Screen.Width / 2, Screen.Height / 2 + 300, 1, 0, Image.ItemTitle);
             }
             DX.SetFontSize(60);
-            DX.DrawString(1150, 385, "SCORE : "+Player.ScorePoint.ToString(), DX.GetColor(255, 0, 0));//スコア
+            DX.DrawString(1150, 385, "SCORE : " + Player.ScorePoint.ToString(), DX.GetColor(255, 0, 0));//スコア
 
             if (Player.ScorePoint < 1500)
             {
                 //DX.SetFontSize(240);
-                DX.DrawRotaGraph(1920/2, 1080/2,1,0, Image.ScoreC);
+                DX.DrawRotaGraph(1920 / 2, 1080 / 2, 1, 0, Image.ScoreC);
             }
             else if (Player.ScorePoint < 3000)
             {
                 //DX.SetFontSize(240);
-                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreB);
+                DX.DrawRotaGraph(1920 / 2, 1080 / 2, 1, 0, Image.ScoreB);
             }
             else if (Player.ScorePoint < 4500)
             {
                 //DX.SetFontSize(240);
-                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreA);
+                DX.DrawRotaGraph(1920 / 2, 1080 / 2, 1, 0, Image.ScoreA);
             }
-            else 
+            else
             {
                 //DX.SetFontSize(240);
-                DX.DrawRotaGraph(1920 / 2, 1080/2, 1, 0, Image.ScoreS);
+                DX.DrawRotaGraph(1920 / 2, 1080 / 2, 1, 0, Image.ScoreS);
             }
         }
     }
