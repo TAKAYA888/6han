@@ -346,7 +346,7 @@ namespace ActionGame
             AnimTimer++;
             AnimTimer2++;
             if (stageLevel == 0)
-            {
+            {                
                 if (AnimTimer <= 180)
                 {
                     DX.DrawGraph(0, 0, Image.PushAbuttom[AnimTimer / 20 % 3 % 2]);
@@ -424,6 +424,11 @@ namespace ActionGame
             else if (stageLevel == 3)
             {
                 Camera.DrawGraph(0, 0, Image.Stage01);
+            }
+
+            if(stageLevel!=3)            
+            {
+                DX.DrawGraph(1920-300, 0, Image.skip);
             }
 
             //アイテムの描画処理

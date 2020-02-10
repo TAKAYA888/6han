@@ -65,6 +65,7 @@ namespace ActionGame
         public static int[] T2Out = new int[14];
         public static int T2hukidasi;
         public static int[] T3out = new int[15];
+        public static int skip;
 
         public static int Ito;                          //糸の画像
 
@@ -204,6 +205,7 @@ namespace ActionGame
             T3out[11] = DX.LoadGraph("Image/C/C3_14.png");
             T3out[12] = DX.LoadGraph("Image/C/C3_15.png");
             T3out[13] = DX.LoadGraph("Image/C/C3_16.png");
+            skip = DX.LoadGraph("Image/C/Skip.png");
 
             //糸
             Ito = DX.LoadGraph("Image/Ito.png");
