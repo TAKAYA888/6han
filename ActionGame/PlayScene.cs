@@ -87,6 +87,16 @@ namespace ActionGame
                 Game.ChangeScene(new GameOverScene());
             }
 
+            if (stageLevel == 0 || stageLevel == 1 || stageLevel == 2)
+            {
+                if (Input.GetButtonDown(DX.PAD_INPUT_4))
+                {
+                    playerObjects.Clear();
+                    stageLevel = 3;
+                    map = new Map(this, "stage1", 64, 27);
+                }
+            }
+
             //ポーズ画面の処理
             if (isPausing)
             {
