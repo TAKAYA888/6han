@@ -54,7 +54,13 @@ namespace ActionGame
         public static int TogeWani03;　                 //ワニのトゲ画像０２
         public static int MoveFloor;                    //動く床の画像
         public static int[] Goal = new int[12];       
-        public static int[] KeyImage = new int[2];      //鍵の見た目        
+        public static int[] KeyImage = new int[2];      //鍵の見た目 
+        public static int[] PushAbuttom = new int[2];
+        public static int[] PushBbuttom = new int[2];
+        public static int T1hukidasi;
+        public static int[] T1out = new int[13];
+        public static int[] GetIto = new int[2];
+        public static int[] GetSpeedUp = new int[2];
 
         public static int Ito;                          //糸の画像
 
@@ -140,6 +146,30 @@ namespace ActionGame
             DX.LoadDivGraph("Image/Friend01.png", Goal.Length, 4, 3, 120, 180,Goal);
 
             DX.LoadDivGraph("Image/Switch.png", KeyImage.Length, 2, 1, 40, 60, KeyImage);
+
+            PushAbuttom[0] = DX.LoadGraph("Image/C/C03.png");
+            PushAbuttom[1] = DX.LoadGraph("Image/C/C04.png");
+            PushBbuttom[0] = DX.LoadGraph("Image/C/C04_1.png");
+            PushBbuttom[1] = DX.LoadGraph("Image/C/C04_2.png");
+            T1hukidasi = DX.LoadGraph("Image/C/C02.png");
+            T1out[0] = DX.LoadGraph("Image/C/C01.png");
+            T1out[1] = DX.LoadGraph("Image/C/C05.png");
+            T1out[2] = DX.LoadGraph("Image/C/C06.png");
+            T1out[3] = DX.LoadGraph("Image/C/C07.png");
+            //T1out[4] = DX.LoadGraph("Image/C/C08.png");
+            T1out[4] = DX.LoadGraph("Image/C/C09.png");
+            T1out[5] = DX.LoadGraph("Image/C/C10.png");
+            T1out[6] = DX.LoadGraph("Image/C/C11.png");
+            T1out[7] = DX.LoadGraph("Image/C/C12.png");
+            T1out[8] = DX.LoadGraph("Image/C/C13.png");
+            T1out[9] = DX.LoadGraph("Image/C/C14.png");
+            T1out[10] = DX.LoadGraph("Image/C/C15.png");
+            T1out[11] = DX.LoadGraph("Image/C/C16.png");
+            T1out[12] = DX.LoadGraph("Image/C/C17.png");
+            GetIto[0] = DX.LoadGraph("Image/C/C3_03.png");
+            GetIto[1] = DX.LoadGraph("Image/C/C3_03_1.png");
+            GetSpeedUp[0] = DX.LoadGraph("Image/C/C3_02_1.png");
+            GetSpeedUp[1] = DX.LoadGraph("Image/C/C3_02_1.png");
 
             //糸
             Ito = DX.LoadGraph("Image/Ito.png");
