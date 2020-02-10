@@ -115,7 +115,7 @@ namespace ActionGame
 
             //左端が壁にめり込んでいるか？
             if (playScene.map.IsWall(left, top) || //左上が壁か？
-                //playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
+                                                   //playScene.map.IsWall(left, middle) ||//左真ん中は壁か？
                 playScene.map.IsWall(left, bottom))   //左下が壁か？
             {
                 float _wallRight = left - left % Map.CellSize + Map.CellSize;//壁の右端
@@ -134,8 +134,8 @@ namespace ActionGame
             }
             //右端が壁にめりこんでいるか？
             else if (
-                playScene.map.IsWall(right, top) ||　　　//左上が壁か？
-                //playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
+                playScene.map.IsWall(right, top) ||   //左上が壁か？
+                                                      //playScene.map.IsWall(right, middle) ||     //左真ん中は壁か？
                 playScene.map.IsWall(right, bottom))     //左下が壁か？
             {
                 hit = Hit.Hit;
@@ -168,8 +168,8 @@ namespace ActionGame
 
             // 上端が壁にめりこんでいるか？ 
             if (playScene.map.IsWall(left, top) || // 左上が壁か？ 
-                //playScene.map.IsWall(Center1, top) ||
-                //playScene.map.IsWall(Center2, top) ||
+                                                   //playScene.map.IsWall(Center1, top) ||
+                                                   //playScene.map.IsWall(Center2, top) ||
                 playScene.map.IsWall(right, top))   // 右上が壁か？ 
             {
                 float wallBottom = top - top % Map.CellSize + Map.CellSize; // 天井のy座標 
@@ -197,8 +197,8 @@ namespace ActionGame
             // 下端が壁にめりこんでいるか？ 
             else if (
                 playScene.map.IsWall(left, bottom) || // 左下が壁か？ 
-                //playScene.map.IsWall(Center1, bottom) ||
-                //playScene.map.IsWall(Center2, bottom) ||
+                                                      //playScene.map.IsWall(Center1, bottom) ||
+                                                      //playScene.map.IsWall(Center2, bottom) ||
                 playScene.map.IsWall(right, bottom))   // 右下が壁か？ 
             {
                 float wallTop = bottom - bottom % Map.CellSize; // 床のy座標 
@@ -229,7 +229,7 @@ namespace ActionGame
             }
             Camera.DrawLine(Position, player.Position);
             //DX.DrawString(100, 100, player.playerArraw.ArrawAngle.ToString(), DX.GetColor(255, 255, 255));
-            Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
+            //Camera.DrawLineBox((int)GetLeft(), (int)GetTop(), (int)GetRight(), (int)GetBottom(), DX.GetColor(255, 0, 0));
         }
 
         public override void OnCollision(EnemyObject enemyObject)

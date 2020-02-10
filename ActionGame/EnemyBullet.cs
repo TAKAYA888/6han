@@ -103,7 +103,7 @@ namespace ActionGame
         {
             Camera.DrawGraph(x, y, Image.Enemy_shot);
             //あたり判定です
-            Camera.DrawLineBox(x, y, x + 16, y + 16, DX.GetColor(255, 0, 0));
+            //Camera.DrawLineBox(x, y, x + 16, y + 16, DX.GetColor(255, 0, 0));
         }
         
         public void OnCollisionP(playerObject playerObject)
