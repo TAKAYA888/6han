@@ -82,7 +82,7 @@ namespace ActionGame
 
         public override void OnCollision(playerObject playerObject)
         {
-            if (playScene.player.haveWoolenYarn >= 1)
+            if (playScene.player.haveWoolenYarn >= 1 && playerObject is Player)
             {
                 Clear = true;
             }
