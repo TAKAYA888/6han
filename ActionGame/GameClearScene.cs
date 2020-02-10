@@ -12,7 +12,8 @@ namespace ActionGame
     {
         int Selecct = 1;
         int timer = 0;
-        bool star = false;
+
+        
 
         public GameClearScene()
         {

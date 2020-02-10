@@ -57,17 +57,17 @@ namespace ActionGame
 
                 }
 
-                if (timer >= 60&&timer<=100)
+                if (timer >= 60&&timer<=110)
                 {
                     Camera.DrawGraph(x, y, Image.Goal[6]);
                 }
 
-                if (timer >= 100)
+                if (timer >= 110)
                 {
                     Camera.DrawGraph(x, y, Image.Goal[7]);
                 }
 
-                if (timer >= 140)
+                if (timer >= 160)
                 {
                     Game.particleManager.Stars(x, y); 　//パーティクルです。
                     Game.ChangeScene(new GameClearScene());
