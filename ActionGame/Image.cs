@@ -61,6 +61,10 @@ namespace ActionGame
         public static int[] T1out = new int[13];
         public static int[] GetIto = new int[2];
         public static int[] GetSpeedUp = new int[2];
+        public static int[] keysetumei = new int[2];
+        public static int[] T2Out = new int[14];
+        public static int T2hukidasi;
+        public static int[] T3out = new int[15];
 
         public static int Ito;                          //糸の画像
 
@@ -169,7 +173,37 @@ namespace ActionGame
             GetIto[0] = DX.LoadGraph("Image/C/C3_03.png");
             GetIto[1] = DX.LoadGraph("Image/C/C3_03_1.png");
             GetSpeedUp[0] = DX.LoadGraph("Image/C/C3_02_1.png");
-            GetSpeedUp[1] = DX.LoadGraph("Image/C/C3_02_1.png");
+            GetSpeedUp[1] = DX.LoadGraph("Image/C/C3_02_2.png");
+            keysetumei[0] = DX.LoadGraph("Image/C/C2_03.png");
+            keysetumei[1] = DX.LoadGraph("Image/C/C2_03_1.png");
+            T2Out[0] = DX.LoadGraph("Image/C/C2_04.png");
+            T2Out[1] = DX.LoadGraph("Image/C/C2_05.png");
+            T2Out[2] = DX.LoadGraph("Image/C/C2_06.png");
+            T2Out[3] = DX.LoadGraph("Image/C/C2_07.png");
+            T2Out[4] = DX.LoadGraph("Image/C/C2_08.png");
+            T2Out[5] = DX.LoadGraph("Image/C/C2_09.png");
+            T2Out[6] = DX.LoadGraph("Image/C/C2_10.png");
+            T2Out[7] = DX.LoadGraph("Image/C/C2_11.png");
+            T2Out[8] = DX.LoadGraph("Image/C/C2_12.png");
+            T2Out[9] = DX.LoadGraph("Image/C/C2_13.png");
+            T2Out[10] = DX.LoadGraph("Image/C/C2_14.png");
+            T2Out[11] = DX.LoadGraph("Image/C/C2_15.png");
+            T2Out[12] = DX.LoadGraph("Image/C/C2_16.png");
+            T2hukidasi = DX.LoadGraph("Image/C/C3_02.png");
+            T3out[0] = DX.LoadGraph("Image/C/C3_01.png");
+            T3out[1] = DX.LoadGraph("Image/C/C3_04.png");
+            T3out[2] = DX.LoadGraph("Image/C/C3_05.png");
+            T3out[3] = DX.LoadGraph("Image/C/C3_06.png");
+            T3out[4] = DX.LoadGraph("Image/C/C3_07.png");
+            T3out[5] = DX.LoadGraph("Image/C/C3_08.png");
+            T3out[6] = DX.LoadGraph("Image/C/C3_09.png");
+            T3out[7] = DX.LoadGraph("Image/C/C3_10.png");
+            T3out[8] = DX.LoadGraph("Image/C/C3_11.png");
+            T3out[9] = DX.LoadGraph("Image/C/C3_12.png");
+            T3out[10] = DX.LoadGraph("Image/C/C3_13.png");
+            T3out[11] = DX.LoadGraph("Image/C/C3_14.png");
+            T3out[12] = DX.LoadGraph("Image/C/C3_15.png");
+            T3out[13] = DX.LoadGraph("Image/C/C3_16.png");
 
             //糸
             Ito = DX.LoadGraph("Image/Ito.png");

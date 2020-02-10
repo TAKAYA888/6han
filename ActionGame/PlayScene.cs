@@ -42,7 +42,7 @@ namespace ActionGame
         public State state = State.Active;
         int timeToGameOver = 120;
         bool isPausing = false;
-        int AnimTimer = 0;
+        public int AnimTimer = 0;
         int AnimTimer2 = 0;
 
         public int stageLevel = 0;//ステージレベル
@@ -377,24 +377,16 @@ namespace ActionGame
             {
                 if (AnimTimer <= 180)
                 {
-                    DX.DrawGraph(0, 0, Image.GetIto[AnimTimer / 20 % 3 % 2]);
+                    DX.DrawGraph(0, 0, Image.keysetumei[AnimTimer / 20 % 3 % 2]);
+                    AnimTimer2 = 0;
                 }
                 else if (AnimTimer <= 210)
                 {
-                    DX.DrawGraph(0, 0, Image.Tutorial02);
+                    DX.DrawGraph(0, 0, Image.T2Out[0]);
                 }
-                else if (AnimTimer < 390)
+                else if (AnimTimer < 312)
                 {
-                    DX.DrawGraph(0, 0, Image.GetSpeedUp[AnimTimer / 30 % 2]);
-                }
-                else if (AnimTimer < 400)
-                {
-                    //DX.DrawGraph(0, 0, Image.T1out[0]);
-                    AnimTimer2 = 0;
-                }
-                else if (AnimTimer < 495)
-                {
-                    //DX.DrawGraph(0, 0, Image.T1out[AnimTimer2 / 8 % 12]);
+                    DX.DrawGraph(0, 0, Image.T2Out[AnimTimer / 8 % 13]);
                 }
                 else
                 {
@@ -403,7 +395,31 @@ namespace ActionGame
             }
             else if (stageLevel == 2)
             {
-                Camera.DrawGraph(0, 0, Image.Tutorial03);
+                if (AnimTimer <= 180)
+                {
+                    DX.DrawGraph(0, 0, Image.GetSpeedUp[AnimTimer / 20 % 3 % 2]);
+                }
+                else if (AnimTimer <= 210)
+                {
+                    DX.DrawGraph(0, 0, Image.T2hukidasi);
+                }
+                else if (AnimTimer < 390)
+                {
+                    DX.DrawGraph(0, 0, Image.GetIto[AnimTimer / 30 % 2]);
+                }
+                else if (AnimTimer < 400)
+                {
+                    DX.DrawGraph(0, 0, Image.T3out[0]);
+                    AnimTimer2 = 0;
+                }
+                else if (AnimTimer < 503)
+                {
+                    DX.DrawGraph(0, 0, Image.T3out[AnimTimer2 / 8 % 14]);
+                }
+                else
+                {
+                    DX.DrawGraph(0, 0, Image.Tutorial03);
+                }
             }
             else if (stageLevel == 3)
             {

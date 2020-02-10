@@ -42,7 +42,7 @@ namespace ActionGame
 
                 if (playScene.stageLevel == 0)
                 {
-                    //playScene.AnimTimer = 0;
+                    playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
                     playScene.itemObjects.Clear();
@@ -50,7 +50,7 @@ namespace ActionGame
                 }
                 else if (playScene.stageLevel == 1)
                 {
-                    //playScene.AnimTimer = 0;
+                    playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
                     playScene.itemObjects.Clear();
@@ -58,7 +58,7 @@ namespace ActionGame
                 }
                 else if (playScene.stageLevel == 2)
                 {
-                    //playScene.AnimTimer = 0;
+                    playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
                     playScene.itemObjects.Clear();
