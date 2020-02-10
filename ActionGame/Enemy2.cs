@@ -24,6 +24,7 @@ namespace ActionGame
         const float MaxFallSpeed = 12f;   // 最大落下速度 
         float vx = -6; // 横移動速度 
         float vy = 0; // 縦移動速度
+        bool Right;
         //GimmickObject groundObject = null; // 乗っている床オブジェクト
         //Direction direction = Direction.Right; // 向いている方向
 
@@ -31,6 +32,7 @@ namespace ActionGame
         {
             this.x = x;
             this.y = y;
+            Right = false;
 
             imageWidth = 180;
             imageHeight = 120;
@@ -72,6 +74,15 @@ namespace ActionGame
             if (diff1 <= 60 * 6 && diff2 <= 60 * 7)
             {
                 state = State.Move;
+            }
+
+            if(vx>=0)
+            {
+                Right = true;
+            }
+            else
+            {
+                Right = false;
             }
 
             if (state == State.Stop)
@@ -159,11 +170,11 @@ namespace ActionGame
         {
             if (state == State.Stop)
             {
-                Camera.DrawGraph(x, y, Image.EnemyImage02);
+                Camera.DrawGraph(x, y, Image.EnemyImage02,Right);
             }
             else
             {
-                Camera.DrawGraph(x, y, Image.EnemyImage02_1);
+                Camera.DrawGraph(x, y, Image.EnemyImage02_1,Right);
             }
         }
         public override void OnCollision(playerObject playerObject)
