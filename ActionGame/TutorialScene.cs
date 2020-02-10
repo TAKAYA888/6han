@@ -45,6 +45,7 @@ namespace ActionGame
                     //playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
+                    playScene.itemObjects.Clear();
                     playScene.map = new Map(playScene, "01", 32, 18);
                 }
                 else if (playScene.stageLevel == 1)
@@ -52,6 +53,7 @@ namespace ActionGame
                     //playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
+                    playScene.itemObjects.Clear();
                     playScene.map = new Map(playScene, "02", 32, 18);
                 }
                 else if (playScene.stageLevel == 2)
@@ -59,12 +61,14 @@ namespace ActionGame
                     //playScene.AnimTimer = 0;
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
+                    playScene.itemObjects.Clear();
                     playScene.map = new Map(playScene, "03", 32, 18);
                 }
                 else if (playScene.stageLevel == 3)
                 {
                     playScene.playerObjects.Clear();
                     playScene.gimmickObjects.Clear();
+                    playScene.itemObjects.Clear();
                     playScene.map = new Map(playScene, "stage1", 64, 27);
                 }
             }

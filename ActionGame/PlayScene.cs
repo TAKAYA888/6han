@@ -94,6 +94,8 @@ namespace ActionGame
                 if (Input.GetButtonDown(DX.PAD_INPUT_4))
                 {
                     playerObjects.Clear();
+                    gimmickObjects.Clear();
+                    itemObjects.Clear();
                     stageLevel = 3;
                     map = new Map(this, "stage1", 64, 27);
                 }
